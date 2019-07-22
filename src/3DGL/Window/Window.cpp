@@ -5,7 +5,7 @@
 #include "Window.h"
 
 
-Window::Window(int w, int h, const std::string &title) : projection(1) {
+Window::Window(int w, int h, const std::string &title) : projection(1), field_of_view(45.f) {
 
     set_window_size(w, h);
     init_graphics();
@@ -14,7 +14,8 @@ Window::Window(int w, int h, const std::string &title) : projection(1) {
 
 void Window::update_projection_matrix() {
 
-    projection = glm::perspective(glm::radians(45.0f), (float) width / height, 0.1f, 100.0f);//updates projection matrix
+    projection = glm::perspective(glm::radians(field_of_view), (float) width / height, 0.1f,
+                                  100.0f);//updates projection matrix
 }
 
 
@@ -24,6 +25,13 @@ void Window::set_window_size(int newwidth, int newheight) {//this function handl
     height = newheight;
 
     update_projection_matrix();
+}
+
+void Window::set_field_of_view(float fov) {
+
+    field_of_view = fov;
+    update_projection_matrix();
+
 }
 
 void Window::framebuffer_size_callback(GLFWwindow *window, int w,

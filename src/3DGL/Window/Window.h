@@ -16,14 +16,18 @@
 class Window {
 private:
     glm::mat4 projection;
+    int width, height;
+    float field_of_view;
+    GLFWwindow *window;
+
+
+
 
     void update_projection_matrix();
 
     void init_graphics() const;
 
-    int width, height;
 
-    GLFWwindow *window;
 
 
     void create_window(int w, int h, const std::string &title);
@@ -36,6 +40,8 @@ public:
     Window(int width, int height, const std::string &title);
 
     bool needs_to_close() const;
+
+    void set_field_of_view(float fov);
 
     void set_window_size(int newwidth, int newheight);
 
