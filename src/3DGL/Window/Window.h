@@ -9,9 +9,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include<iostream>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "../Drawable/Drawable3D.h"
 
 class Window {
 private:
@@ -44,6 +42,8 @@ public:
     void set_field_of_view(float fov);
 
     void set_window_size(int newwidth, int newheight);
+
+    void draw(const Drawable3D&to_draw) const;
 
     void set_window_should_close();
 

@@ -93,6 +93,20 @@ void Window::create_window(int width, int height, const std::string &title) {//f
 
 }
 
+void Window::draw(const Drawable3D &to_draw) const {
+
+    glm::mat4 model = to_draw.get_model_matrix();
+
+    const ShaderProgram &program = to_draw.get_program();
+
+    program.bind_shader();
+    program.setMat4("mvp", projection * model);
+    to_draw.bind_mesh();
+
+    glDrawElements(GL_TRIANGLES, to_draw.get_vertex_count(), GL_UNSIGNED_INT, 0);
+
+}
+
 
 void Window::clear(glm::vec3 color) const {//clear the screen
 
