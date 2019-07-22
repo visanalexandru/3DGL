@@ -11,12 +11,17 @@ void Drawable3D::bind_mesh() const {
 
 }
 
-Drawable3D::Drawable3D() {
+Drawable3D::Drawable3D(const ShaderProgram &shader) : shader_program(shader) {
 
 
 }
 
-Drawable3D::Drawable3D(glm::vec3 position) : Transformable(position) {
+const ShaderProgram &Drawable3D::get_program() const {
+    return shader_program;
+}
+
+Drawable3D::Drawable3D(const ShaderProgram &shader, glm::vec3 position) : Transformable(position),
+                                                                          shader_program(shader) {
 
 
 }

@@ -7,18 +7,22 @@
 
 #include "../Transformable/Transformable.h"
 #include "../Mesh/Mesh.h"
+#include "../Shader/ShaderProgram/ShaderProgram.h"
 
 class Drawable3D : public Transformable {
 
 
 private:
     Mesh mesh;
+    const ShaderProgram &shader_program;
 public:
     void bind_mesh() const;
 
-    Drawable3D();
+    const ShaderProgram &get_program() const;
 
-    Drawable3D(glm::vec3 position);
+    Drawable3D(const ShaderProgram &shader);
+
+    Drawable3D(const ShaderProgram &shader, glm::vec3 position);
 
     template<class datatype>
     void set_mesh_data(MeshBuffer<datatype> &vertex_data);
