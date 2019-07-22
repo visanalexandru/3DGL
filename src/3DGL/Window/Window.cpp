@@ -91,6 +91,9 @@ void Window::create_window(int width, int height, const std::string &title) {//f
 
     glViewport(0, 0, width, height);//we set the viewport
 
+    glEnable(GL_DEPTH_TEST);//we enable depth testing
+
+
 }
 
 void Window::draw(const Drawable3D &to_draw) const {
@@ -113,7 +116,7 @@ void Window::clear(glm::vec3 color) const {//clear the screen
     color /= 255.f;
     glClearColor(color.x, color.y, color.z, 1.0f);
 
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 }
 
