@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
-struct simple_vertex
+struct simple_vertex//basic vertex , only holds position data
 {
     glm::vec3 position;
 
@@ -35,6 +35,36 @@ struct simple_vertex
     }
 };
 
+struct colored_vertex {//vertex that holds position and color data
 
+    glm::vec3 position;
+    glm::vec3 color;
+
+    colored_vertex(glm::vec3 pos, glm::vec3 c) {
+        color = c;
+        position = pos;
+    }
+
+    colored_vertex() {
+        color = glm::vec3(0, 0, 0);
+        position = glm::vec3(0, 0, 0);
+    }
+
+    static void enable_attributes() {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(colored_vertex),
+                              (const GLvoid *) offsetof(colored_vertex, position));
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(colored_vertex),
+                              (const GLvoid *) offsetof(colored_vertex, color));
+        glEnableVertexAttribArray(1);
+
+    }
+
+    glm::vec3 get_position() {
+        return position;
+    }
+
+
+};
 
 #endif //INC_3DGL_VERTEX_H
