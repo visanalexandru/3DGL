@@ -12,6 +12,7 @@ class Mesh {
 
 private:
     unsigned vertex_array_index;
+    unsigned vertex_count;
 
     void delete_vertex_array_index() const;
 
@@ -25,7 +26,7 @@ public:
     ~Mesh();
 
     void bind_mesh() const;
-
+    unsigned  get_vertex_count() const;
 
     template<class datatype>
     void set_data(const MeshBuffer<datatype> &vertex_data);
@@ -53,10 +54,12 @@ void Mesh::create_vertex_array_index(const MeshBuffer<datatype> &vertex_data) {
 
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices_count * sizeof(datatype), vertices, GL_STATIC_DRAW);//we set the vertex data to the VBO buffer
+    glBufferData(GL_ARRAY_BUFFER, vertices_count * sizeof(datatype), vertices,
+                 GL_STATIC_DRAW);//we set the vertex data to the VBO buffer
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_count * sizeof(unsigned), indices, GL_STATIC_DRAW);//we set the indices to the EBO buffer
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_count * sizeof(unsigned), indices,
+                 GL_STATIC_DRAW);//we set the indices to the EBO buffer
 
     vertex_data.set_attributes();
 
@@ -69,6 +72,7 @@ void Mesh::create_vertex_array_index(const MeshBuffer<datatype> &vertex_data) {
     glDeleteBuffers(1, &EBO);//it's safe because we unbound the created vertex array
 
     vertex_array_index = VAO;
+    vertex_count = vertices_count;
 
 }
 

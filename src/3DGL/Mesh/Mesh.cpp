@@ -5,7 +5,7 @@
 #include "Mesh.h"
 
 
-Mesh::Mesh() : vertex_array_index(0) {
+Mesh::Mesh() : vertex_array_index(0), vertex_count(0) {
 
 
 }
@@ -18,6 +18,12 @@ void Mesh::delete_vertex_array_index() const {
 Mesh::~Mesh() {
 
     delete_vertex_array_index();
+
+}
+
+unsigned Mesh::get_vertex_count() const {
+
+    return vertex_count;
 
 }
 

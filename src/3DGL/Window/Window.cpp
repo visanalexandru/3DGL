@@ -12,6 +12,7 @@ Window::Window(int w, int h, const std::string &title) : projection(1), field_of
     create_window(width, height, title);
 }
 
+
 void Window::update_projection_matrix() {
 
     projection = glm::perspective(glm::radians(field_of_view), (float) width / height, 0.1f,
@@ -27,12 +28,14 @@ void Window::set_window_size(int newwidth, int newheight) {//this function handl
     update_projection_matrix();
 }
 
+
 void Window::set_field_of_view(float fov) {
 
     field_of_view = fov;
-    update_projection_matrix();
+    update_projection_matrix();//we update the projection matrix
 
 }
+
 
 void Window::framebuffer_size_callback(GLFWwindow *window, int w,
                                        int h) {//function to update the viewport when window size is modified
@@ -66,10 +69,12 @@ bool Window::needs_to_close() const {
 
 }
 
+
 void Window::set_window_should_close() {
 
     glfwSetWindowShouldClose(window, true);
 }
+
 
 void Window::create_window(int width, int height, const std::string &title) {//for creating the window
 
@@ -97,6 +102,7 @@ void Window::clear(glm::vec3 color) const {//clear the screen
     glClear(GL_COLOR_BUFFER_BIT);
 
 }
+
 
 void Window::display() const {//display what we had rendered
 
