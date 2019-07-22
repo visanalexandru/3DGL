@@ -7,7 +7,7 @@
 
 Window::Window(int w, int h, const std::string &title) : projection(1), field_of_view(45.f) {
 
-    set_window_size(w, h);
+    handle_new_window_size(w, h);
     init_graphics();
     create_window(width, height, title);
 }
@@ -20,7 +20,7 @@ void Window::update_projection_matrix() {
 }
 
 
-void Window::set_window_size(int newwidth, int newheight) {//this function handles screen size update
+void Window::handle_new_window_size(int newwidth, int newheight) {//this function handles screen size update
 
     width = newwidth;
     height = newheight;
@@ -44,7 +44,7 @@ void Window::framebuffer_size_callback(GLFWwindow *window, int w,
 
     void *ptr = glfwGetWindowUserPointer(window);//we take the window pointer
     Window *this_window = reinterpret_cast<Window *>(ptr);//casting to window type
-    this_window->set_window_size(w, h);//update window size
+    this_window->handle_new_window_size(w, h);//update window size
 }
 
 

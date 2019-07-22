@@ -41,7 +41,7 @@ public:
 
     void set_field_of_view(float fov);
 
-    void set_window_size(int newwidth, int newheight);
+    void handle_new_window_size(int newwidth, int newheight);
 
     void draw(const Drawable3D&to_draw) const;
 
