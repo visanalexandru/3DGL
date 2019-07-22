@@ -10,29 +10,38 @@
 #include <GLFW/glfw3.h>
 #include<iostream>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class Window {
 private:
-    void init_graphics() const ;
+    glm::mat4 projection;
+
+    void update_projection_matrix();
+
+    void init_graphics() const;
+
+    int width, height;
+
+    GLFWwindow *window;
 
 
-    GLFWwindow*window;
+    void create_window(int w, int h, const std::string &title);
 
 
-    void create_window(int width,int height,const std::string&title);
-
-
-    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+    static void framebuffer_size_callback(GLFWwindow *window, int w, int h);
 
 public:
 
-    Window(int width,int height,const std::string&title);
+    Window(int width, int height, const std::string &title);
 
     bool needs_to_close() const;
 
+    void set_window_size(int newwidth, int newheight);
+
     void set_window_should_close();
 
-    void clear(glm::vec3 color=glm::vec3(0,0,0)) const;
+    void clear(glm::vec3 color = glm::vec3(0, 0, 0)) const;
 
     void display() const;
 
