@@ -18,6 +18,8 @@ private:
 public:
     void bind_mesh() const;
 
+    unsigned get_vertex_count() const;
+
     const ShaderProgram &get_program() const;
 
     Drawable3D(const ShaderProgram &shader);
