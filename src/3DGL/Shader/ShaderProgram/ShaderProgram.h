@@ -5,6 +5,9 @@
 #ifndef INC_3DGL_SHADERPROGRAM_H
 #define INC_3DGL_SHADERPROGRAM_H
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "../VertexShader/VertexShader.h"
 #include "../FragmentShader/FragmentShader.h"
 
@@ -24,6 +27,8 @@ public:
     void setFloat(const std::string &name, float value) const;
 
     void setInt(const std::string &name, int value) const;
+
+    void setMat4(const std::string &name, glm::mat4 value) const;
 
     ShaderProgram(const VertexShader &v_shader, const FragmentShader &f_shader);
 
