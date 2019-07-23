@@ -14,6 +14,7 @@
 class Window {
 private:
     glm::mat4 projection;
+    glm::mat4 view;
     int width, height;
     float field_of_view;
     GLFWwindow *window;
@@ -44,6 +45,8 @@ public:
     void set_field_of_view(float fov);
 
     void handle_new_window_size(int newwidth, int newheight);
+
+    void set_view(const Transformable&new_view);
 
     void draw(const Drawable3D&to_draw) const;
 

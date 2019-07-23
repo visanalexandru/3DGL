@@ -5,7 +5,7 @@
 #include "Window.h"
 
 
-Window::Window(int w, int h, const std::string &title) : projection(1), field_of_view(45.f) {
+Window::Window(int w, int h, const std::string &title) : projection(1), view(1), field_of_view(45.f) {
 
     handle_new_window_size(w, h);
     init_graphics();
@@ -36,6 +36,13 @@ void Window::set_field_of_view(float fov) {
 
 }
 
+void Window::set_view(const Transformable &new_view) {
+
+    glm::mat4 v = glm::inverse(new_view.get_rotation_matrix());
+    v = glm::translate(v, -new_view.get_position());
+    view = v;
+
+}
 
 void Window::framebuffer_size_callback(GLFWwindow *window, int w,
                                        int h) {//function to update the viewport when window size is modified
@@ -93,7 +100,6 @@ void Window::create_window(int width, int height, const std::string &title) {//f
 
     glEnable(GL_DEPTH_TEST);//we enable depth testing
 
-
 }
 
 void Window::draw(const Drawable3D &to_draw) const {
@@ -103,7 +109,7 @@ void Window::draw(const Drawable3D &to_draw) const {
     const ShaderProgram &program = to_draw.get_program();
 
     program.bind_shader();
-    program.setMat4("mvp", projection * model);
+    program.setMat4("mvp", projection * view * model);
     to_draw.bind_mesh();
 
     glDrawElements(GL_TRIANGLES, to_draw.get_vertex_count(), GL_UNSIGNED_INT, 0);
