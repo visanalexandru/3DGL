@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include<glm/gtx/euler_angles.hpp>
 
 class Transformable {
 private:
@@ -32,7 +32,6 @@ public:
     void set_rotation(glm::vec3 rot);
 
     void set_position(glm::vec3 pos);
-
 
 
 };

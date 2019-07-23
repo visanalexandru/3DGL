@@ -21,18 +21,9 @@ glm::vec3 Transformable::get_position() const {
 }
 
 glm::mat4 Transformable::get_rotation_matrix() const {
-    glm::mat4 matRoll(1);
-    glm::mat4 matPitch(1);
-    glm::mat4 matYaw(1);
+    glm::mat4 rot = glm::eulerAngleYXZ(glm::radians(rotation.y), glm::radians(rotation.x), glm::radians(rotation.z));
 
-
-    matRoll = glm::rotate(matRoll,glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-    matPitch = glm::rotate(matPitch, glm::radians(rotation.x), glm::vec3(0.0f, 1.0f, 0.0f));
-    matYaw = glm::rotate(matYaw, glm::radians(rotation.y), glm::vec3(1.0f, 0.0f, 0.0f));
-
-    glm::mat4 rotation = matRoll * matPitch * matYaw;
-
-    return rotation;
+    return rot;
 
 }
 
