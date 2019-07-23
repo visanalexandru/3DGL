@@ -23,7 +23,7 @@ public:
 
     Texture();
 
-    ~Texture();
+    virtual ~Texture();
 };
 
 
