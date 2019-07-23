@@ -28,6 +28,11 @@ void Window::handle_new_window_size(int newwidth, int newheight) {//this functio
     update_projection_matrix();
 }
 
+bool Window::is_pressed(int key) const {
+
+    return glfwGetKey(window, key) == GLFW_PRESS;
+
+}
 
 void Window::set_field_of_view(float fov) {
 

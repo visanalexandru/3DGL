@@ -20,13 +20,9 @@ private:
     GLFWwindow *window;
 
 
-
-
     void update_projection_matrix();
 
     void init_graphics() const;
-
-
 
 
     void create_window(int w, int h, const std::string &title);
@@ -48,13 +44,15 @@ public:
 
     void lock_cursor() const;
 
-    void set_view(const Transformable&new_view);
+    void set_view(const Transformable &new_view);
 
-    void draw(const Drawable3D&to_draw) const;
+    void draw(const Drawable3D &to_draw) const;
 
     void set_window_should_close();
 
     void clear(glm::vec3 color = glm::vec3(0, 0, 0)) const;
+
+    bool is_pressed(int key) const;
 
     void display() const;
 
