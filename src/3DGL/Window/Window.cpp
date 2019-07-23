@@ -124,6 +124,11 @@ glm::vec2 Window::get_cursor_position() const {
 
 }
 
+void Window::lock_cursor() const {
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
 void Window::clear(glm::vec3 color) const {//clear the screen
 
     color /= 255.f;

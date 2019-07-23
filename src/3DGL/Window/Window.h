@@ -46,6 +46,8 @@ public:
 
     void handle_new_window_size(int newwidth, int newheight);
 
+    void lock_cursor() const;
+
     void set_view(const Transformable&new_view);
 
     void draw(const Drawable3D&to_draw) const;
