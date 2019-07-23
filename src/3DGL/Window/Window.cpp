@@ -110,13 +110,20 @@ void Window::draw(const Drawable3D &to_draw) const {
 
 }
 
+glm::vec2 Window::get_cursor_position() const {
+
+    double x, y;
+    glfwGetCursorPos(window, &x, &y);
+    return glm::vec2(x, y);
+
+}
 
 void Window::clear(glm::vec3 color) const {//clear the screen
 
     color /= 255.f;
     glClearColor(color.x, color.y, color.z, 1.0f);
 
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
 

@@ -39,6 +39,8 @@ public:
 
     bool needs_to_close() const;
 
+    glm::vec2 get_cursor_position() const;
+
     void set_field_of_view(float fov);
 
     void handle_new_window_size(int newwidth, int newheight);
