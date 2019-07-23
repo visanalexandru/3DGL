@@ -21,6 +21,8 @@ public:
 
     glm::vec3 get_position() const;
 
+    glm::vec3 get_rotation() const;
+
     glm::mat4 get_rotation_matrix() const;
 
     glm::mat4 get_model_matrix() const;

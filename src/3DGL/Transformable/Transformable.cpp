@@ -27,6 +27,12 @@ glm::mat4 Transformable::get_rotation_matrix() const {
 
 }
 
+glm::vec3 Transformable::get_rotation() const {
+
+    return rotation;
+
+}
+
 glm::mat4 Transformable::get_model_matrix() const {
     glm::mat4 pos(1);
 
