@@ -48,6 +48,12 @@ void Transformable::rotate(glm::vec3 rotate) {
 
 }
 
+glm::vec3 Transformable::get_forward_vector() const {
+
+    const glm::vec3 direction = -normalize(glm::vec3(get_rotation_matrix()[2]));
+    return direction;
+}
+
 void Transformable::move(glm::vec3 offset) {
 
     position += offset;

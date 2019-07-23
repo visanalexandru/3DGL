@@ -29,6 +29,8 @@ public:
 
     void rotate(glm::vec3 rotate);
 
+    glm::vec3 get_forward_vector() const;
+
     void move(glm::vec3 offset);
 
     void set_rotation(glm::vec3 rot);
