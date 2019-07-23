@@ -1,7 +1,6 @@
 //
 // Created by gvisan on 23.07.2019.
 //
-#include <glad/glad.h>
 
 #include "Texture2D.h"
 
