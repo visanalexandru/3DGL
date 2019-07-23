@@ -27,7 +27,7 @@ public:
 
     glm::mat4 get_model_matrix() const;
 
-    void rotate(glm::vec3 direction);
+    void rotate(glm::vec3 rotate);
 
     void move(glm::vec3 offset);
 

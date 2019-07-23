@@ -36,10 +36,10 @@ void Window::set_field_of_view(float fov) {
 
 }
 
-void Window::set_view(const Transformable &new_view) {
+void Window::set_view(const Transformable &new_view) {//sets the camera transform
 
-    glm::mat4 v = glm::inverse(new_view.get_rotation_matrix());
-    v = glm::translate(v, -new_view.get_position());
+    glm::mat4 v = glm::inverse(new_view.get_rotation_matrix());//we inverse the camera rotation
+    v = glm::translate(v, -new_view.get_position());//we translate back
     view = v;
 
 }

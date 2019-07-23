@@ -20,7 +20,7 @@ glm::vec3 Transformable::get_position() const {
     return position;
 }
 
-glm::mat4 Transformable::get_rotation_matrix() const {
+glm::mat4 Transformable::get_rotation_matrix() const {//we convert from euler angles to rotation matrix
     glm::mat4 rot = glm::eulerAngleYXZ(glm::radians(rotation.y), glm::radians(rotation.x), glm::radians(rotation.z));
 
     return rot;
@@ -42,9 +42,9 @@ glm::mat4 Transformable::get_model_matrix() const {
 
 }
 
-void Transformable::rotate(glm::vec3 direction) {
+void Transformable::rotate(glm::vec3 rotate) {
 
-    rotation += direction;
+    rotation += rotate;
 
 }
 
