@@ -30,6 +30,8 @@ public:
 
     void setMat4(const std::string &name, glm::mat4 value) const;
 
+    const unsigned get_shader_index() const;
+
     ShaderProgram(const VertexShader &v_shader, const FragmentShader &f_shader);
 
 };

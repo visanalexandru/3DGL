@@ -19,3 +19,9 @@ Texture::Texture() : texture_index(0) {
 
 
 }
+
+const unsigned Texture::get_texture_index() const {
+
+    return texture_index;
+
+}

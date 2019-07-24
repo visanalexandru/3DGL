@@ -26,6 +26,12 @@ void ShaderProgram::check_for_succes() const {//this function logs errors when c
 
 }
 
+const unsigned ShaderProgram::get_shader_index() const {
+
+    return shader_program_index;
+
+}
+
 void ShaderProgram::setMat4(const std::string &name, glm::mat4 value) const {
 
     int mat_location = glGetUniformLocation(shader_program_index, name.c_str());
