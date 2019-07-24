@@ -13,7 +13,7 @@ void Texture2D::bind_texture() const {
 
 void Texture2D::load_texture(const std::string &path) {
 
-
+    delete_texture();
     unsigned int texture;
     glGenTextures(1, &texture);//create empty texture
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -53,7 +53,6 @@ void Texture2D::load_texture(const std::string &path) {
         std::cout << "Failed to load texture: " << path << std::endl;
         texture_index = 0;
     }
-
 
 
     stbi_image_free(data);
