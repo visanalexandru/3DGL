@@ -5,9 +5,9 @@
 #include "Drawable3D.h"
 
 
-void Drawable3D::bind_mesh() const {
+const Mesh &Drawable3D::get_mesh() const {
 
-    mesh.bind_mesh();
+    return mesh;
 
 }
 
@@ -29,9 +29,8 @@ void Drawable3D::set_texture(Texture &new_texture) {
 
 }
 
-void Drawable3D::bind_texture() const {
-
-    texture->bind_texture();
+const Texture &Drawable3D::get_texture() const {
+    return *texture;
 
 }
 

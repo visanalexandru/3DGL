@@ -20,15 +20,17 @@ private:
     bool has_default_texture;
     const ShaderProgram &shader_program;
 public:
-    void bind_mesh() const;
+    const Mesh &get_mesh() const;
 
-    void set_texture(Texture&new_texture);
+    const ShaderProgram &get_program() const;
 
-    void bind_texture() const;
+    const Texture &get_texture() const;
+
+    void set_texture(Texture &new_texture);
+
 
     unsigned get_vertex_count() const;
 
-    const ShaderProgram &get_program() const;
 
     Drawable3D(const ShaderProgram &shader);
 
