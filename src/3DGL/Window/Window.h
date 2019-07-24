@@ -10,6 +10,7 @@
 #include <GLFW/glfw3.h>
 #include<iostream>
 #include "../Drawable/Drawable3D.h"
+#include "../RenderList/RenderList.h"
 
 class Window {
 private:
@@ -47,6 +48,8 @@ public:
     void set_view(const Transformable &new_view);
 
     void draw(const Drawable3D &to_draw) const;
+
+    void draw(const RenderList &to_draw) const;
 
     void set_window_should_close();
 

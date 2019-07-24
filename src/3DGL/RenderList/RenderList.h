@@ -17,6 +17,7 @@ private:
 public:
     void add_to_list(Drawable3D &to_add);
 
+    const std::vector<Drawable3D*> &get_list() const;
 
     void clear_list();
 

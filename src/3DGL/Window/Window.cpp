@@ -82,6 +82,62 @@ bool Window::needs_to_close() const {
 }
 
 
+void Window::draw(const RenderList &to_draw) const {
+
+    const std::vector<Drawable3D *> &vec = to_draw.get_list();
+
+
+    if (vec.empty())
+        return;
+
+
+    Drawable3D::attributes last = vec[0]->get_attributes();
+    const ShaderProgram *last_program = &vec[0]->get_program();
+
+
+    last_program->bind_shader();
+    vec[0]->get_texture().bind_texture();
+
+
+    for (unsigned i = 0; i < vec.size(); i++) {
+
+        Drawable3D &to_draw = *vec[i];
+
+        glm::mat4 model = to_draw.get_model_matrix();
+
+        Drawable3D::attributes now = to_draw.get_attributes();
+
+
+        if (!(now == last)) {
+
+
+            if (last.texture_index != now.texture_index) {
+                to_draw.get_texture().bind_texture();
+
+            }
+
+
+            if (last.shader_program_index != now.shader_program_index) {
+                last_program = &to_draw.get_program();
+
+                last_program->bind_shader();
+
+            }
+
+            last = now;
+
+        }
+
+        last_program->setMat4("mvp", projection * view * model);
+        to_draw.get_mesh().bind_mesh();
+
+        glDrawElements(GL_TRIANGLES, to_draw.get_vertex_count(), GL_UNSIGNED_INT, 0);
+
+    }
+
+
+}
+
 void Window::set_window_should_close() {
 
     glfwSetWindowShouldClose(window, true);

@@ -26,6 +26,8 @@ public:
 
         attributes(unsigned tex, unsigned sh) : texture_index(tex), shader_program_index(sh) {};
 
+        attributes() : texture_index(0), shader_program_index(0) {};
+
         bool operator==(const attributes &other) {
             return texture_index == other.texture_index && shader_program_index == other.shader_program_index;
         }

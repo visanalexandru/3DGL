@@ -28,3 +28,9 @@ void RenderList::add_to_list(Drawable3D &to_add) {
     drawables.push_back(&to_add);
 
 }
+
+
+const std::vector<Drawable3D *> &RenderList::get_list() const {
+
+    return drawables;
+}
