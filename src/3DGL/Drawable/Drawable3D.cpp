@@ -11,8 +11,27 @@ void Drawable3D::bind_mesh() const {
 
 }
 
-Drawable3D::Drawable3D(const ShaderProgram &shader) : shader_program(shader) {
+Drawable3D::Drawable3D(const ShaderProgram &shader) : shader_program(shader), texture(nullptr),
+                                                      has_default_texture(true) {
 
+
+    texture = new Texture2D();
+
+}
+
+void Drawable3D::set_texture(Texture &new_texture) {
+
+    if (has_default_texture) {
+        delete texture;
+        has_default_texture = false;
+    }
+    texture = &new_texture;
+
+}
+
+void Drawable3D::bind_texture() const {
+
+    texture->bind_texture();
 
 }
 
@@ -25,8 +44,16 @@ unsigned Drawable3D::get_vertex_count() const {
 
 }
 
-Drawable3D::Drawable3D(const ShaderProgram &shader, glm::vec3 position) : Transformable(position),
-                                                                          shader_program(shader) {
+Drawable3D::~Drawable3D() {
 
+    if (has_default_texture)
+        delete texture;
+
+}
+
+Drawable3D::Drawable3D(const ShaderProgram &shader, glm::vec3 position) : Transformable(position),
+                                                                          shader_program(shader), texture(nullptr),
+                                                                          has_default_texture(true) {
+    texture = new Texture2D();
 
 }
