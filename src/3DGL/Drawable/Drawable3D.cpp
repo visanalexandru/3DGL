@@ -29,6 +29,12 @@ void Drawable3D::set_texture(Texture &new_texture) {
 
 }
 
+
+Drawable3D::attributes Drawable3D::get_attributes() const {
+
+    return attributes(texture->get_texture_index(), shader_program.get_shader_index());
+}
+
 const Texture &Drawable3D::get_texture() const {
     return *texture;
 
