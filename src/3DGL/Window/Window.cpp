@@ -82,9 +82,9 @@ bool Window::needs_to_close() const {
 }
 
 
-void Window::draw(const RenderList &to_draw) const {
+void Window::draw(const RenderList &list_to_draw) const {
 
-    const std::vector<Drawable3D *> &vec = to_draw.get_list();
+    const std::vector<Drawable3D *> &vec = list_to_draw.get_list();
 
 
     if (vec.empty())
