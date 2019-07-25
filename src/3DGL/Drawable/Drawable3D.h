@@ -60,7 +60,7 @@ public:
     attributes get_attributes() const;
 
 
-    unsigned get_vertex_count() const;
+    unsigned get_triangle_count() const;
 
 
     Drawable3D(const ShaderProgram &shader);

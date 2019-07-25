@@ -5,7 +5,7 @@
 #include "Mesh.h"
 
 
-Mesh::Mesh() : vertex_array_index(0), vertex_count(0) {
+Mesh::Mesh() : vertex_array_index(0), triangle_count(0) {
 
 
 }
@@ -21,9 +21,9 @@ Mesh::~Mesh() {
 
 }
 
-unsigned Mesh::get_vertex_count() const {
+unsigned Mesh::get_triangle_count() const {
 
-    return vertex_count;
+    return triangle_count;
 
 }
 
