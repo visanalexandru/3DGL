@@ -43,20 +43,20 @@ glm::vec3 MeshBuilder::cube_faces[6][4]{
 
 
 void MeshBuilder::add_cube_face(MeshBuffer<simple_vertex> &data, glm::vec3 position, unsigned face_index) {
-    glm::vec3 a = cube_faces[face_index][0];
-    glm::vec3 b = cube_faces[face_index][1];
-    glm::vec3 c = cube_faces[face_index][2];
-    glm::vec3 d = cube_faces[face_index][3];
+    glm::vec3 a = cube_faces[face_index][0]+position;
+    glm::vec3 b = cube_faces[face_index][1]+position;
+    glm::vec3 c = cube_faces[face_index][2]+position;
+    glm::vec3 d = cube_faces[face_index][3]+position;
 
     data.add_triangle(a, b, c);
     data.add_triangle(c, d, a);
 
 }
 void MeshBuilder::add_cube_face(MeshBuffer<textured_vertex> &data, glm::vec3 position, unsigned face_index) {
-    glm::vec3 a = cube_faces[face_index][0];
-    glm::vec3 b = cube_faces[face_index][1];
-    glm::vec3 c = cube_faces[face_index][2];
-    glm::vec3 d = cube_faces[face_index][3];
+    glm::vec3 a = cube_faces[face_index][0]+position;
+    glm::vec3 b = cube_faces[face_index][1]+position;
+    glm::vec3 c = cube_faces[face_index][2]+position;
+    glm::vec3 d = cube_faces[face_index][3]+position;
 
 
     textured_vertex v1(a,glm::vec2(0,0));
