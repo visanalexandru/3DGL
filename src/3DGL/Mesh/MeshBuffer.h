@@ -30,6 +30,10 @@ public:
 
     void add_triangle(datatype t1, datatype t2, datatype t3);
 
+    void add_vertex(datatype t);
+
+    void add_triangle_index(unsigned index);
+
     MeshBuffer();
 
 
@@ -74,6 +78,19 @@ void MeshBuffer<datatype>::set_attributes() const {
 
 }
 
+template<class datatype>
+void MeshBuffer<datatype>::add_vertex(datatype t) {
+
+    vertices.push_back(t);
+
+}
+
+template<class datatype>
+void MeshBuffer<datatype>::add_triangle_index(unsigned index) {
+    indices.push_back(index);
+
+}
+
 
 template<class datatype>
 void MeshBuffer<datatype>::add_triangle(datatype t1, datatype t2, datatype t3) {
@@ -90,7 +107,6 @@ void MeshBuffer<datatype>::add_triangle(datatype t1, datatype t2, datatype t3) {
     indices.push_back(size_now + 2);
 
 }
-
 
 
 template<class datatype>
