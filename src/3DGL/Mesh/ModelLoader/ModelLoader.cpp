@@ -118,8 +118,21 @@ void ModelLoader::load_model(const std::string &path, MeshBuffer<textured_vertex
         vertex h = parsed_vertices[i];
 
         if (!exists(h)) {
-            textured_vertex to_add(parsed_positions[h.vertex_index - 1], parsed_texture_coords[h.texture_coord_index - 1]);
+            int a = h.vertex_index - 1;
+            int b = h.texture_coord_index - 1;
 
+            glm::vec3 position = parsed_positions[a];
+            glm::vec2 texture_coord(0, 0);
+
+
+            if (b >= 0) {//this variable is -1 when no texture coordinates are given
+
+
+                texture_coord = parsed_texture_coords[b];
+
+            }
+
+            textured_vertex to_add(position, texture_coord);
 
 
             buffer.add_vertex(to_add);
@@ -129,16 +142,13 @@ void ModelLoader::load_model(const std::string &path, MeshBuffer<textured_vertex
             added++;
 
 
-        }
-
-
-        else {
-            unsigned index=get_index_of(h);
+        } else {
+            unsigned index = get_index_of(h);
 
             buffer.add_triangle_index(index);
 
         }
-        
+
     }
 
 }
