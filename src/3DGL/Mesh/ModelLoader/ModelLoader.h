@@ -73,6 +73,10 @@ private:
 
     vertex get_vertex(const std::string &to_parse) const;
 
+    std::string get_next_element(const std::string &source, unsigned &cursor);
+
+    bool is_prefix(const std::string &a, const std::string &b) const;
+
     void parse_element(const std::string &to_parse);
 
 

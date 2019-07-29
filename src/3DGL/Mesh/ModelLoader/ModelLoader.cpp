@@ -33,6 +33,34 @@ vertex ModelLoader::get_vertex(const std::string &to_parse) const {
 }
 
 
+std::string ModelLoader::get_next_element(const std::string &source, unsigned &cursor) {
+    std::string result;
+
+    if (cursor < source.length()) {
+
+        do {
+            result += source[cursor];
+            cursor++;
+        } while (cursor < source.length() && source[cursor] != 'v' && source[cursor] != 'f');
+    }
+
+    return result;
+
+
+}
+
+bool ModelLoader::is_prefix(const std::string &a, const std::string &b) const {
+
+    unsigned min = std::min(a.length(), b.length());
+
+    for (int i = 0; i < min; i++) {
+        if (a[i] != b[i])
+            return false;
+    }
+    return true;
+
+}
+
 void ModelLoader::parse_element(const std::string &to_parse) {
 
     std::string type;
@@ -40,7 +68,7 @@ void ModelLoader::parse_element(const std::string &to_parse) {
 
     str >> type;
 
-    if (type == "v") {
+    if (is_prefix(to_parse, "v ")) {
         glm::vec3 parsed;
 
         str >> parsed.x >> parsed.y >> parsed.z;
@@ -48,7 +76,7 @@ void ModelLoader::parse_element(const std::string &to_parse) {
 
         parsed_positions.push_back(parsed);
 
-    } else if (type == "vt") {
+    } else if (is_prefix(to_parse, "vt ")) {
         glm::vec2 parsed;
 
 
@@ -57,7 +85,7 @@ void ModelLoader::parse_element(const std::string &to_parse) {
         parsed_texture_coords.push_back(parsed);
 
 
-    } else if (type == "f") {
+    } else if (is_prefix(to_parse, "f ")) {
 
 
         std::string a, b, c;
@@ -86,10 +114,13 @@ void ModelLoader::parse(const std::string &path) {
     parsed_positions.clear();
     parsed_texture_coords.clear();
 
-    std::string line;
+    std::stringstream buffer;
+    buffer << in.rdbuf();
+    std::string content = buffer.str();
+    unsigned cursor = 0;
 
-    while (std::getline(in, line)) {
-        parse_element(line);
+    while (cursor < content.length()) {
+        parse_element(get_next_element(content, cursor));
 
     }
 
