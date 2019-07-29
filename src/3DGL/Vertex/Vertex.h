@@ -99,4 +99,46 @@ struct textured_vertex {//vertex that holds position and texture coordinates
 
 };
 
+
+struct normal_textured_vertex {//vertex that holds position normal and texture coordinates
+
+    glm::vec3 position;
+    glm::vec2 texture_coords;
+    glm::vec3 normal;
+
+    normal_textured_vertex(glm::vec3 pos, glm::vec2 text_coords, glm::vec3 n) {
+        texture_coords = text_coords;
+        position = pos;
+        normal = n;
+    }
+
+    normal_textured_vertex() {
+        texture_coords = glm::vec2(0, 0);
+        position = glm::vec3(0, 0, 0);
+        normal = glm::vec3(0, 0, 0);
+
+    }
+
+    static void enable_attributes() {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(normal_textured_vertex),
+                              (const GLvoid *) offsetof(normal_textured_vertex, position));
+        glEnableVertexAttribArray(0);
+
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(normal_textured_vertex),
+                              (const GLvoid *) offsetof(normal_textured_vertex, texture_coords));
+        glEnableVertexAttribArray(1);
+
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(normal_textured_vertex),
+                              (const GLvoid *) offsetof(normal_textured_vertex, normal));
+        glEnableVertexAttribArray(2);
+
+    }
+
+    glm::vec3 get_position() {
+        return position;
+    }
+
+
+};
+
 #endif //INC_3DGL_VERTEX_H

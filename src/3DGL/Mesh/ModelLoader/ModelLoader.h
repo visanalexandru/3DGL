@@ -14,15 +14,16 @@
 
 
 struct vertex {
-    unsigned vertex_index, texture_coord_index;
+    unsigned vertex_index, texture_coord_index, normal_index;
 
-    vertex() : vertex_index(0), texture_coord_index(0) {};
+    vertex() : vertex_index(0), texture_coord_index(0), normal_index(0) {};
 
-    vertex(unsigned a, unsigned b) : vertex_index(a), texture_coord_index(b) {};
+    vertex(unsigned a, unsigned b, unsigned c) : vertex_index(a), texture_coord_index(b), normal_index(c) {};
 
     bool operator==(const vertex &other) const {
 
-        return other.vertex_index == vertex_index && other.texture_coord_index == texture_coord_index;
+        return other.vertex_index == vertex_index && other.texture_coord_index == texture_coord_index &&
+               other.normal_index == normal_index;
 
     }
 };
@@ -44,6 +45,8 @@ namespace std {
             std::size_t seed = 0;
             hash_combine(seed, k.vertex_index);
             hash_combine(seed, k.texture_coord_index);
+            hash_combine(seed, k.normal_index);
+
             return seed;
         }
     };
@@ -62,6 +65,7 @@ private:
 
     std::vector<glm::vec3> parsed_positions;
     std::vector<glm::vec2> parsed_texture_coords;
+    std::vector<glm::vec3> parsed_normals;
 
     std::vector<vertex> parsed_vertices;
 
@@ -81,13 +85,15 @@ private:
 
     void parse_new_triangles();
 
+    void parse_new_normal();
+
 
     void triangulate(const std::vector<vertex> &triangle_strip);
 
 
 public:
 
-    void load_model(const std::string &path, MeshBuffer<textured_vertex> &buffer);
+    void load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer);
 
 };
 

@@ -26,8 +26,7 @@ vertex ModelLoader::get_vertex(const std::string &to_parse) const {
         }
     }
 
-
-    return vertex(formed[0], formed[1]);
+    return vertex(formed[0], formed[1], formed[2]);
 
 
 }
@@ -61,6 +60,16 @@ void ModelLoader::parse_new_texture_coordinates() {
 
     parsed_texture_coords.push_back(parsed);
 
+
+}
+
+void ModelLoader::parse_new_normal() {
+
+    glm::vec3 parsed;
+
+    stream >> parsed.x >> parsed.y >> parsed.z;
+
+    parsed_normals.push_back(parsed);
 
 }
 
@@ -126,6 +135,8 @@ void ModelLoader::parse(const std::string &path) {
 
         } else if (aux == "f") {
             parse_new_triangles();
+        } else if (aux == "vn") {
+            parse_new_normal();
         }
 
     }
@@ -149,7 +160,7 @@ bool ModelLoader::exists(vertex to_check) {
 }
 
 
-void ModelLoader::load_model(const std::string &path, MeshBuffer<textured_vertex> &buffer) {
+void ModelLoader::load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer) {
 
     parse(path);
 
@@ -162,9 +173,12 @@ void ModelLoader::load_model(const std::string &path, MeshBuffer<textured_vertex
         if (!exists(h)) {
             int a = h.vertex_index - 1;
             int b = h.texture_coord_index - 1;
+            int c=h.normal_index-1;
 
             glm::vec3 position = parsed_positions[a];
             glm::vec2 texture_coord(0, 0);
+            glm::vec3 normal(0,0,0);
+
 
 
             if (b >= 0) {//this variable is -1 when no texture coordinates are given
@@ -174,7 +188,12 @@ void ModelLoader::load_model(const std::string &path, MeshBuffer<textured_vertex
 
             }
 
-            textured_vertex to_add(position, texture_coord);
+            if(c>=0){
+                normal=parsed_normals[c];
+
+            }
+
+            normal_textured_vertex to_add(position, texture_coord,normal);
 
 
             buffer.add_vertex(to_add);
