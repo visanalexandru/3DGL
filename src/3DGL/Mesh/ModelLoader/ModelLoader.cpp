@@ -33,45 +33,9 @@ vertex ModelLoader::get_vertex(const std::string &to_parse) const {
 }
 
 
-std::string ModelLoader::get_next_element(const std::string &source, unsigned &cursor) {
-    std::string result;
-    if (cursor < source.length()) {
-
-
-        while (cursor < source.length() && std::isalpha(source[cursor])) {
-            result += source[cursor];
-            cursor++;
-        }
-
-        while (cursor < source.length() && !std::isalpha(source[cursor])) {
-            result += source[cursor];
-            cursor++;
-        }
-
-    }
-
-    return result;
-
-
-}
-
-bool ModelLoader::is_prefix(const std::string &to_check, const std::string &prefix) const {
-
-
-    if (to_check.length() < prefix.length())
-        return false;
-
-    for (int i = 0; i < prefix.length(); i++) {
-        if (to_check[i] != prefix[i])
-            return false;
-    }
-    return true;
-
-}
-
 void ModelLoader::triangulate(const std::vector<vertex> &triangle_strip) {
 
-    for (int i = 1; i < triangle_strip.size()-1; i++) {
+    for (int i = 1; i < triangle_strip.size() - 1; i++) {
 
         parsed_vertices.push_back(triangle_strip[0]);
         parsed_vertices.push_back(triangle_strip[i]);
@@ -80,47 +44,67 @@ void ModelLoader::triangulate(const std::vector<vertex> &triangle_strip) {
     }
 }
 
+void ModelLoader::parse_new_vertex_position() {
+    glm::vec3 parsed;
 
-void ModelLoader::parse_element(const std::string &to_parse) {
+    stream >> parsed.x >> parsed.y >> parsed.z;
+    parsed_positions.push_back(parsed);
 
-    std::string type;
-    std::stringstream str(to_parse);
-
-    str >> type;
-
-    if (is_prefix(to_parse, "v ")) {
-        glm::vec3 parsed;
-
-        str >> parsed.x >> parsed.y >> parsed.z;
+}
 
 
-        parsed_positions.push_back(parsed);
+void ModelLoader::parse_new_texture_coordinates() {
 
-    } else if (is_prefix(to_parse, "vt ")) {
-        glm::vec2 parsed;
+    glm::vec2 parsed;
 
+    stream >> parsed.x >> parsed.y;
 
-        str >> parsed.x >> parsed.y;
-
-        parsed_texture_coords.push_back(parsed);
+    parsed_texture_coords.push_back(parsed);
 
 
-    } else if (is_prefix(to_parse, "f ")) {
+}
 
 
-        std::string aux;
-        std::vector<vertex> extracted;
-        while (str >> aux) {
+void ModelLoader::parse_new_triangles() {
+
+
+    std::string aux;
+
+    std::vector<vertex> extracted;
+
+
+    std::stringstream::pos_type pos = stream.tellg();
+
+
+    bool bool_has_next = false;
+
+    while (stream >> aux) {
+
+        if (std::isdigit(aux[0])) {
+
             vertex v = get_vertex(aux);
+
             extracted.push_back(v);
+
+
+        } else {
+
+            bool_has_next = true;
+
+            break;
         }
 
-        triangulate(extracted);
+        pos = stream.tellg();
 
 
     }
-}
 
+    if (bool_has_next)
+        stream.seekg(pos);
+    triangulate(extracted);
+
+
+}
 
 void ModelLoader::parse(const std::string &path) {
 
@@ -129,13 +113,20 @@ void ModelLoader::parse(const std::string &path) {
     parsed_vertices.clear();
     parsed_positions.clear();
     parsed_texture_coords.clear();
-    std::stringstream buffer;
-    buffer << in.rdbuf();
-    std::string content = buffer.str();
-    unsigned cursor = 0;
+    stream << in.rdbuf();
 
-    while (cursor < content.length()) {
-        parse_element(get_next_element(content, cursor));
+    std::string aux;
+
+    while (stream >> aux) {
+        if (aux == "v") {
+            parse_new_vertex_position();
+
+        } else if (aux == "vt") {
+            parse_new_texture_coordinates();
+
+        } else if (aux == "f") {
+            parse_new_triangles();
+        }
 
     }
 
@@ -163,7 +154,6 @@ void ModelLoader::load_model(const std::string &path, MeshBuffer<textured_vertex
     parse(path);
 
     unsigned added = 0;
-
 
     for (int i = 0; i < parsed_vertices.size(); i++) {
 

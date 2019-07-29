@@ -65,6 +65,8 @@ private:
 
     std::vector<vertex> parsed_vertices;
 
+    std::stringstream stream;
+
     void parse(const std::string &path);
 
     bool exists(vertex to_check);
@@ -73,13 +75,14 @@ private:
 
     vertex get_vertex(const std::string &to_parse) const;
 
-    std::string get_next_element(const std::string &source, unsigned &cursor);
+    void parse_new_vertex_position();
 
-    bool is_prefix(const std::string &to_check, const std::string &prefix) const;
+    void parse_new_texture_coordinates();
+
+    void parse_new_triangles();
+
 
     void triangulate(const std::vector<vertex> &triangle_strip);
-
-    void parse_element(const std::string &to_parse);
 
 
 public:
