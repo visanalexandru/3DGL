@@ -19,7 +19,11 @@ protected:
 public:
     virtual void load_texture(const std::string &path) = 0;
 
-    const unsigned  get_texture_index() const;
+    const unsigned get_texture_index() const;
+
+    Texture &operator=(const Texture &other) = delete;
+
+    Texture(const Texture &other) = delete;
 
     virtual void bind_texture() const = 0;
 

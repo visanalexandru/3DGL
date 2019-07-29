@@ -26,7 +26,12 @@ public:
     ~Mesh();
 
     void bind_mesh() const;
-    unsigned  get_triangle_count() const;
+
+    unsigned get_triangle_count() const;
+
+    Mesh &operator=(const Mesh &other) = delete;
+
+    Mesh(const Mesh &other) = delete;
 
     template<class datatype>
     void set_data(const MeshBuffer<datatype> &vertex_data);
@@ -72,7 +77,7 @@ void Mesh::create_vertex_array_index(const MeshBuffer<datatype> &vertex_data) {
     glDeleteBuffers(1, &EBO);//it's safe because we unbound the created vertex array
 
     vertex_array_index = VAO;
-    triangle_count =indices_count;
+    triangle_count = indices_count;
 
 }
 

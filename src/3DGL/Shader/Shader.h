@@ -29,7 +29,11 @@ private:
 
 public:
     unsigned get_shader_index() const;
-    
+
+    Shader &operator=(Shader &other) = delete;
+
+    Shader(const Shader &other) = delete;
+
     Shader();
 
     virtual ~Shader();
