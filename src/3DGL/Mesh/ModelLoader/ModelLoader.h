@@ -77,6 +77,8 @@ private:
 
     bool is_prefix(const std::string &to_check, const std::string &prefix) const;
 
+    void triangulate(const std::vector<vertex> &triangle_strip);
+
     void parse_element(const std::string &to_parse);
 
 

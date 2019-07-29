@@ -35,13 +35,19 @@ vertex ModelLoader::get_vertex(const std::string &to_parse) const {
 
 std::string ModelLoader::get_next_element(const std::string &source, unsigned &cursor) {
     std::string result;
-
     if (cursor < source.length()) {
 
-        do {
+
+        while (cursor < source.length() && std::isalpha(source[cursor])) {
             result += source[cursor];
             cursor++;
-        } while (cursor < source.length() && source[cursor] != 'v' && source[cursor] != 'f');
+        }
+
+        while (cursor < source.length() && !std::isalpha(source[cursor])) {
+            result += source[cursor];
+            cursor++;
+        }
+
     }
 
     return result;
@@ -62,6 +68,18 @@ bool ModelLoader::is_prefix(const std::string &to_check, const std::string &pref
     return true;
 
 }
+
+void ModelLoader::triangulate(const std::vector<vertex> &triangle_strip) {
+
+    for (int i = 1; i < triangle_strip.size()-1; i++) {
+
+        parsed_vertices.push_back(triangle_strip[0]);
+        parsed_vertices.push_back(triangle_strip[i]);
+        parsed_vertices.push_back(triangle_strip[i + 1]);
+
+    }
+}
+
 
 void ModelLoader::parse_element(const std::string &to_parse) {
 
@@ -90,18 +108,14 @@ void ModelLoader::parse_element(const std::string &to_parse) {
     } else if (is_prefix(to_parse, "f ")) {
 
 
-        std::string a, b, c;
-        vertex v1, v2, v3;
+        std::string aux;
+        std::vector<vertex> extracted;
+        while (str >> aux) {
+            vertex v = get_vertex(aux);
+            extracted.push_back(v);
+        }
 
-        str >> a >> b >> c;
-
-        v1 = get_vertex(a);
-        v2 = get_vertex(b);
-        v3 = get_vertex(c);
-
-        parsed_vertices.push_back(v1);
-        parsed_vertices.push_back(v2);
-        parsed_vertices.push_back(v3);
+        triangulate(extracted);
 
 
     }
@@ -115,7 +129,6 @@ void ModelLoader::parse(const std::string &path) {
     parsed_vertices.clear();
     parsed_positions.clear();
     parsed_texture_coords.clear();
-
     std::stringstream buffer;
     buffer << in.rdbuf();
     std::string content = buffer.str();
