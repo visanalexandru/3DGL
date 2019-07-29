@@ -75,7 +75,7 @@ private:
 
     std::string get_next_element(const std::string &source, unsigned &cursor);
 
-    bool is_prefix(const std::string &a, const std::string &b) const;
+    bool is_prefix(const std::string &to_check, const std::string &prefix) const;
 
     void parse_element(const std::string &to_parse);
 

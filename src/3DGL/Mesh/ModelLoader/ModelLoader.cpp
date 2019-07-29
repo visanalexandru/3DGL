@@ -49,12 +49,14 @@ std::string ModelLoader::get_next_element(const std::string &source, unsigned &c
 
 }
 
-bool ModelLoader::is_prefix(const std::string &a, const std::string &b) const {
+bool ModelLoader::is_prefix(const std::string &to_check, const std::string &prefix) const {
 
-    unsigned min = std::min(a.length(), b.length());
 
-    for (int i = 0; i < min; i++) {
-        if (a[i] != b[i])
+    if (to_check.length() < prefix.length())
+        return false;
+
+    for (int i = 0; i < prefix.length(); i++) {
+        if (to_check[i] != prefix[i])
             return false;
     }
     return true;
