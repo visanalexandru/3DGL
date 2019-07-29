@@ -73,6 +73,8 @@ private:
 
     vertex get_vertex(const std::string &to_parse) const;
 
+    void parse_element(const std::string &to_parse);
+
 
 public:
 

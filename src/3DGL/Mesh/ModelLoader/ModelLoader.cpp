@@ -32,6 +32,52 @@ vertex ModelLoader::get_vertex(const std::string &to_parse) const {
 
 }
 
+
+void ModelLoader::parse_element(const std::string &to_parse) {
+
+    std::string type;
+    std::stringstream str(to_parse);
+
+    str >> type;
+
+    if (type == "v") {
+        glm::vec3 parsed;
+
+        str >> parsed.x >> parsed.y >> parsed.z;
+
+
+        parsed_positions.push_back(parsed);
+
+    } else if (type == "vt") {
+        glm::vec2 parsed;
+
+
+        str >> parsed.x >> parsed.y;
+
+        parsed_texture_coords.push_back(parsed);
+
+
+    } else if (type == "f") {
+
+
+        std::string a, b, c;
+        vertex v1, v2, v3;
+
+        str >> a >> b >> c;
+
+        v1 = get_vertex(a);
+        v2 = get_vertex(b);
+        v3 = get_vertex(c);
+
+        parsed_vertices.push_back(v1);
+        parsed_vertices.push_back(v2);
+        parsed_vertices.push_back(v3);
+
+
+    }
+}
+
+
 void ModelLoader::parse(const std::string &path) {
 
     std::ifstream in(path);
@@ -41,49 +87,9 @@ void ModelLoader::parse(const std::string &path) {
     parsed_texture_coords.clear();
 
     std::string line;
-    std::string type;
 
     while (std::getline(in, line)) {
-
-        std::stringstream str(line);
-
-        str >> type;
-
-        if (type == "v") {
-            glm::vec3 parsed;
-
-            str >> parsed.x >> parsed.y >> parsed.z;
-
-
-            parsed_positions.push_back(parsed);
-
-        } else if (type == "vt") {
-            glm::vec2 parsed;
-
-
-            str >> parsed.x >> parsed.y;
-
-            parsed_texture_coords.push_back(parsed);
-
-
-        } else if (type == "f") {
-
-
-            std::string a, b, c;
-            vertex v1, v2, v3;
-
-            str >> a >> b >> c;
-
-            v1 = get_vertex(a);
-            v2 = get_vertex(b);
-            v3 = get_vertex(c);
-
-            parsed_vertices.push_back(v1);
-            parsed_vertices.push_back(v2);
-            parsed_vertices.push_back(v3);
-
-
-        }
+        parse_element(line);
 
     }
 
