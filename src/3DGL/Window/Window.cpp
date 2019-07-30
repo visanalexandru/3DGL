@@ -96,7 +96,7 @@ void Window::draw(const RenderList &list_to_draw) const {
 
 
     last_program->bind_shader();
-    vec[0]->get_texture().bind_texture();
+    vec[0]->bind_texture();
 
 
     for (unsigned i = 0; i < vec.size(); i++) {
@@ -112,7 +112,7 @@ void Window::draw(const RenderList &list_to_draw) const {
 
 
             if (last.texture_index != now.texture_index) {
-                to_draw.get_texture().bind_texture();
+                to_draw.bind_texture();
 
             }
 
@@ -166,7 +166,7 @@ void Window::create_window(int width, int height, const std::string &title) {//f
 void Window::draw(const Drawable3D &to_draw) const {
 
     glm::mat4 model = to_draw.get_model_matrix();
-    to_draw.get_texture().bind_texture();
+    to_draw.bind_texture();
     const ShaderProgram &program = to_draw.get_program();
 
     program.bind_shader();

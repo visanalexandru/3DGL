@@ -17,7 +17,6 @@ class Drawable3D : public Transformable {
 private:
     Mesh mesh;
     Texture *texture;
-    bool has_default_texture;
     const ShaderProgram &shader_program;
 public:
 
@@ -56,6 +55,8 @@ public:
     const Texture &get_texture() const;
 
     void set_texture(Texture &new_texture);
+
+    void bind_texture() const;
 
     attributes get_attributes() const;
 
