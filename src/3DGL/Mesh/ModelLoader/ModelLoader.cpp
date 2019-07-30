@@ -118,10 +118,6 @@ void ModelLoader::parse_new_triangles() {
 void ModelLoader::parse(const std::string &path) {
 
     std::ifstream in(path);
-
-    parsed_vertices.clear();
-    parsed_positions.clear();
-    parsed_texture_coords.clear();
     stream << in.rdbuf();
 
     std::string aux;
@@ -162,6 +158,15 @@ bool ModelLoader::exists(vertex to_check) {
 
 void ModelLoader::load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer) {
 
+    stream.str("");
+    stream.clear();
+    parsed_vertices.clear();
+    parsed_positions.clear();
+    parsed_normals.clear();
+    parsed_texture_coords.clear();
+    vertices.clear();
+
+
     parse(path);
 
     unsigned added = 0;
@@ -173,12 +178,11 @@ void ModelLoader::load_model(const std::string &path, MeshBuffer<normal_textured
         if (!exists(h)) {
             int a = h.vertex_index - 1;
             int b = h.texture_coord_index - 1;
-            int c=h.normal_index-1;
+            int c = h.normal_index - 1;
 
             glm::vec3 position = parsed_positions[a];
             glm::vec2 texture_coord(0, 0);
-            glm::vec3 normal(0,0,0);
-
+            glm::vec3 normal(0, 0, 0);
 
 
             if (b >= 0) {//this variable is -1 when no texture coordinates are given
@@ -188,12 +192,12 @@ void ModelLoader::load_model(const std::string &path, MeshBuffer<normal_textured
 
             }
 
-            if(c>=0){
-                normal=parsed_normals[c];
+            if (c >= 0) {
+                normal = parsed_normals[c];
 
             }
 
-            normal_textured_vertex to_add(position, texture_coord,normal);
+            normal_textured_vertex to_add(position, texture_coord, normal);
 
 
             buffer.add_vertex(to_add);
