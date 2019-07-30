@@ -25,3 +25,11 @@ const unsigned Texture::get_texture_index() const {
     return texture_index;
 
 }
+
+void Texture::bind_empty_texture() {
+
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+
+}

@@ -27,6 +27,8 @@ public:
 
     virtual void bind_texture() const = 0;
 
+    static void bind_empty_texture();
+
     Texture();
 
     virtual ~Texture();

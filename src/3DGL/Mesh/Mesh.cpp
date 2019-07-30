@@ -21,6 +21,13 @@ Mesh::~Mesh() {
 
 }
 
+
+void Mesh::bind_empty_mesh() {
+
+    glBindVertexArray(0);
+
+}
+
 unsigned Mesh::get_triangle_count() const {
 
     return triangle_count;

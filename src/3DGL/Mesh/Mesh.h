@@ -29,6 +29,8 @@ public:
 
     unsigned get_triangle_count() const;
 
+    static void bind_empty_mesh();
+
     Mesh &operator=(const Mesh &other) = delete;
 
     Mesh(const Mesh &other) = delete;
