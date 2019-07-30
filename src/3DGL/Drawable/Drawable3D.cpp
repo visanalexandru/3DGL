@@ -7,18 +7,25 @@
 
 const Mesh &Drawable3D::get_mesh() const {
 
-    return mesh;
+    return *mesh;
 
 }
 
-Drawable3D::Drawable3D(const ShaderProgram &shader) : shader_program(shader), texture(nullptr) {
+Drawable3D::Drawable3D(const ShaderProgram &shader) : shader_program(shader), texture(nullptr), mesh(nullptr) {
 
 
 }
 
-void Drawable3D::set_texture(Texture &new_texture) {
+void Drawable3D::set_texture(const Texture &new_texture) {
 
     texture = &new_texture;
+
+}
+
+
+void Drawable3D::set_mesh(const Mesh &new_mesh) {
+
+    mesh = &new_mesh;
 
 }
 
@@ -27,6 +34,16 @@ void Drawable3D::bind_texture() const {
     if (texture != nullptr) {
         texture->bind_texture();
     } else Texture::bind_empty_texture();
+
+
+}
+
+void Drawable3D::bind_mesh() const {
+
+    if (mesh != nullptr) {
+
+        mesh->bind_mesh();
+    } else Mesh::bind_empty_mesh();
 
 
 }
@@ -52,7 +69,9 @@ const ShaderProgram &Drawable3D::get_program() const {
 }
 
 unsigned Drawable3D::get_triangle_count() const {
-    return mesh.get_triangle_count();
+    if (mesh != nullptr)
+        return mesh->get_triangle_count();
+    return 0;
 
 }
 
@@ -62,6 +81,7 @@ Drawable3D::~Drawable3D() {
 }
 
 Drawable3D::Drawable3D(const ShaderProgram &shader, glm::vec3 position) : Transformable(position),
-                                                                          shader_program(shader), texture(nullptr) {
+                                                                          shader_program(shader), texture(nullptr),
+                                                                          mesh(nullptr) {
 
 }

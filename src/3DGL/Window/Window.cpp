@@ -129,7 +129,7 @@ void Window::draw(const RenderList &list_to_draw) const {
         }
 
         last_program->setMat4("mvp", projection * view * model);
-        to_draw.get_mesh().bind_mesh();
+        to_draw.bind_mesh();
 
         glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
 
@@ -171,7 +171,7 @@ void Window::draw(const Drawable3D &to_draw) const {
 
     program.bind_shader();
     program.setMat4("mvp", projection * view * model);
-    to_draw.get_mesh().bind_mesh();
+    to_draw.bind_mesh();
 
     glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
 

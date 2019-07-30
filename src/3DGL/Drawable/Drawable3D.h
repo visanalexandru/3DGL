@@ -15,8 +15,8 @@ class Drawable3D : public Transformable {
 
 
 private:
-    Mesh mesh;
-    Texture *texture;
+    const Mesh *mesh;
+    const Texture *texture;
     const ShaderProgram &shader_program;
 public:
 
@@ -54,9 +54,13 @@ public:
 
     const Texture &get_texture() const;
 
-    void set_texture(Texture &new_texture);
+    void set_texture(const Texture &new_texture);
+
+    void set_mesh(const Mesh &new_mesh);
 
     void bind_texture() const;
+
+    void bind_mesh() const;
 
     attributes get_attributes() const;
 
@@ -71,17 +75,8 @@ public:
 
     ~Drawable3D();
 
-    template<class datatype>
-    void set_mesh_data(MeshBuffer<datatype> &vertex_data);
 
 };
 
-
-template<class datatype>
-void Drawable3D::set_mesh_data(MeshBuffer<datatype> &vertex_data) {
-
-    mesh.set_data(vertex_data);
-
-}
 
 #endif //INC_3DGL_DRAWABLE3D_H
