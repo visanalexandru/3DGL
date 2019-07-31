@@ -4,13 +4,13 @@
 
 #include "Transformable.h"
 
-Transformable::Transformable() : position(0, 0, 0), rotation(1) {
+Transformable::Transformable() : position(0, 0, 0), rotation(1), scale(1, 1, 1) {
 
 
 }
 
 
-Transformable::Transformable(glm::vec3 pos) : position(pos), rotation(1) {
+Transformable::Transformable(glm::vec3 pos) : position(pos), rotation(1), scale(1, 1, 1) {
 
 
 }
@@ -27,6 +27,19 @@ glm::mat4 Transformable::get_rotation_matrix() const {//we convert from euler an
 
 }
 
+
+void Transformable::set_scale(glm::vec3 sc) {
+
+    scale = sc;
+
+}
+
+glm::vec3 Transformable::get_scale() const {
+
+    return scale;
+
+}
+
 glm::vec3 Transformable::get_rotation() const {
 
     return rotation;
@@ -38,7 +51,11 @@ glm::mat4 Transformable::get_model_matrix() const {
 
     pos = glm::translate(pos, position);
 
-    return pos * get_rotation_matrix();
+    pos = pos * get_rotation_matrix();
+
+    pos = glm::scale(pos, scale);
+
+    return pos;
 
 }
 

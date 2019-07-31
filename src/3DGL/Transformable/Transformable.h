@@ -14,6 +14,7 @@ class Transformable {
 private:
     glm::vec3 position;
     glm::vec3 rotation;
+    glm::vec3 scale;
 public:
     Transformable();
 
@@ -22,6 +23,8 @@ public:
     glm::vec3 get_position() const;
 
     glm::vec3 get_rotation() const;
+
+    glm::vec3 get_scale() const;
 
     glm::mat4 get_rotation_matrix() const;
 
@@ -34,6 +37,8 @@ public:
     void move(glm::vec3 offset);
 
     void set_rotation(glm::vec3 rot);
+
+    void set_scale(glm::vec3 sc);
 
     void set_position(glm::vec3 pos);
 
