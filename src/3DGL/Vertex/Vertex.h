@@ -28,7 +28,7 @@ struct simple_vertex//basic vertex , only holds position data
     }
 
 
-    glm::vec3 get_position() {
+    glm::vec3 get_position()const {
         return position;
     }
 };
@@ -58,7 +58,7 @@ struct colored_vertex {//vertex that holds position and color data
 
     }
 
-    glm::vec3 get_position() {
+    glm::vec3 get_position() const {
         return position;
     }
 
@@ -92,7 +92,7 @@ struct textured_vertex {//vertex that holds position and texture coordinates
 
     }
 
-    glm::vec3 get_position() {
+    glm::vec3 get_position() const {
         return position;
     }
 
@@ -134,7 +134,7 @@ struct normal_textured_vertex {//vertex that holds position normal and texture c
 
     }
 
-    glm::vec3 get_position() {
+    glm::vec3 get_position() const {
         return position;
     }
 

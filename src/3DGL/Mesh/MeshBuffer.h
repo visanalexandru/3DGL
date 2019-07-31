@@ -27,6 +27,7 @@ public:
 
     void set_attributes() const;
 
+    std::pair<glm::vec3, glm::vec3> get_min_and_max_position() const;
 
     void add_triangle(datatype t1, datatype t2, datatype t3);
 
@@ -105,6 +106,37 @@ void MeshBuffer<datatype>::add_triangle(datatype t1, datatype t2, datatype t3) {
     indices.push_back(size_now);
     indices.push_back(size_now + 1);
     indices.push_back(size_now + 2);
+
+}
+
+
+template<class datatype>
+std::pair<glm::vec3, glm::vec3> MeshBuffer<datatype>::get_min_and_max_position() const {
+    glm::vec3 min(0, 0, 0), max(0, 0, 0);
+
+    if (vertices.size()) {
+        min = vertices[0].get_position();
+        max = vertices[0].get_position();
+
+        for (int i = 1; i < vertices.size(); i++) {
+
+            glm::vec3 here = vertices[i].get_position();
+
+            min.x = std::min(min.x, here.x);
+            min.y = std::min(min.y, here.y);
+            min.z = std::min(min.z, here.z);
+
+            max.x = std::max(max.x, here.x);
+            max.y = std::max(max.y, here.y);
+            max.z = std::max(max.z, here.z);
+
+
+        }
+
+
+    }
+
+    return {min, max};
 
 }
 
