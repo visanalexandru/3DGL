@@ -141,13 +141,22 @@ bool FrustumCull::pointInFrustum(glm::vec3 &p) {
 bool FrustumCull::drawableInFrusum(const Drawable3D &drawable) {
 
     auto bounds = drawable.get_mesh_bounds();
-    glm::vec3 lower = bounds.first;
-    glm::vec3 upper = bounds.second;
+
+    glm::vec4 rotated1 = drawable.get_model_matrix() * glm::vec4(bounds.first, 1);
+
+    glm::vec4 rotated2 = drawable.get_model_matrix() * glm::vec4(bounds.second, 1);
+
+    glm::vec3 lower(rotated1);
+    glm::vec3 upper(rotated2);
 
 
-    glm::vec3 offset = upper - lower;
+    glm::vec3 a(std::min(lower.x, upper.x), std::min(lower.y, upper.y), std::min(lower.z, upper.z));
+    glm::vec3 b(std::max(lower.x, upper.x), std::max(lower.y, upper.y), std::max(lower.z, upper.z));
 
-    AABB box(lower, offset);
+
+    glm::vec3 offset = b - a;
+
+    AABB box(a, offset);
 
     return boxInFrustum(box);
 
