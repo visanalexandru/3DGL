@@ -130,12 +130,9 @@ void Window::draw(const RenderList &list_to_draw) const {
         return;
 
 
-    Drawable3D::attributes last = vec[0]->get_attributes();
-    const ShaderProgram *last_program = &vec[0]->get_program();
+    Drawable3D::attributes last(-1,-1);
+    const ShaderProgram *last_program ;
 
-
-    last_program->bind_shader();
-    vec[0]->bind_texture();
 
 
     for (unsigned i = 0; i < vec.size(); i++) {
