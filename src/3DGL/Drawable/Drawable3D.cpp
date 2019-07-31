@@ -48,6 +48,21 @@ void Drawable3D::bind_mesh() const {
 
 }
 
+
+std::pair<glm::vec3, glm::vec3> Drawable3D::get_mesh_bounds() const {
+
+    if (mesh != nullptr) {
+
+
+        return mesh->get_dimensions();
+
+    }
+
+
+    else return {glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)};
+
+}
+
 Drawable3D::attributes Drawable3D::get_attributes() const {
 
     unsigned texture_index = 0;

@@ -54,6 +54,8 @@ public:
 
     const Texture &get_texture() const;
 
+    std::pair<glm::vec3,glm::vec3> get_mesh_bounds() const;
+
     void set_texture(const Texture &new_texture);
 
     void set_mesh(const Mesh &new_mesh);
