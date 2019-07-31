@@ -7,9 +7,9 @@
 
 std::string Cubemap::cubemap_names[6]{
         "right.jpg",
-        "left,jpg",
+        "left.jpg",
         "top.jpg",
-        "botom.jpg",
+        "bottom.jpg",
         "front.jpg",
         "back.jpg"
 };

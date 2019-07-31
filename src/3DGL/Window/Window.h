@@ -10,6 +10,7 @@
 #include <GLFW/glfw3.h>
 #include<iostream>
 #include "../Drawable/Drawable3D.h"
+#include "../Drawable/Skybox/Skybox.h"
 #include "../RenderList/RenderList.h"
 
 class Window {
@@ -19,6 +20,7 @@ private:
     int width, height;
     float field_of_view;
     GLFWwindow *window;
+    const Skybox *skybox;
 
 
     void update_projection_matrix();
@@ -27,6 +29,8 @@ private:
 
 
     void create_window(int w, int h, const std::string &title);
+
+    void draw_skybox() const;
 
 
     static void framebuffer_size_callback(GLFWwindow *window, int w, int h);
@@ -48,6 +52,8 @@ public:
     void set_view(const Transformable &new_view);
 
     void draw(const Drawable3D &to_draw) const;
+
+    void set_skybox(const Skybox&new_skybox);
 
     void draw(const RenderList &to_draw) const;
 

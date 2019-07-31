@@ -5,7 +5,7 @@
 #include "Window.h"
 
 
-Window::Window(int w, int h, const std::string &title) : projection(1), view(1), field_of_view(45.f) {
+Window::Window(int w, int h, const std::string &title) : projection(1), view(1), field_of_view(45.f), skybox(nullptr) {
 
     handle_new_window_size(w, h);
     init_graphics();
@@ -17,6 +17,43 @@ void Window::update_projection_matrix() {
 
     projection = glm::perspective(glm::radians(field_of_view), (float) width / height, 0.1f,
                                   100.0f);//updates projection matrix
+}
+
+
+void Window::set_skybox(const Skybox &new_skybox) {
+
+    skybox = &new_skybox;
+
+
+}
+
+
+void Window::draw_skybox() const {
+
+
+    glDepthMask(GL_FALSE);
+    glDisable(GL_CULL_FACE);
+
+
+    if (skybox != nullptr) {
+        glm::mat4 view2 = glm::mat4(glm::mat3(view));
+        skybox->bind_texture();
+
+
+        skybox->get_program().bind_shader();
+        skybox->get_program().setMat4("pv", projection*view2);
+
+
+        skybox->bind_mesh();
+        glDrawElements(GL_TRIANGLES, skybox->get_triangle_count(), GL_UNSIGNED_INT, 0);
+
+    }
+
+
+    glEnable(GL_CULL_FACE);
+    glDepthMask(GL_TRUE);
+
+
 }
 
 
@@ -196,6 +233,9 @@ void Window::clear(glm::vec3 color) const {//clear the screen
     glClearColor(color.x, color.y, color.z, 1.0f);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_CULL_FACE);
+    draw_skybox();
+
 
 }
 
