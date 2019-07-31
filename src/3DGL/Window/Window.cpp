@@ -41,7 +41,7 @@ void Window::draw_skybox() const {
 
 
         skybox->get_program().bind_shader();
-        skybox->get_program().setMat4("pv", projection*view2);
+        skybox->get_program().setMat4("pv", projection * view2);
 
 
         skybox->bind_mesh();
@@ -83,6 +83,8 @@ void Window::set_view(const Transformable &new_view) {//sets the camera transfor
     glm::mat4 v = glm::inverse(new_view.get_rotation_matrix());//we inverse the camera rotation
     v = glm::translate(v, -new_view.get_position());//we translate back
     view = v;
+
+    culler.update(projection * view);
 
 }
 
@@ -140,36 +142,39 @@ void Window::draw(const RenderList &list_to_draw) const {
 
         Drawable3D &to_draw = *vec[i];
 
-        glm::mat4 model = to_draw.get_model_matrix();
+        if (culler.drawableInFrusum(to_draw)) {
 
-        Drawable3D::attributes now = to_draw.get_attributes();
+            glm::mat4 model = to_draw.get_model_matrix();
+
+            Drawable3D::attributes now = to_draw.get_attributes();
 
 
-        if (!(now == last)) {
+            if (!(now == last)) {
 
 
-            if (last.texture_index != now.texture_index) {
-                to_draw.bind_texture();
+                if (last.texture_index != now.texture_index) {
+                    to_draw.bind_texture();
+
+                }
+
+
+                if (last.shader_program_index != now.shader_program_index) {
+                    last_program = &to_draw.get_program();
+
+                    last_program->bind_shader();
+
+                }
+
+                last = now;
 
             }
 
+            last_program->setMat4("mvp", projection * view * model);
+            to_draw.bind_mesh();
 
-            if (last.shader_program_index != now.shader_program_index) {
-                last_program = &to_draw.get_program();
-
-                last_program->bind_shader();
-
-            }
-
-            last = now;
+            glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
 
         }
-
-        last_program->setMat4("mvp", projection * view * model);
-        to_draw.bind_mesh();
-
-        glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
-
     }
 
 
@@ -202,15 +207,17 @@ void Window::create_window(int width, int height, const std::string &title) {//f
 
 void Window::draw(const Drawable3D &to_draw) const {
 
-    glm::mat4 model = to_draw.get_model_matrix();
-    to_draw.bind_texture();
-    const ShaderProgram &program = to_draw.get_program();
+    if (culler.drawableInFrusum(to_draw)) {
+        glm::mat4 model = to_draw.get_model_matrix();
+        to_draw.bind_texture();
+        const ShaderProgram &program = to_draw.get_program();
 
-    program.bind_shader();
-    program.setMat4("mvp", projection * view * model);
-    to_draw.bind_mesh();
+        program.bind_shader();
+        program.setMat4("mvp", projection * view * model);
+        to_draw.bind_mesh();
 
-    glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
+    }
 
 }
 

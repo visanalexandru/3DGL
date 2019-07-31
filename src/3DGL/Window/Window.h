@@ -12,6 +12,7 @@
 #include "../Drawable/Drawable3D.h"
 #include "../Drawable/Skybox/Skybox.h"
 #include "../RenderList/RenderList.h"
+#include "../FrustumCulling/FrustumCull.h"
 
 class Window {
 private:
@@ -20,6 +21,7 @@ private:
     int width, height;
     float field_of_view;
     GLFWwindow *window;
+    FrustumCull culler;
     const Skybox *skybox;
 
 
@@ -53,7 +55,7 @@ public:
 
     void draw(const Drawable3D &to_draw) const;
 
-    void set_skybox(const Skybox&new_skybox);
+    void set_skybox(const Skybox &new_skybox);
 
     void draw(const RenderList &to_draw) const;
 
