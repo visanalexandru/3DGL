@@ -5,7 +5,6 @@
 #include "FrustumCull.h"
 
 
-
 enum Planes {
 
     Near,
@@ -135,5 +134,22 @@ bool FrustumCull::pointInFrustum(glm::vec3 &p) {
             return false;
     }
     return (true);
+
+}
+
+
+bool FrustumCull::drawableInFrusum(const Drawable3D &drawable) {
+
+    auto bounds = drawable.get_mesh_bounds();
+    glm::vec3 lower = bounds.first;
+    glm::vec3 upper = bounds.second;
+
+
+    glm::vec3 offset = upper - lower;
+
+    AABB box(lower, offset);
+
+    return boxInFrustum(box);
+
 
 }

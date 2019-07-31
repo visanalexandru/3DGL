@@ -10,6 +10,8 @@
 
 #include "../Transformable/Transformable.h"
 
+#include "../Drawable/Drawable3D.h"
+
 class FrustumCull {
 private:
     struct Plane {
@@ -28,6 +30,8 @@ public:
     bool pointInFrustum(glm::vec3 &p);
 
     bool boxInFrustum(const AABB &box);
+
+    bool drawableInFrusum(const Drawable3D &drawable);
 
 };
 
