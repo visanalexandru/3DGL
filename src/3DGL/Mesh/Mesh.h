@@ -14,6 +14,8 @@ private:
     unsigned vertex_array_index;
     unsigned triangle_count;
 
+    std::pair<glm::vec3, glm::vec3> dimensions;
+
     void delete_vertex_array_index() const;
 
     template<class datatype>
@@ -30,6 +32,8 @@ public:
     unsigned get_triangle_count() const;
 
     static void bind_empty_mesh();
+
+    std::pair<glm::vec3,glm::vec3> get_dimensions() const;
 
     Mesh &operator=(const Mesh &other) = delete;
 
@@ -80,6 +84,7 @@ void Mesh::create_vertex_array_index(const MeshBuffer<datatype> &vertex_data) {
 
     vertex_array_index = VAO;
     triangle_count = indices_count;
+    dimensions = vertex_data.get_min_and_max_position();
 
 }
 

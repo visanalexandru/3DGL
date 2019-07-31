@@ -21,6 +21,12 @@ Mesh::~Mesh() {
 
 }
 
+std::pair<glm::vec3, glm::vec3> Mesh::get_dimensions() const {
+
+    return dimensions;
+
+}
+
 
 void Mesh::bind_empty_mesh() {
 

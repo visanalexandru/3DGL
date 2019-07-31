@@ -10,6 +10,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 class AABB {
+public:
     AABB(glm::vec3 positionin, glm::vec3 dimensionin);
 
     glm::vec3 getVN(const glm::vec3 &normal) const;
