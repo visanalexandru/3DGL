@@ -27,11 +27,11 @@ private:
 public:
     void update(const glm::mat4 &projViewMatrix);
 
-    bool pointInFrustum(glm::vec3 &p);
+    bool pointInFrustum(glm::vec3 &p) const;
 
-    bool boxInFrustum(const AABB &box);
+    bool boxInFrustum(const AABB &box) const;
 
-    bool drawableInFrusum(const Drawable3D &drawable);
+    bool drawableInFrusum(const Drawable3D &drawable) const;
 
 };
 

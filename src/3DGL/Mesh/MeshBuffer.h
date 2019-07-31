@@ -118,7 +118,7 @@ std::pair<glm::vec3, glm::vec3> MeshBuffer<datatype>::get_min_and_max_position()
         min = vertices[0].get_position();
         max = vertices[0].get_position();
 
-        for (int i = 1; i < vertices.size(); i++) {
+        for (unsigned i = 1; i < vertices.size(); i++) {
 
             glm::vec3 here = vertices[i].get_position();
 
