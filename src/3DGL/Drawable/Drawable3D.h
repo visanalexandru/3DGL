@@ -10,6 +10,7 @@
 #include "../Shader/ShaderProgram/ShaderProgram.h"
 #include "../Texture/Texture.h"
 #include "../Texture/Texture2D/Texture2D.h"
+#include "../FrustumCulling/AABB.h"
 
 class Drawable3D : public Transformable {
 
@@ -54,7 +55,7 @@ public:
 
     const Texture &get_texture() const;
 
-    std::pair<glm::vec3,glm::vec3> get_mesh_bounds() const;
+    std::pair<glm::vec3, glm::vec3> get_mesh_bounds() const;
 
     void set_texture(const Texture &new_texture);
 
@@ -65,6 +66,8 @@ public:
     void bind_mesh() const;
 
     attributes get_attributes() const;
+
+    AABB get_bounding_box() const;
 
 
     unsigned get_triangle_count() const;

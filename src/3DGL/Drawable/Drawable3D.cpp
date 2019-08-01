@@ -49,6 +49,32 @@ void Drawable3D::bind_mesh() const {
 }
 
 
+AABB Drawable3D::get_bounding_box() const {
+
+    auto bounds = get_mesh_bounds();
+
+    glm::vec4 rotated1 = get_model_matrix() * glm::vec4(bounds.first, 1);
+
+    glm::vec4 rotated2 = get_model_matrix() * glm::vec4(bounds.second, 1);
+
+    glm::vec3 lower(rotated1);
+    glm::vec3 upper(rotated2);
+
+
+    glm::vec3 a(std::min(lower.x, upper.x), std::min(lower.y, upper.y), std::min(lower.z, upper.z));
+    glm::vec3 b(std::max(lower.x, upper.x), std::max(lower.y, upper.y), std::max(lower.z, upper.z));
+
+
+    glm::vec3 offset = b - a;
+
+    AABB box(a, offset);
+
+    return box;
+
+
+}
+
+
 std::pair<glm::vec3, glm::vec3> Drawable3D::get_mesh_bounds() const {
 
     if (mesh != nullptr) {
@@ -56,10 +82,7 @@ std::pair<glm::vec3, glm::vec3> Drawable3D::get_mesh_bounds() const {
 
         return mesh->get_dimensions();
 
-    }
-
-
-    else return {glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)};
+    } else return {glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)};
 
 }
 

@@ -16,7 +16,7 @@ Window::Window(int w, int h, const std::string &title) : projection(1), view(1),
 void Window::update_projection_matrix() {
 
     projection = glm::perspective(glm::radians(field_of_view), (float) width / height, 0.1f,
-                                  100.0f);//updates projection matrix
+                                  1000.0f);//updates projection matrix
 }
 
 

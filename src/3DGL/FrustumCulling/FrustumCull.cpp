@@ -25,7 +25,7 @@ float FrustumCull::Plane::distanceToPoint(const glm::vec3 &point) const {
     return glm::dot(point, normal) + distanceToOrigin;
 }
 
-bool FrustumCull::boxInFrustum(const AABB &box)const {
+bool FrustumCull::boxInFrustum(const AABB &box) const {
 
     for (int i = 0; i < 6; i++) {
 
@@ -140,25 +140,8 @@ bool FrustumCull::pointInFrustum(glm::vec3 &p) const {
 
 bool FrustumCull::drawableInFrusum(const Drawable3D &drawable) const {
 
-    auto bounds = drawable.get_mesh_bounds();
 
-    glm::vec4 rotated1 = drawable.get_model_matrix() * glm::vec4(bounds.first, 1);
-
-    glm::vec4 rotated2 = drawable.get_model_matrix() * glm::vec4(bounds.second, 1);
-
-    glm::vec3 lower(rotated1);
-    glm::vec3 upper(rotated2);
-
-
-    glm::vec3 a(std::min(lower.x, upper.x), std::min(lower.y, upper.y), std::min(lower.z, upper.z));
-    glm::vec3 b(std::max(lower.x, upper.x), std::max(lower.y, upper.y), std::max(lower.z, upper.z));
-
-
-    glm::vec3 offset = b - a;
-
-    AABB box(a, offset);
-
-    return boxInFrustum(box);
+    return boxInFrustum(drawable.get_bounding_box());
 
 
 }
