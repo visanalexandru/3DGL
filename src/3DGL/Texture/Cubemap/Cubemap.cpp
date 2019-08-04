@@ -4,23 +4,24 @@
 
 #include "Cubemap.h"
 
+namespace gl3d {
 
-std::string Cubemap::cubemap_names[6]{
-        "right.jpg",
-        "left.jpg",
-        "top.jpg",
-        "bottom.jpg",
-        "front.jpg",
-        "back.jpg"
-};
-
-
-void Cubemap::load_texture(const std::string &path) {
+    std::string Cubemap::cubemap_names[6]{
+            "right.jpg",
+            "left.jpg",
+            "top.jpg",
+            "bottom.jpg",
+            "front.jpg",
+            "back.jpg"
+    };
 
 
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+    void Cubemap::load_texture(const std::string &path) {
+
+
+        unsigned int texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 
 
 
@@ -29,50 +30,51 @@ void Cubemap::load_texture(const std::string &path) {
 
 
 
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(false);
+        int width, height, nrChannels;
+        stbi_set_flip_vertically_on_load(false);
 
 
-    for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
 
 
-        std::string newpath = path + "/" + cubemap_names[i];
+            std::string newpath = path + "/" + cubemap_names[i];
 
 
-        unsigned char *data = stbi_load(newpath.c_str(), &width, &height, &nrChannels, 0);
+            unsigned char *data = stbi_load(newpath.c_str(), &width, &height, &nrChannels, 0);
 
 
-        if (data) {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE,
-                         data);
+            if (data) {
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE,
+                             data);
 
 
-            std::cout << "Texture loaded: " << newpath << std::endl;
+                std::cout << "Texture loaded: " << newpath << std::endl;
 
 
-        } else {
+            } else {
 
-            std::cout << "Failed to load texture :" << newpath << std::endl;
+                std::cout << "Failed to load texture :" << newpath << std::endl;
 
 
+            }
+            stbi_image_free(data);
         }
-        stbi_image_free(data);
+
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+        texture_index = texture;
+
+
     }
 
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    texture_index = texture;
+    void Cubemap::bind_texture() const {
 
+        glBindTexture(GL_TEXTURE_CUBE_MAP, texture_index);
 
-}
-
-
-void Cubemap::bind_texture() const {
-
-    glBindTexture(GL_TEXTURE_CUBE_MAP, texture_index);
-
+    }
 }

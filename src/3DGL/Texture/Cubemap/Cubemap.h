@@ -7,16 +7,17 @@
 
 #include "../Texture.h"
 #include <iostream>
+namespace gl3d {
 
-class Cubemap : public Texture {
-public:
+    class Cubemap : public Texture {
+    public:
 
-    void load_texture(const std::string &path) override;
+        void load_texture(const std::string &path) override;
 
-    void bind_texture() const override;
+        void bind_texture() const override;
 
-    static std::string cubemap_names[6];
-};
-
+        static std::string cubemap_names[6];
+    };
+}
 
 #endif //INC_3DGL_CUBEMAP_H

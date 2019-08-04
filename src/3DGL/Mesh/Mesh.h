@@ -7,96 +7,97 @@
 
 #include "MeshBuffer.h"
 #include <iostream>
+namespace gl3d {
 
-class Mesh {
+    class Mesh {
 
-private:
-    unsigned vertex_array_index;
-    unsigned triangle_count;
+    private:
+        unsigned vertex_array_index;
+        unsigned triangle_count;
 
-    std::pair<glm::vec3, glm::vec3> dimensions;
+        std::pair<glm::vec3, glm::vec3> dimensions;
 
-    void delete_vertex_array_index() const;
+        void delete_vertex_array_index() const;
+
+        template<class datatype>
+        void create_vertex_array_index(const MeshBuffer<datatype> &vertex_data);
+
+
+    public:
+        Mesh();
+
+        ~Mesh();
+
+        void bind_mesh() const;
+
+        unsigned get_triangle_count() const;
+
+        static void bind_empty_mesh();
+
+        std::pair<glm::vec3, glm::vec3> get_dimensions() const;
+
+        Mesh &operator=(const Mesh &other) = delete;
+
+        Mesh(const Mesh &other) = delete;
+
+        template<class datatype>
+        void set_data(const MeshBuffer<datatype> &vertex_data);
+
+    };
+
 
     template<class datatype>
-    void create_vertex_array_index(const MeshBuffer<datatype> &vertex_data);
+    void Mesh::create_vertex_array_index(const MeshBuffer<datatype> &vertex_data) {
+
+        unsigned VBO, VAO, EBO;
+        glGenVertexArrays(1, &VAO);//we create a VAO
+        glGenBuffers(1, &VBO);//generating VBO and EBO buffers
+        glGenBuffers(1, &EBO);//VBO is used for vertex data and EBO is used for index data
 
 
-public:
-    Mesh();
+        glBindVertexArray(VAO);//we bind the vertex array index
 
-    ~Mesh();
 
-    void bind_mesh() const;
+        const void *vertices = vertex_data.get_vertices();//pointer to the first element of the vertex data vector
+        const void *indices = vertex_data.get_indices();//pointer to the first element of the index data vector
 
-    unsigned get_triangle_count() const;
+        unsigned vertices_count = vertex_data.get_vertices_count();
+        unsigned indices_count = vertex_data.get_indices_count();
 
-    static void bind_empty_mesh();
 
-    std::pair<glm::vec3,glm::vec3> get_dimensions() const;
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, vertices_count * sizeof(datatype), vertices,
+                     GL_STATIC_DRAW);//we set the vertex data to the VBO buffer
 
-    Mesh &operator=(const Mesh &other) = delete;
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_count * sizeof(unsigned), indices,
+                     GL_STATIC_DRAW);//we set the indices to the EBO buffer
 
-    Mesh(const Mesh &other) = delete;
+        vertex_data.set_attributes();
+
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        glBindVertexArray(0);//this unbinds the vertex array index
+
+        glDeleteBuffers(1, &VBO);//we delete this buffers as we don't need them anymore
+        glDeleteBuffers(1, &EBO);//it's safe because we unbound the created vertex array
+
+        vertex_array_index = VAO;
+        triangle_count = indices_count;
+        dimensions = vertex_data.get_min_and_max_position();
+
+    }
+
 
     template<class datatype>
-    void set_data(const MeshBuffer<datatype> &vertex_data);
+    void Mesh::set_data(const MeshBuffer<datatype> &vertex_data) {
 
-};
+        delete_vertex_array_index();//we delete the last mesh data
 
+        create_vertex_array_index(vertex_data);//we create vao based on the vertex data
 
-template<class datatype>
-void Mesh::create_vertex_array_index(const MeshBuffer<datatype> &vertex_data) {
-
-    unsigned VBO, VAO, EBO;
-    glGenVertexArrays(1, &VAO);//we create a VAO
-    glGenBuffers(1, &VBO);//generating VBO and EBO buffers
-    glGenBuffers(1, &EBO);//VBO is used for vertex data and EBO is used for index data
-
-
-    glBindVertexArray(VAO);//we bind the vertex array index
-
-
-    const void *vertices = vertex_data.get_vertices();//pointer to the first element of the vertex data vector
-    const void *indices = vertex_data.get_indices();//pointer to the first element of the index data vector
-
-    unsigned vertices_count = vertex_data.get_vertices_count();
-    unsigned indices_count = vertex_data.get_indices_count();
-
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices_count * sizeof(datatype), vertices,
-                 GL_STATIC_DRAW);//we set the vertex data to the VBO buffer
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_count * sizeof(unsigned), indices,
-                 GL_STATIC_DRAW);//we set the indices to the EBO buffer
-
-    vertex_data.set_attributes();
-
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glBindVertexArray(0);//this unbinds the vertex array index
-
-    glDeleteBuffers(1, &VBO);//we delete this buffers as we don't need them anymore
-    glDeleteBuffers(1, &EBO);//it's safe because we unbound the created vertex array
-
-    vertex_array_index = VAO;
-    triangle_count = indices_count;
-    dimensions = vertex_data.get_min_and_max_position();
-
+    }
 }
-
-
-template<class datatype>
-void Mesh::set_data(const MeshBuffer<datatype> &vertex_data) {
-
-    delete_vertex_array_index();//we delete the last mesh data
-
-    create_vertex_array_index(vertex_data);//we create vao based on the vertex data
-
-}
-
 
 #endif //INC_3DGL_MESH_H

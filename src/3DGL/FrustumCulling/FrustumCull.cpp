@@ -3,145 +3,147 @@
 //
 
 #include "FrustumCull.h"
+namespace gl3d {
 
 
-enum Planes {
+    enum Planes {
 
-    Near,
+        Near,
 
-    Far,
+        Far,
 
-    Left,
+        Left,
 
-    Right,
+        Right,
 
-    Top,
+        Top,
 
-    Bottom,
+        Bottom,
 
-};
+    };
 
-float FrustumCull::Plane::distanceToPoint(const glm::vec3 &point) const {
-    return glm::dot(point, normal) + distanceToOrigin;
-}
+    float FrustumCull::Plane::distanceToPoint(const glm::vec3 &point) const {
+        return glm::dot(point, normal) + distanceToOrigin;
+    }
 
-bool FrustumCull::boxInFrustum(const AABB &box) const {
+    bool FrustumCull::boxInFrustum(const AABB &box) const {
 
-    for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
 
 
-        if (m_planes[i].distanceToPoint(box.getVP(m_planes[i].normal)) < 0) {
+            if (m_planes[i].distanceToPoint(box.getVP(m_planes[i].normal)) < 0) {
 
-            return false;
+                return false;
+
+            }
+
+        }
+        return true;
+
+    }
+
+    void FrustumCull::update(const glm::mat4 &mat) {
+
+        // left
+
+        m_planes[Planes::Left].normal.x = mat[0][3] + mat[0][0];
+
+        m_planes[Planes::Left].normal.y = mat[1][3] + mat[1][0];
+
+        m_planes[Planes::Left].normal.z = mat[2][3] + mat[2][0];
+
+        m_planes[Planes::Left].distanceToOrigin = mat[3][3] + mat[3][0];
+
+
+
+        // right
+
+        m_planes[Planes::Right].normal.x = mat[0][3] - mat[0][0];
+
+        m_planes[Planes::Right].normal.y = mat[1][3] - mat[1][0];
+
+        m_planes[Planes::Right].normal.z = mat[2][3] - mat[2][0];
+
+        m_planes[Planes::Right].distanceToOrigin = mat[3][3] - mat[3][0];
+
+
+
+        // bottom
+
+        m_planes[Planes::Bottom].normal.x = mat[0][3] + mat[0][1];
+
+        m_planes[Planes::Bottom].normal.y = mat[1][3] + mat[1][1];
+
+        m_planes[Planes::Bottom].normal.z = mat[2][3] + mat[2][1];
+
+        m_planes[Planes::Bottom].distanceToOrigin = mat[3][3] + mat[3][1];
+
+
+
+        // top
+
+        m_planes[Planes::Top].normal.x = mat[0][3] - mat[0][1];
+
+        m_planes[Planes::Top].normal.y = mat[1][3] - mat[1][1];
+
+        m_planes[Planes::Top].normal.z = mat[2][3] - mat[2][1];
+
+        m_planes[Planes::Top].distanceToOrigin = mat[3][3] - mat[3][1];
+
+
+
+        // near
+
+        m_planes[Planes::Near].normal.x = mat[0][3] + mat[0][2];
+
+        m_planes[Planes::Near].normal.y = mat[1][3] + mat[1][2];
+
+        m_planes[Planes::Near].normal.z = mat[2][3] + mat[2][2];
+
+        m_planes[Planes::Near].distanceToOrigin = mat[3][3] + mat[3][2];
+
+
+
+        // far
+
+        m_planes[Planes::Far].normal.x = mat[0][3] - mat[0][2];
+
+        m_planes[Planes::Far].normal.y = mat[1][3] - mat[1][2];
+
+        m_planes[Planes::Far].normal.z = mat[2][3] - mat[2][2];
+
+        m_planes[Planes::Far].distanceToOrigin = mat[3][3] - mat[3][2];
+
+
+        for (auto &plane : m_planes) {
+
+            float length = glm::length(plane.normal);
+            plane.normal /= length;
+            plane.distanceToOrigin /= length;
 
         }
 
-    }
-    return true;
-
-}
-
-void FrustumCull::update(const glm::mat4 &mat) {
-
-    // left
-
-    m_planes[Planes::Left].normal.x = mat[0][3] + mat[0][0];
-
-    m_planes[Planes::Left].normal.y = mat[1][3] + mat[1][0];
-
-    m_planes[Planes::Left].normal.z = mat[2][3] + mat[2][0];
-
-    m_planes[Planes::Left].distanceToOrigin = mat[3][3] + mat[3][0];
-
-
-
-    // right
-
-    m_planes[Planes::Right].normal.x = mat[0][3] - mat[0][0];
-
-    m_planes[Planes::Right].normal.y = mat[1][3] - mat[1][0];
-
-    m_planes[Planes::Right].normal.z = mat[2][3] - mat[2][0];
-
-    m_planes[Planes::Right].distanceToOrigin = mat[3][3] - mat[3][0];
-
-
-
-    // bottom
-
-    m_planes[Planes::Bottom].normal.x = mat[0][3] + mat[0][1];
-
-    m_planes[Planes::Bottom].normal.y = mat[1][3] + mat[1][1];
-
-    m_planes[Planes::Bottom].normal.z = mat[2][3] + mat[2][1];
-
-    m_planes[Planes::Bottom].distanceToOrigin = mat[3][3] + mat[3][1];
-
-
-
-    // top
-
-    m_planes[Planes::Top].normal.x = mat[0][3] - mat[0][1];
-
-    m_planes[Planes::Top].normal.y = mat[1][3] - mat[1][1];
-
-    m_planes[Planes::Top].normal.z = mat[2][3] - mat[2][1];
-
-    m_planes[Planes::Top].distanceToOrigin = mat[3][3] - mat[3][1];
-
-
-
-    // near
-
-    m_planes[Planes::Near].normal.x = mat[0][3] + mat[0][2];
-
-    m_planes[Planes::Near].normal.y = mat[1][3] + mat[1][2];
-
-    m_planes[Planes::Near].normal.z = mat[2][3] + mat[2][2];
-
-    m_planes[Planes::Near].distanceToOrigin = mat[3][3] + mat[3][2];
-
-
-
-    // far
-
-    m_planes[Planes::Far].normal.x = mat[0][3] - mat[0][2];
-
-    m_planes[Planes::Far].normal.y = mat[1][3] - mat[1][2];
-
-    m_planes[Planes::Far].normal.z = mat[2][3] - mat[2][2];
-
-    m_planes[Planes::Far].distanceToOrigin = mat[3][3] - mat[3][2];
-
-
-    for (auto &plane : m_planes) {
-
-        float length = glm::length(plane.normal);
-        plane.normal /= length;
-        plane.distanceToOrigin /= length;
 
     }
 
 
-}
+    bool FrustumCull::pointInFrustum(glm::vec3 &p) const {
 
+        for (int i = 0; i < 6; i++) {
 
-bool FrustumCull::pointInFrustum(glm::vec3 &p) const {
+            if (m_planes[i].distanceToPoint(p) < 0)
+                return false;
+        }
+        return (true);
 
-    for (int i = 0; i < 6; i++) {
-
-        if (m_planes[i].distanceToPoint(p) < 0)
-            return false;
     }
-    return (true);
-
-}
 
 
-bool FrustumCull::drawableInFrusum(const Drawable3D &drawable) const {
+    bool FrustumCull::drawableInFrusum(const Drawable3D &drawable) const {
 
 
-    return boxInFrustum(drawable.get_bounding_box());
+        return boxInFrustum(drawable.get_bounding_box());
 
 
+    }
 }

@@ -53,49 +53,50 @@ namespace std {
 
 
 }
+namespace gl3d {
 
 
-class ModelLoader {
+    class ModelLoader {
 
-private:
-
-
-    std::unordered_map<vertex, unsigned> vertices;
+    private:
 
 
-    std::vector<glm::vec3> parsed_positions;
-    std::vector<glm::vec2> parsed_texture_coords;
-    std::vector<glm::vec3> parsed_normals;
-
-    std::vector<vertex> parsed_vertices;
-
-    std::stringstream stream;
-
-    void parse(const std::string &path);
-
-    bool exists(vertex to_check);
-
-    unsigned get_index_of(vertex to_get);
-
-    vertex get_vertex(const std::string &to_parse) const;
-
-    void parse_new_vertex_position();
-
-    void parse_new_texture_coordinates();
-
-    void parse_new_triangles();
-
-    void parse_new_normal();
+        std::unordered_map<vertex, unsigned> vertices;
 
 
-    void triangulate(const std::vector<vertex> &triangle_strip);
+        std::vector<glm::vec3> parsed_positions;
+        std::vector<glm::vec2> parsed_texture_coords;
+        std::vector<glm::vec3> parsed_normals;
+
+        std::vector<vertex> parsed_vertices;
+
+        std::stringstream stream;
+
+        void parse(const std::string &path);
+
+        bool exists(vertex to_check);
+
+        unsigned get_index_of(vertex to_get);
+
+        vertex get_vertex(const std::string &to_parse) const;
+
+        void parse_new_vertex_position();
+
+        void parse_new_texture_coordinates();
+
+        void parse_new_triangles();
+
+        void parse_new_normal();
 
 
-public:
+        void triangulate(const std::vector<vertex> &triangle_strip);
 
-    void load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer);
 
-};
+    public:
 
+        void load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer);
+
+    };
+}
 
 #endif //INC_3DGL_MODELLOADER_H

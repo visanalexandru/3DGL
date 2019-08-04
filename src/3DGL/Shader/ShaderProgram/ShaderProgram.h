@@ -10,35 +10,37 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "../VertexShader/VertexShader.h"
 #include "../FragmentShader/FragmentShader.h"
+namespace gl3d {
 
-class ShaderProgram {
-private:
-    unsigned shader_program_index;
+    class ShaderProgram {
+    private:
+        unsigned shader_program_index;
 
-    void check_for_succes() const;
+        void check_for_succes() const;
 
-    void attach_shader(const Shader &shader) const;
+        void attach_shader(const Shader &shader) const;
 
-public:
-    ~ShaderProgram();
+    public:
+        ~ShaderProgram();
 
-    ShaderProgram &operator=(const ShaderProgram &other) = delete;
+        ShaderProgram &operator=(const ShaderProgram &other) = delete;
 
-    ShaderProgram(const ShaderProgram(&other)) = delete;
+        ShaderProgram(const ShaderProgram(&other)) = delete;
 
-    void bind_shader() const;
+        void bind_shader() const;
 
-    void setFloat(const std::string &name, float value) const;
+        void setFloat(const std::string &name, float value) const;
 
-    void setInt(const std::string &name, int value) const;
+        void setInt(const std::string &name, int value) const;
 
-    void setMat4(const std::string &name, glm::mat4 value) const;
+        void setMat4(const std::string &name, glm::mat4 value) const;
 
-    const unsigned get_shader_index() const;
+        const unsigned get_shader_index() const;
 
-    ShaderProgram(const VertexShader &v_shader, const FragmentShader &f_shader);
+        ShaderProgram(const VertexShader &v_shader, const FragmentShader &f_shader);
 
-};
+    };
+}
 
 
 #endif //INC_3DGL_SHADERPROGRAM_H

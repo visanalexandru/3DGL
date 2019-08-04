@@ -3,88 +3,91 @@
 //
 
 #include "Transformable.h"
+namespace gl3d {
 
-Transformable::Transformable() : position(0, 0, 0), rotation(1), scale(1, 1, 1) {
-
-
-}
+    Transformable::Transformable() : position(0, 0, 0), rotation(1), scale(1, 1, 1) {
 
 
-Transformable::Transformable(glm::vec3 pos) : position(pos), rotation(1), scale(1, 1, 1) {
+    }
 
 
-}
-
-glm::vec3 Transformable::get_position() const {
-
-    return position;
-}
-
-glm::mat4 Transformable::get_rotation_matrix() const {//we convert from euler angles to rotation matrix
-    glm::mat4 rot = glm::eulerAngleYXZ(glm::radians(rotation.y), glm::radians(rotation.x), glm::radians(rotation.z));
-
-    return rot;
-
-}
+    Transformable::Transformable(glm::vec3 pos) : position(pos), rotation(1), scale(1, 1, 1) {
 
 
-void Transformable::set_scale(glm::vec3 sc) {
+    }
 
-    scale = sc;
+    glm::vec3 Transformable::get_position() const {
 
-}
+        return position;
+    }
 
-glm::vec3 Transformable::get_scale() const {
+    glm::mat4 Transformable::get_rotation_matrix() const {//we convert from euler angles to rotation matrix
+        glm::mat4 rot = glm::eulerAngleYXZ(glm::radians(rotation.y), glm::radians(rotation.x),
+                                           glm::radians(rotation.z));
 
-    return scale;
+        return rot;
 
-}
+    }
 
-glm::vec3 Transformable::get_rotation() const {
 
-    return rotation;
+    void Transformable::set_scale(glm::vec3 sc) {
 
-}
+        scale = sc;
 
-glm::mat4 Transformable::get_model_matrix() const {
-    glm::mat4 pos(1);
+    }
 
-    pos = glm::translate(pos, position);
+    glm::vec3 Transformable::get_scale() const {
 
-    pos = pos * get_rotation_matrix();
+        return scale;
 
-    pos = glm::scale(pos, scale);
+    }
 
-    return pos;
+    glm::vec3 Transformable::get_rotation() const {
 
-}
+        return rotation;
 
-void Transformable::rotate(glm::vec3 rotate) {
+    }
 
-    rotation += rotate;
+    glm::mat4 Transformable::get_model_matrix() const {
+        glm::mat4 pos(1);
 
-}
+        pos = glm::translate(pos, position);
 
-glm::vec3 Transformable::get_forward_vector() const {
+        pos = pos * get_rotation_matrix();
 
-    const glm::vec3 direction = -normalize(glm::vec3(get_rotation_matrix()[2]));
-    return direction;
-}
+        pos = glm::scale(pos, scale);
 
-void Transformable::move(glm::vec3 offset) {
+        return pos;
 
-    position += offset;
+    }
 
-}
+    void Transformable::rotate(glm::vec3 rotate) {
 
-void Transformable::set_position(glm::vec3 pos) {
+        rotation += rotate;
 
-    position = pos;
+    }
 
-}
+    glm::vec3 Transformable::get_forward_vector() const {
 
-void Transformable::set_rotation(glm::vec3 rot) {
+        const glm::vec3 direction = -normalize(glm::vec3(get_rotation_matrix()[2]));
+        return direction;
+    }
 
-    rotation = rot;
+    void Transformable::move(glm::vec3 offset) {
 
+        position += offset;
+
+    }
+
+    void Transformable::set_position(glm::vec3 pos) {
+
+        position = pos;
+
+    }
+
+    void Transformable::set_rotation(glm::vec3 rot) {
+
+        rotation = rot;
+
+    }
 }

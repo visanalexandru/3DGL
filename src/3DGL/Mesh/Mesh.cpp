@@ -3,45 +3,47 @@
 //
 
 #include "Mesh.h"
+namespace gl3d {
 
 
-Mesh::Mesh() : vertex_array_index(0), triangle_count(0) {
+    Mesh::Mesh() : vertex_array_index(0), triangle_count(0) {
 
 
-}
+    }
 
-void Mesh::delete_vertex_array_index() const {
+    void Mesh::delete_vertex_array_index() const {
 
-    glDeleteVertexArrays(1, &vertex_array_index);//clean vertex array index
-}
+        glDeleteVertexArrays(1, &vertex_array_index);//clean vertex array index
+    }
 
-Mesh::~Mesh() {
+    Mesh::~Mesh() {
 
-    delete_vertex_array_index();
+        delete_vertex_array_index();
 
-}
+    }
 
-std::pair<glm::vec3, glm::vec3> Mesh::get_dimensions() const {
+    std::pair<glm::vec3, glm::vec3> Mesh::get_dimensions() const {
 
-    return dimensions;
+        return dimensions;
 
-}
+    }
 
 
-void Mesh::bind_empty_mesh() {
+    void Mesh::bind_empty_mesh() {
 
-    glBindVertexArray(0);
+        glBindVertexArray(0);
 
-}
+    }
 
-unsigned Mesh::get_triangle_count() const {
+    unsigned Mesh::get_triangle_count() const {
 
-    return triangle_count;
+        return triangle_count;
 
-}
+    }
 
-void Mesh::bind_mesh() const {
+    void Mesh::bind_mesh() const {
 
-    glBindVertexArray(vertex_array_index);//bind the vertex array index
+        glBindVertexArray(vertex_array_index);//bind the vertex array index
 
+    }
 }

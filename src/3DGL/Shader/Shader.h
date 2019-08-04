@@ -11,33 +11,34 @@
 #include <sstream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+namespace gl3d {
 
-class Shader {
-protected:
+    class Shader {
+    protected:
 
-    std::string get_shader_data(const std::string &path) const;
+        std::string get_shader_data(const std::string &path) const;
 
-    std::string get_compile_error_code() const;
+        std::string get_compile_error_code() const;
 
-    virtual void load_shader(const std::string &path) = 0;
+        virtual void load_shader(const std::string &path) = 0;
 
-    unsigned shader_index;
+        unsigned shader_index;
 
-private:
+    private:
 
-    void delete_shader();
+        void delete_shader();
 
-public:
-    unsigned get_shader_index() const;
+    public:
+        unsigned get_shader_index() const;
 
-    Shader &operator=(Shader &other) = delete;
+        Shader &operator=(Shader &other) = delete;
 
-    Shader(const Shader &other) = delete;
+        Shader(const Shader &other) = delete;
 
-    Shader();
+        Shader();
 
-    virtual ~Shader();
-};
-
+        virtual ~Shader();
+    };
+}
 
 #endif //INC_3DGL_SHADER_H

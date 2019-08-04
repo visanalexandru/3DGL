@@ -4,16 +4,18 @@
 
 #include "Skybox.h"
 
+namespace gl3d {
 
-Skybox::Skybox(const ShaderProgram &program) : Drawable3D(program) {
+    Skybox::Skybox(const ShaderProgram &program) : Drawable3D(program) {
 
-    MeshBuffer<simple_vertex> buffer;
-    for (int i = 0; i < 6; i++) {
-        MeshBuilder::add_cube_face(buffer, glm::vec3(0, 0, 0), i);
+        MeshBuffer<simple_vertex> buffer;
+        for (int i = 0; i < 6; i++) {
+            MeshBuilder::add_cube_face(buffer, glm::vec3(0, 0, 0), i);
+        }
+        cube_mesh.set_data(buffer);
+
+        set_mesh(cube_mesh);
+
+
     }
-    cube_mesh.set_data(buffer);
-
-    set_mesh(cube_mesh);
-
-
 }

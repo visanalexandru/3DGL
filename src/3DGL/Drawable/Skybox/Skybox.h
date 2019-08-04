@@ -7,14 +7,15 @@
 
 #include "../Drawable3D.h"
 #include "../../Mesh/MeshBuilder/MeshBuilder.h"
+namespace gl3d {
 
-class Skybox : public Drawable3D {
-private:
-    Mesh cube_mesh;
-public:
-    Skybox(const ShaderProgram &program);
+    class Skybox : public Drawable3D {
+    private:
+        Mesh cube_mesh;
+    public:
+        Skybox(const ShaderProgram &program);
 
-};
+    };
 
-
+}
 #endif //INC_3DGL_SKYBOX_H

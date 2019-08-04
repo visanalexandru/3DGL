@@ -4,49 +4,51 @@
 
 #include "Shader.h"
 
+namespace gl3d {
 
-std::string Shader::get_shader_data(const std::string &path) const {
+    std::string Shader::get_shader_data(const std::string &path) const {
 
-    std::ifstream input(path);
+        std::ifstream input(path);
 
-    std::stringstream buffer;
+        std::stringstream buffer;
 
-    buffer << input.rdbuf();
+        buffer << input.rdbuf();
 
-    return buffer.str();
+        return buffer.str();
 
-}
+    }
 
-std::string Shader::get_compile_error_code() const {
-    char err[512];
+    std::string Shader::get_compile_error_code() const {
+        char err[512];
 
-    glGetShaderInfoLog(shader_index, 512, nullptr, err);
+        glGetShaderInfoLog(shader_index, 512, nullptr, err);
 
-    return err;
-}
-
-
-void Shader::delete_shader() {
-
-    glDeleteShader(shader_index);
-}
-
-Shader::~Shader() {
+        return err;
+    }
 
 
-    delete_shader();
+    void Shader::delete_shader() {
+
+        glDeleteShader(shader_index);
+    }
+
+    Shader::~Shader() {
 
 
-}
-
-unsigned Shader::get_shader_index() const {
+        delete_shader();
 
 
-    return shader_index;
-}
+    }
+
+    unsigned Shader::get_shader_index() const {
 
 
-Shader::Shader() : shader_index(0) {
+        return shader_index;
+    }
 
 
+    Shader::Shader() : shader_index(0) {
+
+
+    }
 }
