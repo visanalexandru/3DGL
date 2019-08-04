@@ -8,11 +8,14 @@
 #include <iostream>
 #include"../Drawable/Drawable3D.h"
 #include<vector>
+#include <algorithm>
 
 
 class RenderList {//this class is for organizing drawables into a list
 private:
     std::vector<Drawable3D *> drawables;
+
+    static bool compare(const Drawable3D*a,const Drawable3D*b);
 
 public:
     void add_to_list(Drawable3D &to_add);
@@ -20,6 +23,8 @@ public:
     const std::vector<Drawable3D*> &get_list() const;
 
     void clear_list();
+
+    void update_list();
 
 };
 

@@ -10,6 +10,12 @@ void RenderList::clear_list() {
 
 }
 
+
+bool RenderList::compare(const Drawable3D *a,const  Drawable3D *b) {
+
+    return a->get_attributes()<b->get_attributes();
+}
+
 void RenderList::add_to_list(Drawable3D &to_add) {
 
     for (unsigned i = 0; i < drawables.size(); i++) {
@@ -33,4 +39,10 @@ void RenderList::add_to_list(Drawable3D &to_add) {
 const std::vector<Drawable3D *> &RenderList::get_list() const {
 
     return drawables;
+}
+
+void RenderList::update_list() {
+
+    std::sort(drawables.begin(),drawables.end(),compare);
+
 }
