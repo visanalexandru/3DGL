@@ -53,21 +53,47 @@ AABB Drawable3D::get_bounding_box() const {
 
     auto bounds = get_mesh_bounds();
 
-    glm::vec4 rotated1 = get_model_matrix() * glm::vec4(bounds.first, 1);
+    glm::vec3 lower = bounds.first;
+    glm::vec3 upper = bounds.second;
 
-    glm::vec4 rotated2 = get_model_matrix() * glm::vec4(bounds.second, 1);
+    glm::vec3 points[8];
 
-    glm::vec3 lower(rotated1);
-    glm::vec3 upper(rotated2);
+    points[0] = lower;
+    points[1] = glm::vec3(upper.x, lower.y, lower.z);
+    points[2] = glm::vec3(upper.x, lower.y, upper.z);
+    points[3] = glm::vec3(lower.x, lower.y, upper.z);
+
+    points[4] = glm::vec3(lower.x, upper.y, lower.z);
+    points[5] = glm::vec3(upper.x, upper.y, lower.z);
+    points[6] = upper;
+    points[7] = glm::vec3(lower.x, upper.y, upper.z);
 
 
-    glm::vec3 a(std::min(lower.x, upper.x), std::min(lower.y, upper.y), std::min(lower.z, upper.z));
-    glm::vec3 b(std::max(lower.x, upper.x), std::max(lower.y, upper.y), std::max(lower.z, upper.z));
+    glm::vec3 min, max;
+
+    for (int i = 0; i < 8; i++) {
+        glm::vec4 here = get_model_matrix() * glm::vec4(points[i], 1);
+        if (!i) {
+            min = here;
+            max = here;
+        } else {
+            min.x=std::min(min.x,here.x);
+            min.y=std::min(min.y,here.y);
+            min.z=std::min(min.z,here.z);
+
+            max.x=std::max(max.x,here.x);
+            max.y=std::max(max.y,here.y);
+            max.z=std::max(max.z,here.z);
+        }
 
 
-    glm::vec3 offset = b - a;
+    }
 
-    AABB box(a, offset);
+
+
+    glm::vec3 offset = max - min;
+
+    AABB box(min, offset);
 
     return box;
 
