@@ -3,10 +3,19 @@
 //
 
 #include "ModelLoader.h"
+
 namespace gl3d {
 
 
-    vertex ModelLoader::get_vertex(const std::string &to_parse) const {
+    std::unordered_map<vertex, unsigned> ModelLoader::vertices;
+    std::vector<glm::vec3> ModelLoader::parsed_positions;
+    std::vector<glm::vec2> ModelLoader::parsed_texture_coords;
+    std::vector<glm::vec3> ModelLoader::parsed_normals;
+    std::vector<vertex> ModelLoader::parsed_vertices;
+    std::stringstream MoelLoader::stream;
+
+
+    vertex ModelLoader::get_vertex(const std::string &to_parse) {
 
         int formed[3]{0, 0, 0};
 

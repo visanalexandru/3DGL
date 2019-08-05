@@ -61,40 +61,40 @@ namespace gl3d {
     private:
 
 
-        std::unordered_map<vertex, unsigned> vertices;
+        static std::unordered_map<vertex, unsigned> vertices;
 
 
-        std::vector<glm::vec3> parsed_positions;
-        std::vector<glm::vec2> parsed_texture_coords;
-        std::vector<glm::vec3> parsed_normals;
+        static std::vector<glm::vec3> parsed_positions;
+        static std::vector<glm::vec2> parsed_texture_coords;
+        static std::vector<glm::vec3> parsed_normals;
 
-        std::vector<vertex> parsed_vertices;
+        static std::vector<vertex> parsed_vertices;
 
-        std::stringstream stream;
+        static std::stringstream stream;
 
-        void parse(const std::string &path);
+        static void parse(const std::string &path);
 
-        bool exists(vertex to_check);
+        static bool exists(vertex to_check);
 
-        unsigned get_index_of(vertex to_get);
+        static unsigned get_index_of(vertex to_get);
 
-        vertex get_vertex(const std::string &to_parse) const;
+        static vertex get_vertex(const std::string &to_parse);
 
-        void parse_new_vertex_position();
+        static void parse_new_vertex_position();
 
-        void parse_new_texture_coordinates();
+        static void parse_new_texture_coordinates();
 
-        void parse_new_triangles();
+        static void parse_new_triangles();
 
-        void parse_new_normal();
+        static void parse_new_normal();
 
 
-        void triangulate(const std::vector<vertex> &triangle_strip);
+        static void triangulate(const std::vector<vertex> &triangle_strip);
 
 
     public:
 
-        void load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer);
+        static void load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer);
 
     };
 }
