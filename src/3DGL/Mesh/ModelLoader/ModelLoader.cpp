@@ -12,7 +12,7 @@ namespace gl3d {
     std::vector<glm::vec2> ModelLoader::parsed_texture_coords;
     std::vector<glm::vec3> ModelLoader::parsed_normals;
     std::vector<vertex> ModelLoader::parsed_vertices;
-    std::stringstream MoelLoader::stream;
+    std::stringstream ModelLoader::stream;
 
 
     vertex ModelLoader::get_vertex(const std::string &to_parse) {
