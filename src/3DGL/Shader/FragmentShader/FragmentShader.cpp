@@ -22,9 +22,7 @@ namespace gl3d {
         glGetShaderiv(shader_index, GL_COMPILE_STATUS, &success);
 
         if (!success) {
-
-            std::cout << "Fragment Shader compilation failed: " << path << std::endl << "ERRORS:" << std::endl
-                      << get_compile_error_code() << std::endl;
+            throw std::runtime_error("Fragment Shader compilation failed: " +path+" "+get_compile_error_code());
         } else {
             std::cout << "Fragment Shader compilation successful: " << path << std::endl;
 

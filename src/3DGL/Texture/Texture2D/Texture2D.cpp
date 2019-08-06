@@ -51,8 +51,7 @@ namespace gl3d {
             texture_index = texture;
 
         } else {
-            std::cout << "Failed to load texture: " << path << std::endl;
-            texture_index = 0;
+            throw std::runtime_error("Failed to load texture: " +path);
         }
 
 

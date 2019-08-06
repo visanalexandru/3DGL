@@ -23,8 +23,8 @@ namespace gl3d {
 
         if (!success) {
 
-            std::cout << "Vertex Shader compilation failed: " << path << std::endl << "ERRORS:" << std::endl
-                      << get_compile_error_code() << std::endl;
+            throw std::runtime_error("Vertex Shader compilation failed: " +path+" "+get_compile_error_code());
+
         } else {
             std::cout << "Vertex Shader compilation successful: " << path << std::endl;
 

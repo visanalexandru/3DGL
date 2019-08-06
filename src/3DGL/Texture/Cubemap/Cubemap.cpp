@@ -53,7 +53,7 @@ namespace gl3d {
 
             } else {
 
-                std::cout << "Failed to load texture :" << newpath << std::endl;
+                throw std::runtime_error("Failed to load texture: "+ newpath);
 
 
             }

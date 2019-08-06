@@ -10,6 +10,9 @@ namespace gl3d {
 
         std::ifstream input(path);
 
+        if(input.fail())
+            throw std::runtime_error("cannot open file: "+path);
+
         std::stringstream buffer;
 
         buffer << input.rdbuf();

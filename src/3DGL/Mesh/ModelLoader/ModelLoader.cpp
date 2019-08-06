@@ -128,6 +128,8 @@ namespace gl3d {
     void ModelLoader::parse(const std::string &path) {
 
         std::ifstream in(path);
+        if(in.fail())
+            throw std::runtime_error("cannot open file: "+path);
         stream << in.rdbuf();
 
         std::string aux;

@@ -18,8 +18,8 @@ namespace gl3d {
 
         if (!success) {
             glGetProgramInfoLog(shader_program_index, 512, nullptr, infoLog);
-            std::cout << "Shader program compilation failed :" << std::endl;
-            std::cout << infoLog << std::endl;
+            std::string to_log=infoLog;
+            throw  std::runtime_error("Shader program compilation failed: "+to_log);
 
         } else
             std::cout << "Shader program compilation success" << std::endl;
