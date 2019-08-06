@@ -11,6 +11,10 @@ namespace gl3d {
 
     }
 
+    AABB::AABB() : AABB_position(0, 0, 0), AABB_dimension(0, 0, 0) {
+
+
+    }
 
     glm::vec3 AABB::getVN(const glm::vec3 &normal) const {
         glm::vec3 res = AABB_position;

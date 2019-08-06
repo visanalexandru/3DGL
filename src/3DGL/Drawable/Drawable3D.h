@@ -22,6 +22,7 @@ namespace gl3d {
         const Mesh *mesh;
         const Texture *texture;
         const ShaderProgram &shader_program;
+        AABB local_bounding_box;
     public:
 
         struct attributes {
@@ -67,6 +68,12 @@ namespace gl3d {
         void bind_texture() const;
 
         void bind_mesh() const;
+
+        void set_rotation(glm::vec3 new_rotation) override;
+
+        void set_scale(glm::vec3 new_scale) override ;
+
+        void update_local_bounds();
 
         attributes get_attributes() const;
 

@@ -12,7 +12,7 @@
 namespace gl3d {
 
     class Transformable {
-    private:
+    protected:
         glm::vec3 position;
         glm::vec3 rotation;
         glm::vec3 scale;
