@@ -63,7 +63,7 @@ namespace gl3d {
 
     void Transformable::rotate(glm::vec3 rotate) {
 
-        rotation += rotate;
+        set_rotation(rotation + rotate);
 
     }
 
@@ -75,7 +75,7 @@ namespace gl3d {
 
     void Transformable::move(glm::vec3 offset) {
 
-        position += offset;
+        set_position(position + offset);
 
     }
 

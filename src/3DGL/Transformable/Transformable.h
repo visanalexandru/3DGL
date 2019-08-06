@@ -37,11 +37,11 @@ namespace gl3d {
 
         void move(glm::vec3 offset);
 
-        void set_rotation(glm::vec3 rot);
+        virtual void set_rotation(glm::vec3 rot);
 
-        void set_scale(glm::vec3 sc);
+        virtual void set_scale(glm::vec3 sc);
 
-        void set_position(glm::vec3 pos);
+        virtual void set_position(glm::vec3 pos);
 
 
     };
