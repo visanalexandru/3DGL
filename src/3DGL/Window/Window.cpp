@@ -33,11 +33,12 @@ namespace gl3d {
     void Window::draw_skybox() const {
 
 
-        glDepthMask(GL_FALSE);
-        glDisable(GL_CULL_FACE);
+
 
 
         if (skybox != nullptr) {
+            glDepthMask(GL_FALSE);
+            glDisable(GL_CULL_FACE);
             glm::mat4 view2 = glm::mat4(glm::mat3(view));
             skybox->bind_texture();
 
@@ -47,13 +48,14 @@ namespace gl3d {
 
 
             skybox->bind_mesh();
-            glDrawElements(GL_TRIANGLES, skybox->get_triangle_count(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glEnable(GL_CULL_FACE);
+            glDepthMask(GL_TRUE);
 
         }
 
 
-        glEnable(GL_CULL_FACE);
-        glDepthMask(GL_TRUE);
+
 
 
     }

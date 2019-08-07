@@ -5,15 +5,24 @@
 #ifndef INC_3DGL_SKYBOX_H
 #define INC_3DGL_SKYBOX_H
 
-#include "../Drawable3D.h"
+
+#include "../../Texture/Cubemap/Cubemap.h"
+#include "../../Mesh/Mesh.h"
+#include "../../Shader/ShaderProgram/ShaderProgram.h"
 #include "../../Mesh/MeshBuilder/MeshBuilder.h"
+
 namespace gl3d {
 
-    class Skybox : public Drawable3D {
+    class Skybox {
     private:
         Mesh cube_mesh;
+        const ShaderProgram &sh_program;
+        const Cubemap &text_cubemap;
     public:
-        Skybox(const ShaderProgram &program);
+        void bind_texture() const;
+        void bind_mesh() const;
+        const ShaderProgram&get_program() const;
+        Skybox(const ShaderProgram &program, const Cubemap &cubemap);
 
     };
 
