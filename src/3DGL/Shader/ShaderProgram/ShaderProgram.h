@@ -21,6 +21,9 @@ namespace gl3d {
 
         void attach_shader(const Shader &shader) const;
 
+        void unload_resource() const override;
+
+
     public:
         ~ShaderProgram();
 
@@ -30,7 +33,6 @@ namespace gl3d {
 
         void bind_resource() const override;
 
-        void unload_resource() const override;
 
         void setFloat(const std::string &name, float value) const;
 

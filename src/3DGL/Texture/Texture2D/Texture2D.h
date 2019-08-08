@@ -5,15 +5,20 @@
 #ifndef INC_3DGL_TEXTURE2D_H
 #define INC_3DGL_TEXTURE2D_H
 
-#include "../Texture.h"
+#include "../../Resource/Resource.h"
+#include "../stb_image.h"
 #include<iostream>
 namespace gl3d {
 
-    class Texture2D : public Texture {
+    class Texture2D : public Resource{
     public:
-        void load_texture(const std::string &path) override;
+        void load_texture(const std::string &path);
 
-        void bind_texture() const override;
+        void bind_resource() const override;
+
+        void unload_resource() const override ;
+
+        ~Texture2D();
     };
 
 }

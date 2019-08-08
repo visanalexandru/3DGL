@@ -3,18 +3,19 @@
 //
 
 #include "Texture2D.h"
+
 namespace gl3d {
 
 
-    void Texture2D::bind_texture() const {
+    void Texture2D::bind_resource() const {
 
-        glBindTexture(GL_TEXTURE_2D, texture_index);
+        glBindTexture(GL_TEXTURE_2D, resource_index);
 
     }
 
     void Texture2D::load_texture(const std::string &path) {
 
-        delete_texture();
+        unload_resource();
         unsigned int texture;
         glGenTextures(1, &texture);//create empty texture
         glBindTexture(GL_TEXTURE_2D, texture);
@@ -48,14 +49,25 @@ namespace gl3d {
             glGenerateMipmap(GL_TEXTURE_2D);
 
             std::cout << "Texture loaded: " << path << std::endl;
-            texture_index = texture;
+            resource_index = texture;
 
         } else {
-            throw std::runtime_error("Failed to load texture: " +path);
+            throw std::runtime_error("Failed to load texture: " + path);
         }
 
 
         stbi_image_free(data);
 
     }
+
+    void Texture2D::unload_resource() const {
+        glDeleteTextures(1, &resource_index);
+    }
+
+    Texture2D::~Texture2D() {
+
+        unload_resource();
+    }
 }
+
+
