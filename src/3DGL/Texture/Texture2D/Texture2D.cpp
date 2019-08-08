@@ -68,6 +68,11 @@ namespace gl3d {
 
         unload_resource();
     }
+
+    void Texture2D::bind_empty_texture() {
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
 
 

@@ -16,6 +16,8 @@ namespace gl3d {
 
         void bind_resource() const override;
 
+        static void bind_empty_texture();
+
         void unload_resource() const override ;
 
         ~Texture2D();

@@ -16,7 +16,7 @@ namespace gl3d {
 
     }
 
-    void Drawable3D::set_texture(const Texture &new_texture) {
+    void Drawable3D::set_texture(const Texture2D &new_texture) {
 
         texture = &new_texture;
 
@@ -99,8 +99,8 @@ namespace gl3d {
     void Drawable3D::bind_texture() const {
 
         if (texture != nullptr) {
-            texture->bind_texture();
-        } else Texture::bind_empty_texture();
+            texture->bind_resource();
+        } else Texture2D::bind_empty_texture();
 
 
     }
@@ -141,13 +141,13 @@ namespace gl3d {
         unsigned texture_index = 0;
 
         if (texture != nullptr)
-            texture_index = texture->get_texture_index();
+            texture_index = texture->get_resource_index();
 
 
-        return attributes(texture_index, shader_program.get_shader_index());
+        return attributes(texture_index, shader_program.get_resource_index());
     }
 
-    const Texture &Drawable3D::get_texture() const {
+    const Texture2D &Drawable3D::get_texture() const {
         return *texture;
 
     }

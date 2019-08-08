@@ -8,7 +8,6 @@
 #include "../Transformable/Transformable.h"
 #include "../Mesh/Mesh.h"
 #include "../Shader/ShaderProgram/ShaderProgram.h"
-#include "../Texture/Texture.h"
 #include "../Texture/Texture2D/Texture2D.h"
 #include "../FrustumCulling/AABB.h"
 
@@ -20,7 +19,7 @@ namespace gl3d {
 
     private:
         const Mesh *mesh;
-        const Texture *texture;
+        const Texture2D *texture;
         const ShaderProgram &shader_program;
         AABB local_bounding_box;
     public:
@@ -57,11 +56,11 @@ namespace gl3d {
 
         const ShaderProgram &get_program() const;
 
-        const Texture &get_texture() const;
+        const Texture2D &get_texture() const;
 
         std::pair<glm::vec3, glm::vec3> get_mesh_bounds() const;
 
-        void set_texture(const Texture &new_texture);
+        void set_texture(const Texture2D &new_texture);
 
         void set_mesh(const Mesh &new_mesh);
 

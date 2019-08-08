@@ -28,11 +28,7 @@ namespace gl3d {
 
     }
 
-    const unsigned ShaderProgram::get_shader_index() const {
 
-        return resource_index;
-
-    }
 
     void ShaderProgram::setMat4(const std::string &name, glm::mat4 value) const {
 
