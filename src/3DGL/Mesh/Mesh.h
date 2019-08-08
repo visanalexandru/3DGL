@@ -6,18 +6,19 @@
 #define INC_3DGL_MESH_H
 
 #include "MeshBuffer.h"
+#include "../Resource/Resource.h"
 #include <iostream>
+
 namespace gl3d {
 
-    class Mesh {
+    class Mesh : public Resource {
 
     private:
-        unsigned vertex_array_index;
         unsigned triangle_count;
 
         std::pair<glm::vec3, glm::vec3> dimensions;
 
-        void delete_vertex_array_index() const;
+        void unload_resource() const override;
 
         template<class datatype>
         void create_vertex_array_index(const MeshBuffer<datatype> &vertex_data);
@@ -28,7 +29,7 @@ namespace gl3d {
 
         ~Mesh();
 
-        void bind_mesh() const;
+        void bind_resource() const override;
 
         unsigned get_triangle_count() const;
 
@@ -83,7 +84,7 @@ namespace gl3d {
         glDeleteBuffers(1, &VBO);//we delete this buffers as we don't need them anymore
         glDeleteBuffers(1, &EBO);//it's safe because we unbound the created vertex array
 
-        vertex_array_index = VAO;
+        resource_index = VAO;
         triangle_count = indices_count;
         dimensions = vertex_data.get_min_and_max_position();
 
@@ -93,7 +94,7 @@ namespace gl3d {
     template<class datatype>
     void Mesh::set_data(const MeshBuffer<datatype> &vertex_data) {
 
-        delete_vertex_array_index();//we delete the last mesh data
+        unload_resource();//we delete the last mesh data
 
         create_vertex_array_index(vertex_data);//we create vao based on the vertex data
 

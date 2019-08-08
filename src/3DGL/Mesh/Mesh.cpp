@@ -3,22 +3,24 @@
 //
 
 #include "Mesh.h"
+
 namespace gl3d {
 
 
-    Mesh::Mesh() : vertex_array_index(0), triangle_count(0) {
+    Mesh::Mesh() : triangle_count(0) {
 
 
     }
 
-    void Mesh::delete_vertex_array_index() const {
+    void Mesh::unload_resource() const {
 
-        glDeleteVertexArrays(1, &vertex_array_index);//clean vertex array index
+        glDeleteVertexArrays(1, &resource_index);//clean vertex array index
     }
 
     Mesh::~Mesh() {
 
-        delete_vertex_array_index();
+
+        unload_resource();
 
     }
 
@@ -41,9 +43,9 @@ namespace gl3d {
 
     }
 
-    void Mesh::bind_mesh() const {
+    void Mesh::bind_resource() const {
 
-        glBindVertexArray(vertex_array_index);//bind the vertex array index
+        glBindVertexArray(resource_index);//bind the vertex array index
 
     }
 }
