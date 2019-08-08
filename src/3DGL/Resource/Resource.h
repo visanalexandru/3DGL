@@ -13,14 +13,14 @@ class Resource {
 protected:
     unsigned resource_index;
 
-    virtual void bind_resource() const = 0;
 
     virtual void unload_resource() const = 0;
 
 
-
 public:
     Resource();
+
+    virtual void bind_resource() const = 0;
 
     virtual ~Resource();
 
