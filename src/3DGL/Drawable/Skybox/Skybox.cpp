@@ -17,7 +17,7 @@ namespace gl3d {
 
 
     void Skybox::bind_texture() const {
-        text_cubemap.bind_texture();
+        text_cubemap.bind_resource();
 
     }
 

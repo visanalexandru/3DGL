@@ -5,16 +5,20 @@
 #ifndef INC_3DGL_CUBEMAP_H
 #define INC_3DGL_CUBEMAP_H
 
-#include "../Texture.h"
+#include "../../Resource/Resource.h"
+#include "../stb_image.h"
 #include <iostream>
+
 namespace gl3d {
 
-    class Cubemap : public Texture {
+    class Cubemap : public Resource {
     public:
 
-        void load_texture(const std::string &path) override;
+        void load_texture(const std::string &path);
 
-        void bind_texture() const override;
+        void bind_resource() const override;
+
+        void unload_resource() const override;
 
         static std::string cubemap_names[6];
     };

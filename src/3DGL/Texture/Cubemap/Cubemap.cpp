@@ -53,7 +53,7 @@ namespace gl3d {
 
             } else {
 
-                throw std::runtime_error("Failed to load texture: "+ newpath);
+                throw std::runtime_error("Failed to load texture: " + newpath);
 
 
             }
@@ -66,15 +66,19 @@ namespace gl3d {
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-        texture_index = texture;
+        resource_index = texture;
 
 
     }
 
 
-    void Cubemap::bind_texture() const {
+    void Cubemap::bind_resource() const {
 
-        glBindTexture(GL_TEXTURE_CUBE_MAP, texture_index);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, resource_index);
 
+    }
+
+    void Cubemap::unload_resource() const {
+        glDeleteTextures(1, &resource_index);
     }
 }
