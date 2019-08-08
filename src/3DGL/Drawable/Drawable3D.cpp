@@ -109,7 +109,7 @@ namespace gl3d {
 
         if (mesh != nullptr) {
 
-            mesh->bind_mesh();
+            mesh->bind_resource();
         } else Mesh::bind_empty_mesh();
 
 

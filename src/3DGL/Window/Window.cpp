@@ -43,7 +43,7 @@ namespace gl3d {
             skybox->bind_texture();
 
 
-            skybox->get_program().bind_shader();
+            skybox->get_program().bind_resource();
             skybox->get_program().setMat4("pv", projection * view2);
 
 
@@ -161,7 +161,7 @@ namespace gl3d {
                     if (last.shader_program_index != now.shader_program_index) {
                         last_program = &to_draw.get_program();
 
-                        last_program->bind_shader();
+                        last_program->bind_resource();
 
                     }
 
@@ -212,7 +212,7 @@ namespace gl3d {
             to_draw.bind_texture();
             const ShaderProgram &program = to_draw.get_program();
 
-            program.bind_shader();
+            program.bind_resource();
             program.setMat4("mvp", projection * view * model);
             to_draw.bind_mesh();
 

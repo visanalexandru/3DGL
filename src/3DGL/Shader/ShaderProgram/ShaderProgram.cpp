@@ -3,6 +3,7 @@
 //
 
 #include "ShaderProgram.h"
+
 namespace gl3d {
 
     void ShaderProgram::attach_shader(const Shader &shader) const {
@@ -18,8 +19,8 @@ namespace gl3d {
 
         if (!success) {
             glGetProgramInfoLog(shader_program_index, 512, nullptr, infoLog);
-            std::string to_log=infoLog;
-            throw  std::runtime_error("Shader program compilation failed: "+to_log);
+            std::string to_log = infoLog;
+            throw std::runtime_error("Shader program compilation failed: " + to_log);
 
         } else
             std::cout << "Shader program compilation success" << std::endl;
@@ -61,15 +62,21 @@ namespace gl3d {
 
     }
 
-    void ShaderProgram::bind_shader() const {//this function activates the shader
+    void ShaderProgram::unload_resource() const {
+
+        glUseProgram(0);
+        glDeleteProgram(shader_program_index);
+
+    }
+
+    void ShaderProgram::bind_resource() const {//this function activates the shader
 
 
         glUseProgram(shader_program_index);
     }
 
     ShaderProgram::~ShaderProgram() {
+        unload_resource();
 
-        glUseProgram(0);
-        glDeleteProgram(shader_program_index);
     }
 }

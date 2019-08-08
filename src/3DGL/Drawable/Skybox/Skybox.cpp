@@ -22,7 +22,7 @@ namespace gl3d {
     }
 
     void Skybox::bind_mesh() const {
-        cube_mesh.bind_mesh();
+        cube_mesh.bind_resource();
     }
 
     const ShaderProgram&Skybox::get_program() const {

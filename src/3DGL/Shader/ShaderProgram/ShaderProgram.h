@@ -10,9 +10,11 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "../VertexShader/VertexShader.h"
 #include "../FragmentShader/FragmentShader.h"
+#include "../../Resource/Resource.h"
+
 namespace gl3d {
 
-    class ShaderProgram {
+    class ShaderProgram : public Resource {
     private:
         unsigned shader_program_index;
 
@@ -27,7 +29,9 @@ namespace gl3d {
 
         ShaderProgram(const ShaderProgram(&other)) = delete;
 
-        void bind_shader() const;
+        void bind_resource() const override;
+
+        void unload_resource() const override;
 
         void setFloat(const std::string &name, float value) const;
 
