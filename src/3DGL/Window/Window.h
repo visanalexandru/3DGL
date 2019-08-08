@@ -33,6 +33,9 @@ namespace gl3d {
 
         void create_window(int w, int h, const std::string &title);
 
+
+        void set_shader_uniforms(const Drawable3D&to_draw,const ShaderProgram& program) const;
+
         void draw_skybox() const;
 
 

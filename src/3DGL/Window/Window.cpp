@@ -3,6 +3,7 @@
 //
 
 #include "Window.h"
+
 namespace gl3d {
 
 
@@ -33,9 +34,6 @@ namespace gl3d {
     void Window::draw_skybox() const {
 
 
-
-
-
         if (skybox != nullptr) {
             glDepthMask(GL_FALSE);
             glDisable(GL_CULL_FACE);
@@ -53,9 +51,6 @@ namespace gl3d {
             glDepthMask(GL_TRUE);
 
         }
-
-
-
 
 
     }
@@ -124,6 +119,11 @@ namespace gl3d {
 
     }
 
+    void Window::set_shader_uniforms(const gl3d::Drawable3D &to_draw, const gl3d::ShaderProgram &program) const {
+        program.setMat4("mvp", projection * view * to_draw.get_model_matrix());
+
+    }
+
 
     void Window::draw(const RenderList &list_to_draw) const {
 
@@ -143,8 +143,6 @@ namespace gl3d {
             Drawable3D &to_draw = *vec[i];
 
             if (culler.drawableInFrusum(to_draw)) {
-
-                glm::mat4 model = to_draw.get_model_matrix();
 
                 Drawable3D::attributes now = to_draw.get_attributes();
 
@@ -169,7 +167,7 @@ namespace gl3d {
 
                 }
 
-                last_program->setMat4("mvp", projection * view * model);
+                set_shader_uniforms(to_draw, *last_program);
                 to_draw.bind_mesh();
 
                 glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
@@ -208,12 +206,11 @@ namespace gl3d {
     void Window::draw(const Drawable3D &to_draw) const {
 
         if (culler.drawableInFrusum(to_draw)) {
-            glm::mat4 model = to_draw.get_model_matrix();
             to_draw.bind_texture();
             const ShaderProgram &program = to_draw.get_program();
 
             program.bind_resource();
-            program.setMat4("mvp", projection * view * model);
+            set_shader_uniforms(to_draw,program);
             to_draw.bind_mesh();
 
             glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
