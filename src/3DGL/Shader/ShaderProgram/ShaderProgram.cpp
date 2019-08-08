@@ -8,17 +8,17 @@ namespace gl3d {
 
     void ShaderProgram::attach_shader(const Shader &shader) const {
 
-        glAttachShader(shader_program_index, shader.get_shader_index());
+        glAttachShader(resource_index, shader.get_shader_index());
 
     }
 
     void ShaderProgram::check_for_succes() const {//this function logs errors when compiling the shader
         int success;
         char infoLog[512];
-        glGetProgramiv(shader_program_index, GL_LINK_STATUS, &success);
+        glGetProgramiv(resource_index, GL_LINK_STATUS, &success);
 
         if (!success) {
-            glGetProgramInfoLog(shader_program_index, 512, nullptr, infoLog);
+            glGetProgramInfoLog(resource_index, 512, nullptr, infoLog);
             std::string to_log = infoLog;
             throw std::runtime_error("Shader program compilation failed: " + to_log);
 
@@ -30,34 +30,34 @@ namespace gl3d {
 
     const unsigned ShaderProgram::get_shader_index() const {
 
-        return shader_program_index;
+        return resource_index;
 
     }
 
     void ShaderProgram::setMat4(const std::string &name, glm::mat4 value) const {
 
-        int mat_location = glGetUniformLocation(shader_program_index, name.c_str());
+        int mat_location = glGetUniformLocation(resource_index, name.c_str());
         glUniformMatrix4fv(mat_location, 1, GL_FALSE, glm::value_ptr(value));
     }
 
     void ShaderProgram::setFloat(const std::string &name, float value) const {
 
-        glUniform1f(glGetUniformLocation(shader_program_index, name.c_str()), value);
+        glUniform1f(glGetUniformLocation(resource_index, name.c_str()), value);
     }
 
     void ShaderProgram::setInt(const std::string &name, int value) const {
 
-        glUniform1i(glGetUniformLocation(shader_program_index, name.c_str()), value);
+        glUniform1i(glGetUniformLocation(resource_index, name.c_str()), value);
     }
 
 
     ShaderProgram::ShaderProgram(const VertexShader &v_shader, const FragmentShader &f_shader) {
-        shader_program_index = glCreateProgram();//we create a new program
+        resource_index = glCreateProgram();//we create a new program
         //we attach vertex and fragment shaders
         attach_shader(f_shader);
         attach_shader(v_shader);
 
-        glLinkProgram(shader_program_index);
+        glLinkProgram(resource_index);
         check_for_succes();
 
     }
@@ -65,14 +65,14 @@ namespace gl3d {
     void ShaderProgram::unload_resource() const {
 
         glUseProgram(0);
-        glDeleteProgram(shader_program_index);
+        glDeleteProgram(resource_index);
 
     }
 
     void ShaderProgram::bind_resource() const {//this function activates the shader
 
 
-        glUseProgram(shader_program_index);
+        glUseProgram(resource_index);
     }
 
     ShaderProgram::~ShaderProgram() {

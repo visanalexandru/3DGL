@@ -16,7 +16,6 @@ namespace gl3d {
 
     class ShaderProgram : public Resource {
     private:
-        unsigned shader_program_index;
 
         void check_for_succes() const;
 
