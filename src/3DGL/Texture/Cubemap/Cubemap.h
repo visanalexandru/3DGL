@@ -12,13 +12,14 @@
 namespace gl3d {
 
     class Cubemap : public Resource {
+        void unload_resource() const override;
+
     public:
 
         void load_texture(const std::string &path);
 
         void bind_resource() const override;
 
-        void unload_resource() const override;
 
         static std::string cubemap_names[6];
     };

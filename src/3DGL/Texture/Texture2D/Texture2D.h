@@ -11,6 +11,8 @@
 namespace gl3d {
 
     class Texture2D : public Resource{
+        void unload_resource() const override ;
+
     public:
         void load_texture(const std::string &path);
 
@@ -18,7 +20,6 @@ namespace gl3d {
 
         static void bind_empty_texture();
 
-        void unload_resource() const override ;
 
         ~Texture2D();
     };
