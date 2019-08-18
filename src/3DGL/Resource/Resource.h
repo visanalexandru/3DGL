@@ -7,8 +7,9 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "NonCopyable.h"
 
-class Resource {
+class Resource :public  NonCopyable{
 
 protected:
     unsigned resource_index;

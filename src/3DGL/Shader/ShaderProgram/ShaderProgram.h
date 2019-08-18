@@ -27,9 +27,6 @@ namespace gl3d {
     public:
         ~ShaderProgram();
 
-        ShaderProgram &operator=(const ShaderProgram &other) = delete;
-
-        ShaderProgram(const ShaderProgram(&other)) = delete;
 
         void bind_resource() const override;
 

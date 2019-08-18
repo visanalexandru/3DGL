@@ -36,7 +36,7 @@ namespace gl3d {
 
         void add_triangle_index(unsigned index);
 
-        MeshBuffer();
+        MeshBuffer()= default;
 
 
     };
@@ -141,11 +141,5 @@ namespace gl3d {
 
     }
 
-
-    template<class datatype>
-    MeshBuffer<datatype>::MeshBuffer() {
-
-
-    }
 }
 #endif //INC_3DGL_MESHBUFFER_H

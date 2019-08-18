@@ -37,10 +37,6 @@ namespace gl3d {
 
         std::pair<glm::vec3, glm::vec3> get_dimensions() const;
 
-        Mesh &operator=(const Mesh &other) = delete;
-
-        Mesh(const Mesh &other) = delete;
-
         template<class datatype>
         void set_data(const MeshBuffer<datatype> &vertex_data);
 
