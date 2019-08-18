@@ -11,6 +11,7 @@
 #include <sstream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
 namespace gl3d {
 
     class Shader {
@@ -20,7 +21,9 @@ namespace gl3d {
 
         std::string get_compile_error_code() const;
 
-        virtual void load_shader(const std::string &path) = 0;
+        virtual void load_shader_from_memory(const std::string &source) = 0;
+
+        void load_shader_from_path(const std::string &path);
 
         unsigned shader_index;
 

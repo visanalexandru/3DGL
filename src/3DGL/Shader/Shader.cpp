@@ -10,8 +10,8 @@ namespace gl3d {
 
         std::ifstream input(path);
 
-        if(input.fail())
-            throw std::runtime_error("cannot open file: "+path);
+        if (input.fail())
+            throw std::runtime_error("cannot open file: " + path);
 
         std::stringstream buffer;
 
@@ -27,6 +27,12 @@ namespace gl3d {
         glGetShaderInfoLog(shader_index, 512, nullptr, err);
 
         return err;
+    }
+
+
+    void Shader::load_shader_from_path(const std::string &path) {
+
+        load_shader_from_memory(get_shader_data(path));
     }
 
 

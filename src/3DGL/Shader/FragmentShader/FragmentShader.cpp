@@ -3,13 +3,12 @@
 //
 
 #include "FragmentShader.h"
+
 namespace gl3d {
 
-    void FragmentShader::load_shader(const std::string &path) {
+    void FragmentShader::load_shader_from_memory(const std::string &source) {
 
-        std::string shader_data = get_shader_data(path);
-
-        const char *shader_to_compile = shader_data.c_str();
+        const char *shader_to_compile = source.c_str();
 
         shader_index = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -22,15 +21,12 @@ namespace gl3d {
         glGetShaderiv(shader_index, GL_COMPILE_STATUS, &success);
 
         if (!success) {
-            throw std::runtime_error("Fragment Shader compilation failed: " +path+" "+get_compile_error_code());
-        } else {
-            std::cout << "Fragment Shader compilation successful: " << path << std::endl;
-
+            throw std::runtime_error("Fragment Shader compilation failed: " + get_compile_error_code());
         }
     }
 
     FragmentShader::FragmentShader(const std::string &path) {
 
-        load_shader(path);
+        load_shader_from_path(path);
     }
 }
