@@ -42,13 +42,51 @@ namespace gl3d {
                                                               "}";
 
 
+    const std::string DefaultShaders::skybox_vertex_source = "#version 330 core\n"
+                                                             "layout (location = 0) in vec3 aPos;\n"
+                                                             "\n"
+                                                             "out vec3 TexCoords;\n"
+                                                             "\n"
+                                                             "uniform mat4 pv;\n"
+                                                             "\n"
+                                                             "void main()\n"
+                                                             "{\n"
+                                                             "    TexCoords = aPos;\n"
+                                                             "    gl_Position = pv * vec4(aPos, 1.0);\n"
+                                                             "}";
+
+
+    const std::string DefaultShaders::skybox_fragment_source = "#version 330 core\n"
+                                                               "layout (location = 0) in vec3 aPos;\n"
+                                                               "\n"
+                                                               "out vec3 TexCoords;\n"
+                                                               "\n"
+                                                               "uniform mat4 pv;\n"
+                                                               "\n"
+                                                               "void main()\n"
+                                                               "{\n"
+                                                               "    TexCoords = aPos;\n"
+                                                               "    gl_Position = pv * vec4(aPos, 1.0);\n"
+                                                               "}";
+
+
     const VertexShader DefaultShaders::basic_vertex_shader(basic_vertex_source);
     const FragmentShader DefaultShaders::basic_fragment_shader(basic_fragment_source);
+
+    const VertexShader DefaultShaders::skybox_vertex_shader(skybox_vertex_source);
+    const FragmentShader DefaultShaders::skybox_fragment_shader(skybox_fragment_source);
+
+
     const ShaderProgram DefaultShaders::default_program(basic_vertex_shader, basic_fragment_shader);
+    const ShaderProgram DefaultShaders::skybox_program(skybox_vertex_shader, skybox_fragment_shader);
 
     const ShaderProgram &DefaultShaders::get_default_program() {
         return default_program;
 
+    }
+
+    const ShaderProgram &DefaultShaders::get_skybox_program() {
+        return skybox_program;
     }
 
 

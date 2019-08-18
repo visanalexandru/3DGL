@@ -15,13 +15,24 @@ namespace gl3d {
         static const std::string basic_vertex_source;
         static const std::string basic_fragment_source;
 
+        static const std::string skybox_vertex_source;
+        static const std::string skybox_fragment_source;
+
         static const VertexShader basic_vertex_shader;
         static const FragmentShader basic_fragment_shader;
+
+        static const VertexShader skybox_vertex_shader;
+        static const FragmentShader skybox_fragment_shader;
+
+
         static const ShaderProgram default_program;
+        static const ShaderProgram skybox_program;
 
     public:
 
         static const ShaderProgram &get_default_program();
+
+        static const ShaderProgram &get_skybox_program();
 
     };
 
