@@ -10,6 +10,7 @@
 #include "../Shader/ShaderProgram/ShaderProgram.h"
 #include "../Texture/Texture2D/Texture2D.h"
 #include "../FrustumCulling/AABB.h"
+#include "../Shader/DefaultShaders/DefaultShaders.h"
 
 namespace gl3d {
 
@@ -20,7 +21,7 @@ namespace gl3d {
     private:
         const Mesh *mesh;
         const Texture2D *texture;
-        const ShaderProgram &shader_program;
+        const ShaderProgram*shader_program;
         AABB local_bounding_box;
     public:
 
@@ -64,6 +65,8 @@ namespace gl3d {
 
         void set_mesh(const Mesh &new_mesh);
 
+        void set_shader_program(const ShaderProgram&program);
+
         void bind_texture() const;
 
         void bind_mesh() const;
@@ -82,9 +85,9 @@ namespace gl3d {
         unsigned get_triangle_count() const;
 
 
-        Drawable3D(const ShaderProgram &shader);
+        Drawable3D();
 
-        Drawable3D(const ShaderProgram &shader, glm::vec3 position);
+        Drawable3D(glm::vec3 position);
 
 
         ~Drawable3D();

@@ -11,7 +11,8 @@ namespace gl3d {
 
     }
 
-    Drawable3D::Drawable3D(const ShaderProgram &shader) : shader_program(shader), texture(nullptr), mesh(nullptr) {
+    Drawable3D::Drawable3D() : texture(nullptr), mesh(nullptr),
+                               shader_program(&DefaultShaders::get_default_program()) {
 
 
     }
@@ -25,22 +26,21 @@ namespace gl3d {
 
     void Drawable3D::set_rotation(glm::vec3 new_rotation) {
 
-        rotation=new_rotation;
+        rotation = new_rotation;
         update_local_bounds();
 
     }
 
     void Drawable3D::set_scale(glm::vec3 new_scale) {
-        scale=new_scale;
+        scale = new_scale;
         update_local_bounds();
     }
 
 
     void Drawable3D::update_local_bounds() {
         glm::mat4 scale_rotation(1);
-        scale_rotation*=get_rotation_matrix();
+        scale_rotation *= get_rotation_matrix();
         scale_rotation = glm::scale(scale_rotation, scale);
-
 
 
         auto bounds = get_mesh_bounds();
@@ -64,7 +64,7 @@ namespace gl3d {
         glm::vec3 min, max;
 
         for (int i = 0; i < 8; i++) {
-            glm::vec4 here =scale_rotation * glm::vec4(points[i], 1);
+            glm::vec4 here = scale_rotation * glm::vec4(points[i], 1);
             if (!i) {
                 min = here;
                 max = here;
@@ -84,7 +84,7 @@ namespace gl3d {
 
         glm::vec3 offset = max - min;
 
-       local_bounding_box=AABB(min, offset);
+        local_bounding_box = AABB(min, offset);
 
 
     }
@@ -118,7 +118,7 @@ namespace gl3d {
 
     AABB Drawable3D::get_bounding_box() const {
 
-        AABB box(local_bounding_box.AABB_position+position,local_bounding_box.AABB_dimension);
+        AABB box(local_bounding_box.AABB_position + position, local_bounding_box.AABB_dimension);
         return box;
 
 
@@ -144,7 +144,7 @@ namespace gl3d {
             texture_index = texture->get_resource_index();
 
 
-        return attributes(texture_index, shader_program.get_resource_index());
+        return attributes(texture_index, shader_program->get_resource_index());
     }
 
     const Texture2D &Drawable3D::get_texture() const {
@@ -153,7 +153,7 @@ namespace gl3d {
     }
 
     const ShaderProgram &Drawable3D::get_program() const {
-        return shader_program;
+        return *shader_program;
     }
 
     unsigned Drawable3D::get_triangle_count() const {
@@ -163,14 +163,21 @@ namespace gl3d {
 
     }
 
+
+    void Drawable3D::set_shader_program(const gl3d::ShaderProgram &program) {
+
+        shader_program = &program;
+    }
+
     Drawable3D::~Drawable3D() {
 
 
     }
 
-    Drawable3D::Drawable3D(const ShaderProgram &shader, glm::vec3 position) : Transformable(position),
-                                                                              shader_program(shader), texture(nullptr),
-                                                                              mesh(nullptr) {
+    Drawable3D::Drawable3D(glm::vec3 position) : Transformable(position),
+                                                 texture(nullptr),
+                                                 mesh(nullptr),
+                                                 shader_program(&DefaultShaders::get_default_program()) {
 
     }
 }
