@@ -7,7 +7,7 @@
 namespace gl3d {
 
     void VertexShader::load_shader_from_memory(const std::string &source) {
-
+        delete_shader();
         const char *shader_to_compile = source.c_str();
 
         shader_index = glCreateShader(GL_VERTEX_SHADER);

@@ -21,17 +21,16 @@ namespace gl3d {
 
         std::string get_compile_error_code() const;
 
-        virtual void load_shader_from_memory(const std::string &source) = 0;
-
-        void load_shader_from_path(const std::string &path);
 
         unsigned shader_index;
-
-    private:
 
         void delete_shader();
 
     public:
+        virtual void load_shader_from_memory(const std::string &source) = 0;
+
+        void load_shader_from_path(const std::string &path);
+
         unsigned get_shader_index() const;
 
         Shader &operator=(Shader &other) = delete;
