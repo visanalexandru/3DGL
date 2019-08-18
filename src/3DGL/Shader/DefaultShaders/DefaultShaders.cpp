@@ -57,16 +57,15 @@ namespace gl3d {
 
 
     const std::string DefaultShaders::skybox_fragment_source = "#version 330 core\n"
-                                                               "layout (location = 0) in vec3 aPos;\n"
+                                                               "out vec4 FragColor;\n"
                                                                "\n"
-                                                               "out vec3 TexCoords;\n"
+                                                               "in vec3 TexCoords;\n"
                                                                "\n"
-                                                               "uniform mat4 pv;\n"
+                                                               "uniform samplerCube skybox;\n"
                                                                "\n"
                                                                "void main()\n"
-                                                               "{\n"
-                                                               "    TexCoords = aPos;\n"
-                                                               "    gl_Position = pv * vec4(aPos, 1.0);\n"
+                                                               "{    \n"
+                                                               "    FragColor = texture(skybox, TexCoords);\n"
                                                                "}";
 
 

@@ -6,7 +6,7 @@
 
 namespace gl3d {
 
-    Skybox::Skybox(const ShaderProgram &program,const Cubemap&cubemap):sh_program(program),text_cubemap(cubemap) {
+    Skybox::Skybox(const Cubemap &cubemap) : text_cubemap(cubemap) {
 
         MeshBuffer<simple_vertex> buffer;
         for (int i = 0; i < 6; i++) {
@@ -25,9 +25,9 @@ namespace gl3d {
         cube_mesh.bind_resource();
     }
 
-    const ShaderProgram&Skybox::get_program() const {
+    const ShaderProgram &Skybox::get_program() const {
 
-        return sh_program;
+        return DefaultShaders::get_skybox_program();
     }
 }
 
