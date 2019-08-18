@@ -29,10 +29,10 @@ namespace gl3d {
     }
 
 
-    VertexShader::VertexShader(const std::string &path) {
+    VertexShader::VertexShader(const std::string &source) {
 
 
-        load_shader_from_path(path);
+        load_shader_from_memory(source);
 
     }
 }

@@ -6,6 +6,7 @@
 #define INC_3DGL_VERTEXSHADER_H
 
 #include "../Shader.h"
+
 namespace gl3d {
 
     class VertexShader : public Shader {
@@ -16,7 +17,9 @@ namespace gl3d {
 
 
     public:
-        VertexShader(const std::string &path);
+        VertexShader(const std::string &source);
+
+        VertexShader() = default;
 
     };
 }

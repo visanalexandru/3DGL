@@ -13,9 +13,10 @@ namespace gl3d {
         if (contains(resources, name))
             throw std::runtime_error("shader already exists: " + name);
 
-        FragmentShader f(f_path);
-
-        VertexShader v(v_path);
+        FragmentShader f;
+        f.load_shader_from_path(f_path);
+        VertexShader v;
+        v.load_shader_from_path(v_path);
 
         ShaderProgram *new_shader = new ShaderProgram(v, f);
 

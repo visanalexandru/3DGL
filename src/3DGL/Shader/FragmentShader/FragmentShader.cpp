@@ -25,8 +25,8 @@ namespace gl3d {
         }
     }
 
-    FragmentShader::FragmentShader(const std::string &path) {
+    FragmentShader::FragmentShader(const std::string &source) {
 
-        load_shader_from_path(path);
+        load_shader_from_memory(source);
     }
 }

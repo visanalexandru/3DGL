@@ -12,7 +12,8 @@ namespace gl3d {
     protected:
         void load_shader_from_memory(const std::string &source) override;
     public:
-        FragmentShader(const std::string &path);
+        FragmentShader(const std::string &source);
+        FragmentShader()= default;
     };
 
 }
