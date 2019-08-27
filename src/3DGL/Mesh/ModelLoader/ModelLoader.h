@@ -94,7 +94,7 @@ namespace gl3d {
 
     public:
 
-        static void load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer);
+        static MeshBuffer<normal_textured_vertex> load_model(const std::string &path);
 
     };
 }

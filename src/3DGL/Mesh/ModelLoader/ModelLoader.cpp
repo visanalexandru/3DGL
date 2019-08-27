@@ -128,8 +128,8 @@ namespace gl3d {
     void ModelLoader::parse(const std::string &path) {
 
         std::ifstream in(path);
-        if(in.fail())
-            throw std::runtime_error("cannot open file: "+path);
+        if (in.fail())
+            throw std::runtime_error("cannot open file: " + path);
         stream << in.rdbuf();
 
         std::string aux;
@@ -168,7 +168,7 @@ namespace gl3d {
     }
 
 
-    void ModelLoader::load_model(const std::string &path, MeshBuffer<normal_textured_vertex> &buffer) {
+    MeshBuffer<normal_textured_vertex> ModelLoader::load_model(const std::string &path) {
 
         stream.str("");
         stream.clear();
@@ -177,6 +177,7 @@ namespace gl3d {
         parsed_normals.clear();
         parsed_texture_coords.clear();
         vertices.clear();
+        MeshBuffer<normal_textured_vertex> buffer;
 
 
         parse(path);
@@ -227,6 +228,7 @@ namespace gl3d {
             }
 
         }
+        return buffer;
 
     }
 }
