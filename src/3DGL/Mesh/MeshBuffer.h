@@ -12,19 +12,14 @@ namespace gl3d {
 
     template<class datatype>
     class MeshBuffer {//container for different type of vertices
-
-    private:
+    public:
         std::vector<datatype> vertices;
         std::vector<unsigned> indices;
-    public:
 
         const void *get_vertices() const;
 
         const void *get_indices() const;
 
-        unsigned get_indices_count() const;
-
-        unsigned get_vertices_count() const;
 
         void set_attributes() const;
 
@@ -36,7 +31,7 @@ namespace gl3d {
 
         void add_triangle_index(unsigned index);
 
-        MeshBuffer()= default;
+        MeshBuffer() = default;
 
 
     };
@@ -53,22 +48,6 @@ namespace gl3d {
     const void *MeshBuffer<datatype>::get_indices() const {
 
         return &indices[0];//pointer to the first element
-
-    }
-
-
-    template<class datatype>
-    unsigned MeshBuffer<datatype>::get_indices_count() const {
-
-        return indices.size();
-
-    }
-
-
-    template<class datatype>
-    unsigned MeshBuffer<datatype>::get_vertices_count() const {
-
-        return vertices.size();
 
     }
 

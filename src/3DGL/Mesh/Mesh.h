@@ -58,8 +58,8 @@ namespace gl3d {
         const void *vertices = vertex_data.get_vertices();//pointer to the first element of the vertex data vector
         const void *indices = vertex_data.get_indices();//pointer to the first element of the index data vector
 
-        unsigned vertices_count = vertex_data.get_vertices_count();
-        unsigned indices_count = vertex_data.get_indices_count();
+        unsigned vertices_count = vertex_data.vertices.size();
+        unsigned indices_count = vertex_data.indices.size();
 
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
