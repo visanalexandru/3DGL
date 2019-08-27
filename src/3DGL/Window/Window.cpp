@@ -121,7 +121,7 @@ namespace gl3d {
 
     void Window::set_shader_uniforms(const gl3d::Drawable3D &to_draw, const gl3d::ShaderProgram &program) const {
         program.setMat4("mvp", projection * view * to_draw.get_model_matrix());
-
+        to_draw.set_shader_uniforms();
     }
 
 
@@ -210,7 +210,7 @@ namespace gl3d {
             const ShaderProgram &program = to_draw.get_program();
 
             program.bind_resource();
-            set_shader_uniforms(to_draw,program);
+            set_shader_uniforms(to_draw, program);
             to_draw.bind_mesh();
 
             glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);

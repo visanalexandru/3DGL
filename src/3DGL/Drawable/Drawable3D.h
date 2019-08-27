@@ -21,7 +21,7 @@ namespace gl3d {
     private:
         const Mesh *mesh;
         const Texture2D *texture;
-        const ShaderProgram*shader_program;
+        const ShaderProgram *shader_program;
         AABB local_bounding_box;
     public:
 
@@ -55,6 +55,8 @@ namespace gl3d {
 
         const Mesh &get_mesh() const;
 
+        virtual void set_shader_uniforms() const {};
+
         const ShaderProgram &get_program() const;
 
         const Texture2D &get_texture() const;
@@ -65,7 +67,7 @@ namespace gl3d {
 
         void set_mesh(const Mesh &new_mesh);
 
-        void set_shader_program(const ShaderProgram&program);
+        void set_shader_program(const ShaderProgram &program);
 
         void bind_texture() const;
 
@@ -73,7 +75,7 @@ namespace gl3d {
 
         void set_rotation(glm::vec3 new_rotation) override;
 
-        void set_scale(glm::vec3 new_scale) override ;
+        void set_scale(glm::vec3 new_scale) override;
 
         void update_local_bounds();
 
