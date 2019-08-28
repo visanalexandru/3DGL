@@ -120,7 +120,9 @@ namespace gl3d {
     }
 
     void Window::set_shader_uniforms(const gl3d::Drawable3D &to_draw, const gl3d::ShaderProgram &program) const {
-        program.setMat4("mvp", projection * view * to_draw.get_model_matrix());
+        program.setMat4("model", to_draw.get_model_matrix());
+        program.setMat4("view", view);
+        program.setMat4("projection", projection);
         to_draw.set_shader_uniforms();
     }
 
