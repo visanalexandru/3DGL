@@ -26,7 +26,7 @@ namespace gl3d {
     public:
         void load_shader(const std::string &name, const std::string &v_path, const std::string &f_path);
 
-        void load_cubemap(const std::string &name, const std::string &path);
+        void load_cubemap(const std::string &name, const std::string &path, const std::vector<std::string> &paths);
 
         void load_texture(const std::string &name, const std::string &path);
 

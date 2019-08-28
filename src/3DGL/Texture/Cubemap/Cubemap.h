@@ -8,6 +8,7 @@
 #include "../../Resource/Resource.h"
 #include "../stb_image.h"
 #include <iostream>
+#include <vector>
 
 namespace gl3d {
 
@@ -16,12 +17,11 @@ namespace gl3d {
 
     public:
 
-        void load_texture(const std::string &path);
+        void load_texture(const std::string &path, const std::vector<std::string> &paths);
 
         void bind_resource() const override;
 
 
-        static std::string cubemap_names[6];
     };
 }
 

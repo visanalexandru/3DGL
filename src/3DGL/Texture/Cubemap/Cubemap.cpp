@@ -6,17 +6,8 @@
 
 namespace gl3d {
 
-    std::string Cubemap::cubemap_names[6]{
-            "right.jpg",
-            "left.jpg",
-            "top.jpg",
-            "bottom.jpg",
-            "front.jpg",
-            "back.jpg"
-    };
 
-
-    void Cubemap::load_texture(const std::string &path) {
+    void Cubemap::load_texture(const std::string &path, const std::vector<std::string> &paths) {
 
 
         unsigned int texture;
@@ -37,7 +28,7 @@ namespace gl3d {
         for (int i = 0; i < 6; i++) {
 
 
-            std::string newpath = path + "/" + cubemap_names[i];
+            std::string newpath = path + "/" + paths[i];
 
 
             unsigned char *data = stbi_load(newpath.c_str(), &width, &height, &nrChannels, 0);

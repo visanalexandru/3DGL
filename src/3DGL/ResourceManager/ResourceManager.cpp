@@ -40,14 +40,15 @@ namespace gl3d {
     }
 
 
-    void ResourceManager::load_cubemap(const std::string &name, const std::string &path) {
+    void ResourceManager::load_cubemap(const std::string &name, const std::string &path,
+                                       const std::vector<std::string> &paths) {
 
         if (contains(resources, name))
             throw std::runtime_error("cubemap already exists: " + name);
 
         Cubemap *new_cubemap = new Cubemap();
 
-        new_cubemap->load_texture(path);
+        new_cubemap->load_texture(path, paths);
 
         resources[name] = new_cubemap;
 
