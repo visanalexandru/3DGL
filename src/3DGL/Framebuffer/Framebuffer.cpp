@@ -4,6 +4,7 @@
 
 #include <stdexcept>
 #include "Framebuffer.h"
+#include "../Shader/DefaultShaders/DefaultShaders.h"
 
 namespace gl3d {
 
@@ -79,6 +80,16 @@ namespace gl3d {
 
         quad.set_data(data);
         create_framebuffer(width, height);
+
+        screen_program = &DefaultShaders::get_framebuffer_program();
+    }
+
+    void Framebuffer::set_shader_program(const gl3d::ShaderProgram &prog) {
+        screen_program = &prog;
+    }
+
+    const ShaderProgram &Framebuffer::get_program() const {
+        return *screen_program;
     }
 
 

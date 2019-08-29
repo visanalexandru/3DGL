@@ -7,12 +7,14 @@
 
 #include "../Resource/NonCopyable.h"
 #include "../Mesh/Mesh.h"
+#include "../Shader/ShaderProgram/ShaderProgram.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace gl3d {
     class Framebuffer : public NonCopyable {
     private:
+        const ShaderProgram *screen_program;
         Mesh quad;
         unsigned textureColorbuffer;
         unsigned renderbuffer;
@@ -31,6 +33,10 @@ namespace gl3d {
         void bind_framebuffer_texture() const;
 
         void bind_framebuffer_mesh() const;
+
+        void set_shader_program(const ShaderProgram &prog);
+
+        const ShaderProgram &get_program() const;
 
         void unbind_framebuffer() const;
 
