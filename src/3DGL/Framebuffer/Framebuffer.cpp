@@ -13,12 +13,12 @@ namespace gl3d {
         glGenFramebuffers(1, &framebuffer);
         glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
-        glGenTextures(1, &textureColorbuffer);
-        glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+        glGenTextures(1, &resource_index);
+        glBindTexture(GL_TEXTURE_2D, resource_index);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, resource_index, 0);
         // create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
 
 
@@ -40,7 +40,6 @@ namespace gl3d {
     void Framebuffer::delete_framebuffer() const {
 
         glDeleteFramebuffers(1, &framebuffer);
-        glDeleteTextures(1, &textureColorbuffer);
         glDeleteRenderbuffers(1, &renderbuffer);
 
 
@@ -92,11 +91,6 @@ namespace gl3d {
         return *screen_program;
     }
 
-
-    void Framebuffer::bind_framebuffer_texture() const {
-
-        glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-    }
 
     void Framebuffer::bind_framebuffer_mesh() const {
         quad.bind_mesh();

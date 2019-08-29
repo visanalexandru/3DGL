@@ -65,7 +65,6 @@ namespace gl3d {
     }
 
     Texture2D::~Texture2D() {
-
         delete_texture();
     }
 

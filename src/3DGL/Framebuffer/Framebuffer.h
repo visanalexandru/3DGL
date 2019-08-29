@@ -5,18 +5,17 @@
 #ifndef INC_3DGL_FRAMEBUFFER_H
 #define INC_3DGL_FRAMEBUFFER_H
 
-#include "../Resource/NonCopyable.h"
+#include "../Texture/Texture2D/Texture2D.h"
 #include "../Mesh/Mesh.h"
 #include "../Shader/ShaderProgram/ShaderProgram.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace gl3d {
-    class Framebuffer : public NonCopyable {
+    class Framebuffer : public Texture2D {
     private:
         const ShaderProgram *screen_program;
         Mesh quad;
-        unsigned textureColorbuffer;
         unsigned renderbuffer;
         unsigned framebuffer;
 
@@ -29,8 +28,6 @@ namespace gl3d {
         ~Framebuffer();
 
         void bind_framebuffer() const;
-
-        void bind_framebuffer_texture() const;
 
         void bind_framebuffer_mesh() const;
 

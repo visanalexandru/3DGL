@@ -217,7 +217,7 @@ namespace gl3d {
         framebuffer.get_program().bind_shader();
         framebuffer.set_shader_uniforms();
         framebuffer.bind_framebuffer_mesh();
-        framebuffer.bind_framebuffer_texture();
+        framebuffer.bind_texture();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glEnable(GL_DEPTH_TEST);
     }
