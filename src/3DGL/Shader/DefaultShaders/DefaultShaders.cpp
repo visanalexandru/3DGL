@@ -73,6 +73,32 @@ namespace gl3d {
                                                                "}";
 
 
+    const std::string DefaultShaders::framebuffer_vertex_source = "#version 330 core\n"
+                                                                  "layout (location = 0) in vec2 aPos;\n"
+                                                                  "layout (location = 1) in vec2 aTexCoords;\n"
+                                                                  "\n"
+                                                                  "out vec2 TexCoords;\n"
+                                                                  "\n"
+                                                                  "void main()\n"
+                                                                  "{\n"
+                                                                  "    gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0); \n"
+                                                                  "    TexCoords = aTexCoords;\n"
+                                                                  "} ";
+
+
+    const std::string DefaultShaders::framebuffer_fragment_source = "#version 330 core\n"
+                                                                    "out vec4 FragColor;\n"
+                                                                    "  \n"
+                                                                    "in vec2 TexCoords;\n"
+                                                                    "\n"
+                                                                    "uniform sampler2D screenTexture;\n"
+                                                                    "\n"
+                                                                    "void main()\n"
+                                                                    "{ \n"
+                                                                    "    FragColor = texture(screenTexture, TexCoords);\n"
+                                                                    "}";
+
+
     const VertexShader DefaultShaders::basic_vertex_shader(basic_vertex_source);
     const FragmentShader DefaultShaders::basic_fragment_shader(basic_fragment_source);
 
@@ -80,8 +106,13 @@ namespace gl3d {
     const FragmentShader DefaultShaders::skybox_fragment_shader(skybox_fragment_source);
 
 
+    const VertexShader DefaultShaders::framebuffer_vertex_shader(framebuffer_vertex_source);
+    const FragmentShader DefaultShaders::framebuffer_fragment_shader(framebuffer_fragment_source);
+
+
     const ShaderProgram DefaultShaders::default_program(basic_vertex_shader, basic_fragment_shader);
     const ShaderProgram DefaultShaders::skybox_program(skybox_vertex_shader, skybox_fragment_shader);
+    const ShaderProgram DefaultShaders::framebuffer_program(framebuffer_vertex_shader, framebuffer_fragment_shader);
 
     const ShaderProgram &DefaultShaders::get_default_program() {
         return default_program;
@@ -90,6 +121,11 @@ namespace gl3d {
 
     const ShaderProgram &DefaultShaders::get_skybox_program() {
         return skybox_program;
+    }
+
+
+    const ShaderProgram &DefaultShaders::get_framebuffer_program() {
+        return framebuffer_program;
     }
 
 

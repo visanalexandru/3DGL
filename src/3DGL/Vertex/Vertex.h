@@ -7,6 +7,7 @@
 
 #include <glm/glm.hpp>
 #include <glad/glad.h>
+
 namespace gl3d {
 
     struct simple_vertex//basic vertex , only holds position data
@@ -137,6 +138,41 @@ namespace gl3d {
 
         glm::vec3 get_position() const {
             return position;
+        }
+
+
+    };
+
+
+    struct sprite_vertex {
+
+
+        glm::vec2 position;
+        glm::vec2 texture_coords;
+
+        sprite_vertex(glm::vec2 pos, glm::vec2 uv) {
+            position = pos;
+            texture_coords = uv;
+        }
+
+        sprite_vertex() {
+            position = glm::vec2(0, 0);
+            texture_coords = glm::vec2(0, 0);
+        }
+
+        static void enable_attributes() {
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(sprite_vertex),
+                                  (const GLvoid *) offsetof(sprite_vertex, position));
+            glEnableVertexAttribArray(0);
+
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(sprite_vertex),
+                                  (const GLvoid *) offsetof(sprite_vertex, texture_coords));
+            glEnableVertexAttribArray(1);
+
+        }
+
+        glm::vec3 get_position()const  {
+            return glm::vec3(position.x, position.y, 0);
         }
 
 
