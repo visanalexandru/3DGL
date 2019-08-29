@@ -169,10 +169,6 @@ namespace gl3d {
         shader_program = &program;
     }
 
-    Drawable3D::~Drawable3D() {
-
-
-    }
 
     Drawable3D::Drawable3D(glm::vec3 position) : Transformable(position),
                                                  texture(nullptr),

@@ -92,7 +92,7 @@ namespace gl3d {
         Drawable3D(glm::vec3 position);
 
 
-        ~Drawable3D();
+        ~Drawable3D() = default;
 
 
     };

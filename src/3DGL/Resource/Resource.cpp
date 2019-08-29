@@ -13,9 +13,3 @@ Resource::Resource() : resource_index(0) {
 unsigned Resource::get_resource_index() const {
     return resource_index;
 }
-
-
-Resource::~Resource() {
-
-
-}
