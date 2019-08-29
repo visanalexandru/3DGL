@@ -7,6 +7,9 @@
 namespace gl3d {
 
 
+
+    //this function loads a cubemap with the faces in this order:front-back-up-down-right-left
+
     void Cubemap::load_texture(const std::string &path, const std::vector<std::string> &paths) {
         delete_cubemap();
 
