@@ -211,6 +211,16 @@ namespace gl3d {
 
     }
 
+    void Window::draw(const gl3d::Framebuffer &framebuffer) {
+
+        glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
+        DefaultShaders::get_framebuffer_program().bind_resource();
+        framebuffer.bind_framebuffer_mesh();
+        framebuffer.bind_framebuffer_texture();
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glEnable(GL_DEPTH_TEST);
+    }
+
     glm::vec2 Window::get_cursor_position() const {
 
         double x, y;
@@ -230,7 +240,6 @@ namespace gl3d {
         glClearColor(color.x, color.y, color.z, 1.0f);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glEnable(GL_CULL_FACE);
 
 
     }

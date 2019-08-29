@@ -13,6 +13,7 @@
 #include "../Drawable/Skybox/Skybox.h"
 #include "../RenderList/RenderList.h"
 #include "../FrustumCulling/FrustumCull.h"
+#include "../Framebuffer/Framebuffer.h"
 
 namespace gl3d {
 
@@ -59,6 +60,8 @@ namespace gl3d {
         void draw(const RenderList &to_draw) const;
 
         void draw(const Skybox &skybox) const;
+
+        void draw(const Framebuffer&framebuffer);
 
 
         void set_window_should_close();
