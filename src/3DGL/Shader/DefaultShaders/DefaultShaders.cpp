@@ -55,7 +55,8 @@ namespace gl3d {
                                                              "void main()\n"
                                                              "{\n"
                                                              "    TexCoords = aPos;\n"
-                                                             "    gl_Position = pv * vec4(aPos, 1.0);\n"
+                                                             "    vec4 pos=pv * vec4(aPos, 1.0);"
+                                                             "    gl_Position =pos.xyww;\n"
                                                              "}";
 
 

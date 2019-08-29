@@ -35,7 +35,8 @@ namespace gl3d {
 
 
         if (skybox != nullptr) {
-            glDepthMask(GL_FALSE);
+            glDepthFunc(
+                    GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
             glDisable(GL_CULL_FACE);
             glm::mat4 view2 = glm::mat4(glm::mat3(view));
             skybox->bind_texture();
@@ -48,7 +49,8 @@ namespace gl3d {
             skybox->bind_mesh();
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
             glEnable(GL_CULL_FACE);
-            glDepthMask(GL_TRUE);
+            glDepthFunc(GL_LESS); // set depth function back to default
+
 
         }
 
@@ -240,13 +242,13 @@ namespace gl3d {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_CULL_FACE);
-        draw_skybox();
 
 
     }
 
 
     void Window::display() const {//display what we had rendered
+        draw_skybox();
 
         glfwSwapBuffers(window);//we swap the buffers
 
