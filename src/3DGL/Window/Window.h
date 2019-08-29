@@ -13,6 +13,7 @@
 #include "../Drawable/Skybox/Skybox.h"
 #include "../RenderList/RenderList.h"
 #include "../FrustumCulling/FrustumCull.h"
+
 namespace gl3d {
 
     class Window {
@@ -23,8 +24,6 @@ namespace gl3d {
         float field_of_view;
         GLFWwindow *window;
         FrustumCull culler;
-        const Skybox *skybox;
-
 
         void update_projection_matrix();
 
@@ -34,9 +33,7 @@ namespace gl3d {
         void create_window(int w, int h, const std::string &title);
 
 
-        void set_shader_uniforms(const Drawable3D&to_draw,const ShaderProgram& program) const;
-
-        void draw_skybox() const;
+        void set_shader_uniforms(const Drawable3D &to_draw, const ShaderProgram &program) const;
 
 
         static void framebuffer_size_callback(GLFWwindow *window, int w, int h);
@@ -59,9 +56,10 @@ namespace gl3d {
 
         void draw(const Drawable3D &to_draw) const;
 
-        void set_skybox(const Skybox &new_skybox);
-
         void draw(const RenderList &to_draw) const;
+
+        void draw(const Skybox &skybox) const;
+
 
         void set_window_should_close();
 

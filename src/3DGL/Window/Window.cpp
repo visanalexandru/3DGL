@@ -7,8 +7,7 @@
 namespace gl3d {
 
 
-    Window::Window(int w, int h, const std::string &title) : projection(1), view(1), field_of_view(45.f),
-                                                             skybox(nullptr) {
+    Window::Window(int w, int h, const std::string &title) : projection(1), view(1), field_of_view(45.f) {
 
         handle_new_window_size(w, h);
         init_graphics();
@@ -23,36 +22,26 @@ namespace gl3d {
     }
 
 
-    void Window::set_skybox(const Skybox &new_skybox) {
-
-        skybox = &new_skybox;
+    void Window::draw(const Skybox &skybox) const {
 
 
-    }
+        glDepthFunc(
+                GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+        glDisable(GL_CULL_FACE);
+        glm::mat4 view2 = glm::mat4(glm::mat3(view));
+        skybox.bind_texture();
 
 
-    void Window::draw_skybox() const {
+        skybox.get_program().bind_resource();
+        skybox.get_program().setMat4("pv", projection * view2);
 
 
-        if (skybox != nullptr) {
-            glDepthFunc(
-                    GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
-            glDisable(GL_CULL_FACE);
-            glm::mat4 view2 = glm::mat4(glm::mat3(view));
-            skybox->bind_texture();
+        skybox.bind_mesh();
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glEnable(GL_CULL_FACE);
+        glDepthFunc(GL_LESS); // set depth function back to default
 
 
-            skybox->get_program().bind_resource();
-            skybox->get_program().setMat4("pv", projection * view2);
-
-
-            skybox->bind_mesh();
-            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-            glEnable(GL_CULL_FACE);
-            glDepthFunc(GL_LESS); // set depth function back to default
-
-
-        }
 
 
     }
@@ -248,8 +237,6 @@ namespace gl3d {
 
 
     void Window::display() const {//display what we had rendered
-        draw_skybox();
-
         glfwSwapBuffers(window);//we swap the buffers
 
         glfwPollEvents();//we poll events
