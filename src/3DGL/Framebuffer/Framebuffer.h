@@ -36,6 +36,8 @@ namespace gl3d {
 
         void set_shader_program(const ShaderProgram &prog);
 
+        virtual void set_shader_uniforms() const {};
+
         const ShaderProgram &get_program() const;
 
         void unbind_framebuffer() const;

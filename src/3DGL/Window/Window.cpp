@@ -215,6 +215,7 @@ namespace gl3d {
 
         glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
         framebuffer.get_program().bind_shader();
+        framebuffer.set_shader_uniforms();
         framebuffer.bind_framebuffer_mesh();
         framebuffer.bind_framebuffer_texture();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
