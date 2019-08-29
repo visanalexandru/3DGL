@@ -99,7 +99,7 @@ namespace gl3d {
     void Drawable3D::bind_texture() const {
 
         if (texture != nullptr) {
-            texture->bind_resource();
+            texture->bind_texture();
         } else Texture2D::bind_empty_texture();
 
 
@@ -109,7 +109,7 @@ namespace gl3d {
 
         if (mesh != nullptr) {
 
-            mesh->bind_resource();
+            mesh->bind_mesh();
         } else Mesh::bind_empty_mesh();
 
 

@@ -7,7 +7,7 @@
 namespace gl3d {
 
 
-    void Texture2D::bind_resource() const {
+    void Texture2D::bind_texture() const {
 
         glBindTexture(GL_TEXTURE_2D, resource_index);
 
@@ -15,7 +15,7 @@ namespace gl3d {
 
     void Texture2D::load_texture(const std::string &path) {
 
-        unload_resource();
+        delete_texture();
         unsigned int texture;
         glGenTextures(1, &texture);//create empty texture
         glBindTexture(GL_TEXTURE_2D, texture);
@@ -60,13 +60,13 @@ namespace gl3d {
 
     }
 
-    void Texture2D::unload_resource() const {
+    void Texture2D::delete_texture() const {
         glDeleteTextures(1, &resource_index);
     }
 
     Texture2D::~Texture2D() {
 
-        unload_resource();
+        delete_texture();
     }
 
     void Texture2D::bind_empty_texture() {

@@ -21,14 +21,14 @@ namespace gl3d {
 
         void attach_shader(const Shader &shader) const;
 
-        void unload_resource() const override;
+        void delete_shader() const;
 
 
     public:
         ~ShaderProgram();
 
 
-        void bind_resource() const override;
+        void bind_shader() const;
 
 
         void setFloat(const std::string &name, float value) const;

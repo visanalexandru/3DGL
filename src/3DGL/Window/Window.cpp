@@ -32,7 +32,7 @@ namespace gl3d {
         skybox.bind_texture();
 
 
-        skybox.get_program().bind_resource();
+        skybox.get_program().bind_shader();
         skybox.get_program().setMat4("pv", projection * view2);
 
 
@@ -152,7 +152,7 @@ namespace gl3d {
                     if (last.shader_program_index != now.shader_program_index) {
                         last_program = &to_draw.get_program();
 
-                        last_program->bind_resource();
+                        last_program->bind_shader();
 
                     }
 
@@ -202,7 +202,7 @@ namespace gl3d {
             to_draw.bind_texture();
             const ShaderProgram &program = to_draw.get_program();
 
-            program.bind_resource();
+            program.bind_shader();
             set_shader_uniforms(to_draw, program);
             to_draw.bind_mesh();
 
@@ -214,7 +214,7 @@ namespace gl3d {
     void Window::draw(const gl3d::Framebuffer &framebuffer) {
 
         glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
-        framebuffer.get_program().bind_resource();
+        framebuffer.get_program().bind_shader();
         framebuffer.bind_framebuffer_mesh();
         framebuffer.bind_framebuffer_texture();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

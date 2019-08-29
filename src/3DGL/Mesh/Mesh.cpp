@@ -12,7 +12,7 @@ namespace gl3d {
 
     }
 
-    void Mesh::unload_resource() const {
+    void Mesh::delete_mesh() const {
 
         glDeleteVertexArrays(1, &resource_index);//clean vertex array index
     }
@@ -20,7 +20,7 @@ namespace gl3d {
     Mesh::~Mesh() {
 
 
-        unload_resource();
+        delete_mesh();
 
     }
 
@@ -43,7 +43,7 @@ namespace gl3d {
 
     }
 
-    void Mesh::bind_resource() const {
+    void Mesh::bind_mesh() const {
 
         glBindVertexArray(resource_index);//bind the vertex array index
 

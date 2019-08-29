@@ -17,12 +17,12 @@ namespace gl3d {
 
 
     void Skybox::bind_texture() const {
-        text_cubemap.bind_resource();
+        text_cubemap.bind_cubemap();
 
     }
 
     void Skybox::bind_mesh() const {
-        cube_mesh.bind_resource();
+        cube_mesh.bind_mesh();
     }
 
     const ShaderProgram &Skybox::get_program() const {

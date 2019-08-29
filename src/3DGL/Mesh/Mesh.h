@@ -18,7 +18,7 @@ namespace gl3d {
 
         std::pair<glm::vec3, glm::vec3> dimensions;
 
-        void unload_resource() const override;
+        void delete_mesh() const;
 
         template<class datatype>
         void create_vertex_array_index(const MeshBuffer<datatype> &vertex_data);
@@ -29,7 +29,7 @@ namespace gl3d {
 
         ~Mesh();
 
-        void bind_resource() const override;
+        void bind_mesh() const;
 
         unsigned get_triangle_count() const;
 
@@ -90,7 +90,7 @@ namespace gl3d {
     template<class datatype>
     void Mesh::set_data(const MeshBuffer<datatype> &vertex_data) {
 
-        unload_resource();//we delete the last mesh data
+        delete_mesh();//we delete the last mesh data
 
         create_vertex_array_index(vertex_data);//we create vao based on the vertex data
 

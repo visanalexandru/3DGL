@@ -14,14 +14,8 @@ class Resource : public NonCopyable {
 protected:
     unsigned resource_index;
 
-
-    virtual void unload_resource() const = 0;
-
-
 public:
     Resource();
-
-    virtual void bind_resource() const = 0;
 
     virtual ~Resource() = default;
 

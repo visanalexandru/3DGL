@@ -29,7 +29,6 @@ namespace gl3d {
     }
 
 
-
     void ShaderProgram::setMat4(const std::string &name, glm::mat4 value) const {
 
         int mat_location = glGetUniformLocation(resource_index, name.c_str());
@@ -58,21 +57,21 @@ namespace gl3d {
 
     }
 
-    void ShaderProgram::unload_resource() const {
+    void ShaderProgram::delete_shader() const {
 
         glUseProgram(0);
         glDeleteProgram(resource_index);
 
     }
 
-    void ShaderProgram::bind_resource() const {//this function activates the shader
+    void ShaderProgram::bind_shader() const {//this function activates the shader
 
 
         glUseProgram(resource_index);
     }
 
     ShaderProgram::~ShaderProgram() {
-        unload_resource();
+        delete_shader();
 
     }
 }

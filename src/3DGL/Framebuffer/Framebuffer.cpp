@@ -99,7 +99,7 @@ namespace gl3d {
     }
 
     void Framebuffer::bind_framebuffer_mesh() const {
-        quad.bind_resource();
+        quad.bind_mesh();
     }
 
 }

@@ -8,7 +8,7 @@ namespace gl3d {
 
 
     void Cubemap::load_texture(const std::string &path, const std::vector<std::string> &paths) {
-
+        delete_cubemap();
 
         unsigned int texture;
         glGenTextures(1, &texture);
@@ -63,13 +63,13 @@ namespace gl3d {
     }
 
 
-    void Cubemap::bind_resource() const {
+    void Cubemap::bind_cubemap() const {
 
         glBindTexture(GL_TEXTURE_CUBE_MAP, resource_index);
 
     }
 
-    void Cubemap::unload_resource() const {
+    void Cubemap::delete_cubemap() const {
         glDeleteTextures(1, &resource_index);
     }
 }
