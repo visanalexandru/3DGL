@@ -101,4 +101,12 @@ namespace gl3d {
         glfwSetInputMode(main_context, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
 
+    bool Graphics::window_needs_to_close() {
+        return glfwWindowShouldClose(main_context);
+    }
+
+    void Graphics::set_window_should_close(bool close) {
+        glfwSetWindowShouldClose(main_context, close);
+    }
+
 }

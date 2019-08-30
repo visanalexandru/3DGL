@@ -42,6 +42,10 @@ namespace gl3d {
         static void lock_cursor();
 
         static GLFWwindow *get_main_context();
+
+        static bool window_needs_to_close();
+
+        static void set_window_should_close(bool close);
     };
 }
 
