@@ -99,33 +99,45 @@ namespace gl3d {
                                                                     "}";
 
 
-    const VertexShader DefaultShaders::basic_vertex_shader(basic_vertex_source);
-    const FragmentShader DefaultShaders::basic_fragment_shader(basic_fragment_source);
-
-    const VertexShader DefaultShaders::skybox_vertex_shader(skybox_vertex_source);
-    const FragmentShader DefaultShaders::skybox_fragment_shader(skybox_fragment_source);
-
-
-    const VertexShader DefaultShaders::framebuffer_vertex_shader(framebuffer_vertex_source);
-    const FragmentShader DefaultShaders::framebuffer_fragment_shader(framebuffer_fragment_source);
-
-
-    const ShaderProgram DefaultShaders::default_program(basic_vertex_shader, basic_fragment_shader);
-    const ShaderProgram DefaultShaders::skybox_program(skybox_vertex_shader, skybox_fragment_shader);
-    const ShaderProgram DefaultShaders::framebuffer_program(framebuffer_vertex_shader, framebuffer_fragment_shader);
+    const ShaderProgram *DefaultShaders::default_program;
+    const ShaderProgram *DefaultShaders::skybox_program;
+    const ShaderProgram *DefaultShaders::framebuffer_program;
 
     const ShaderProgram &DefaultShaders::get_default_program() {
-        return default_program;
+        return *default_program;
 
     }
 
     const ShaderProgram &DefaultShaders::get_skybox_program() {
-        return skybox_program;
+        return *skybox_program;
     }
 
 
     const ShaderProgram &DefaultShaders::get_framebuffer_program() {
-        return framebuffer_program;
+        return *framebuffer_program;
+    }
+
+    void DefaultShaders::init_shaders() {
+        VertexShader basic_vertex_shader(basic_vertex_source);
+        FragmentShader basic_fragment_shader(basic_fragment_source);
+
+        VertexShader skybox_vertex_shader(skybox_vertex_source);
+        FragmentShader skybox_fragment_shader(skybox_fragment_source);
+
+
+        VertexShader framebuffer_vertex_shader(framebuffer_vertex_source);
+        FragmentShader framebuffer_fragment_shader(framebuffer_fragment_source);
+
+
+        default_program = new ShaderProgram(basic_vertex_shader, basic_fragment_shader);
+        skybox_program = new ShaderProgram(skybox_vertex_shader, skybox_fragment_shader);
+        framebuffer_program = new ShaderProgram(framebuffer_vertex_shader, framebuffer_fragment_shader);
+    }
+
+    void DefaultShaders::delete_shaders() {
+        delete default_program;
+        delete skybox_program;
+        delete framebuffer_program;
     }
 
 
