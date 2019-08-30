@@ -43,6 +43,10 @@ namespace gl3d {
         glEnable(GL_DEPTH_TEST);//we enable depth testing
     }
 
+    GLFWwindow *Graphics::get_main_context() {
+        return main_context;
+    }
+
 
     //this function sets window hints
     void Graphics::set_window_hints() {
