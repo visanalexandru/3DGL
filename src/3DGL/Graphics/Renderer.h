@@ -19,6 +19,8 @@ namespace gl3d {
         static glm::mat4 projection;
         static glm::mat4 view;
         static FrustumCull culler;
+        static int last_width;
+        static int last_height;
 
         static void set_shader_uniforms(const Drawable3D &to_draw, const ShaderProgram &program);
 

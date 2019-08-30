@@ -8,11 +8,15 @@ namespace gl3d {
     float Renderer::field_of_view = 90.f;
     glm::mat4 Renderer::projection = glm::mat4(1);
     glm::mat4 Renderer::view = glm::mat4(1);
+    int Renderer::last_width = 0;
+    int Renderer::last_height = 0;
     FrustumCull Renderer::culler;
 
     void Renderer::update_projection_matrix(int width, int height) {
         projection = glm::perspective(glm::radians(field_of_view), (float) width / height, 0.1f,
                                       1000.0f);//updates projection matrix
+        last_width = width;
+        last_height = height;
     }
 
 
@@ -25,7 +29,7 @@ namespace gl3d {
 
     void Renderer::set_field_of_view(float fov) {
         field_of_view = fov;
-
+        update_projection_matrix(last_width, last_height);
     }
 
 
