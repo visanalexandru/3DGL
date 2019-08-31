@@ -20,7 +20,6 @@ namespace gl3d {
     public:
         void bind_texture() const;
         void bind_mesh() const;
-        const ShaderProgram&get_program() const;
         Skybox(const Cubemap &cubemap);
 
     };

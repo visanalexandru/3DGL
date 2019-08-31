@@ -50,8 +50,8 @@ namespace gl3d {
         skybox.bind_texture();
 
 
-        skybox.get_program().bind_shader();
-        skybox.get_program().setMat4("pv", projection * view2);
+        DefaultShaders::get_skybox_program().bind_shader();
+        DefaultShaders::get_skybox_program().setMat4("pv", projection * view2);
 
 
         skybox.bind_mesh();

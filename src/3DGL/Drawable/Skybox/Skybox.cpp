@@ -25,10 +25,6 @@ namespace gl3d {
         cube_mesh.bind_mesh();
     }
 
-    const ShaderProgram &Skybox::get_program() const {
-
-        return DefaultShaders::get_skybox_program();
-    }
 }
 
 
