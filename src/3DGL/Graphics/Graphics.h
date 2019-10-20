@@ -39,6 +39,10 @@ namespace gl3d {
 
         static bool is_pressed(int key);
 
+        static int get_window_width();
+
+        static int get_window_height();
+
         static void lock_cursor();
 
         static GLFWwindow *get_main_context();

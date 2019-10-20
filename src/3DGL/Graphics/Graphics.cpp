@@ -43,6 +43,14 @@ namespace gl3d {
         glEnable(GL_DEPTH_TEST);//we enable depth testing
     }
 
+    int Graphics::get_window_width() {
+        return window_width;
+    }
+
+    int Graphics::get_window_height() {
+        return window_height;
+    }
+
     GLFWwindow *Graphics::get_main_context() {
         return main_context;
     }

@@ -57,6 +57,12 @@ namespace gl3d {
 
     }
 
+    void ShaderProgram::setVec3(const std::string &name, glm::vec3 value) const {
+        int vec_location = glGetUniformLocation(resource_index, name.c_str());
+        glUniform3fv(vec_location, 1, glm::value_ptr(value));
+
+    }
+
     void ShaderProgram::delete_shader() const {
 
         glUseProgram(0);

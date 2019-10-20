@@ -5,13 +5,13 @@
 #include "Transformable.h"
 namespace gl3d {
 
-    Transformable::Transformable() : position(0, 0, 0), rotation(1), scale(1, 1, 1) {
+    Transformable::Transformable() : position(0, 0, 0), rotation(0,0,0), scale(1, 1, 1) {
 
 
     }
 
 
-    Transformable::Transformable(glm::vec3 pos) : position(pos), rotation(1), scale(1, 1, 1) {
+    Transformable::Transformable(glm::vec3 pos) : position(pos), rotation(0,0,0), scale(1, 1, 1) {
 
 
     }
