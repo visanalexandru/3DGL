@@ -9,6 +9,10 @@
 #include <GLFW/glfw3.h>
 #include "../Shader/DefaultShaders/DefaultShaders.h"
 #include "Renderer.h"
+#include "../imgui/imgui.h"
+#include "../imgui/imgui_impl_glfw.h"
+#include "../imgui/imgui_impl_opengl3.h"
+
 
 namespace gl3d {
     class Graphics {
@@ -16,6 +20,8 @@ namespace gl3d {
         static int window_width;
         static int window_height;
         static GLFWwindow *main_context;
+
+        static const char *glsl_version;
 
         static void set_window_hints();
 
