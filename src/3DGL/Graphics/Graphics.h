@@ -19,6 +19,9 @@ namespace gl3d {
     private:
         static int window_width;
         static int window_height;
+
+        static bool draw_gui;
+
         static GLFWwindow *main_context;
 
         static const char *glsl_version;
@@ -29,6 +32,9 @@ namespace gl3d {
 
         static void framebuffer_size_callback(GLFWwindow *window, int w, int h);
 
+        static void init_imgui();
+
+        static void draw_imgui();
 
     public:
         static glm::vec2 get_cursor_position();
@@ -51,11 +57,16 @@ namespace gl3d {
 
         static void lock_cursor();
 
+        static void unlock_cursor();
+
+
         static GLFWwindow *get_main_context();
 
         static bool window_needs_to_close();
 
         static void set_window_should_close(bool close);
+
+        static void set_should_draw_gui(bool draw);
     };
 }
 
