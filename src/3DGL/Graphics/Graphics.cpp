@@ -7,6 +7,7 @@
 namespace gl3d {
     int Graphics::window_width = 800;
     int Graphics::window_height = 800;
+    const char *Graphics::glsl_version = "#version 130";
     GLFWwindow *Graphics::main_context = nullptr;
 
 
@@ -41,6 +42,18 @@ namespace gl3d {
         glViewport(0, 0, width, height);//we set the viewport
 
         glEnable(GL_DEPTH_TEST);//we enable depth testing
+
+
+        //imgui stuff
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO &io = ImGui::GetIO();
+        (void) io;
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(main_context, true);
+        ImGui_ImplOpenGL3_Init(glsl_version);
+
+
     }
 
     int Graphics::get_window_width() {
@@ -90,6 +103,13 @@ namespace gl3d {
 
 
     void Graphics::update_screen() {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        ImGui::ShowDemoWindow();
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         glfwSwapBuffers(main_context);//we swap the buffers
         glfwPollEvents();//we poll events
     }
