@@ -147,6 +147,11 @@ namespace gl3d {
         glfwSetWindowShouldClose(main_context, close);
     }
 
+    void Graphics::set_key_callback(void (*function)(GLFWwindow *, int, int, int, int)) {
+        glfwSetKeyCallback(main_context,function);
+
+    }
+
     void Graphics::set_should_draw_gui(bool draw) {
         draw_gui = draw;
     }

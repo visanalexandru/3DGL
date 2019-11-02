@@ -59,6 +59,8 @@ namespace gl3d {
 
         static void unlock_cursor();
 
+        static void set_key_callback(void (*function)(GLFWwindow *, int, int, int, int));
+
 
         static GLFWwindow *get_main_context();
 
