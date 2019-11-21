@@ -2,8 +2,8 @@
 // Created by gvisan on 30.08.2019.
 //
 
-#ifndef INC_3DGL_GRAPHICS_H
-#define INC_3DGL_GRAPHICS_H
+#ifndef INC_3DGL_CORE_H
+#define INC_3DGL_CORE_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -15,7 +15,7 @@
 #include "Metrics.h"
 
 namespace gl3d {
-    class Graphics {
+    class Core {
     private:
         static int window_width;
         static int window_height;
@@ -72,4 +72,4 @@ namespace gl3d {
     };
 }
 
-#endif //INC_3DGL_GRAPHICS_H
+#endif //INC_3DGL_CORE_H
