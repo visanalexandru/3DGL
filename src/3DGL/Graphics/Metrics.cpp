@@ -29,7 +29,6 @@ namespace gl3d {
         fps_index++;
 
         ImGui::PlotLines("Frame Times", fps_log, frames_to_render);
-        ImGui::Text("Camera position %.3f %.3f %.3f",)
         ImGui::End();
     }
 }
