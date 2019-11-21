@@ -29,8 +29,6 @@ namespace gl3d {
     void Graphics::init_imgui() {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        ImGuiIO &io = ImGui::GetIO();
-        (void) io;
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(main_context, true);
         ImGui_ImplOpenGL3_Init(glsl_version);
@@ -40,7 +38,7 @@ namespace gl3d {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-        ImGui::ShowDemoWindow();
+        Metrics::show_metrics();
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
