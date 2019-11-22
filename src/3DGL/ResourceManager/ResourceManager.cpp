@@ -7,10 +7,19 @@
 
 namespace gl3d {
 
+    std::unordered_map<std::string, Resource *> ResourceManager::resources;
+
+
+    bool ResourceManager::contains(const std::string &to_check) {
+
+        return resources.find(to_check) != resources.end();
+
+    }
+
     void ResourceManager::load_shader(const std::string &name, const std::string &v_path, const std::string &f_path) {
 
 
-        if (contains(resources, name))
+        if (contains(name))
             throw std::runtime_error("shader already exists: " + name);
 
         FragmentShader f;
@@ -28,7 +37,7 @@ namespace gl3d {
 
     void ResourceManager::load_texture(const std::string &name, const std::string &path) {
 
-        if (contains(resources, name))
+        if (contains(name))
             throw std::runtime_error("texture already exists: " + name);
 
 
@@ -43,7 +52,7 @@ namespace gl3d {
     void ResourceManager::load_cubemap(const std::string &name, const std::string &path,
                                        const std::vector<std::string> &paths) {
 
-        if (contains(resources, name))
+        if (contains(name))
             throw std::runtime_error("cubemap already exists: " + name);
 
         Cubemap *new_cubemap = new Cubemap();
@@ -58,7 +67,7 @@ namespace gl3d {
 
     const ShaderProgram &ResourceManager::get_shader(const std::string &name) {
 
-        if (contains(resources, name)) {
+        if (contains(name)) {
 
             Resource *res = resources[name];
 
@@ -77,7 +86,7 @@ namespace gl3d {
 
     const Texture2D &ResourceManager::get_texture(const std::string &name) {
 
-        if (contains(resources, name)) {
+        if (contains(name)) {
 
             Resource *res = resources[name];
 
@@ -95,7 +104,7 @@ namespace gl3d {
     }
 
     const Cubemap &ResourceManager::get_cubemap(const std::string &name) {
-        if (contains(resources, name)) {
+        if (contains(name)) {
 
             Resource *res = resources[name];
 
@@ -112,17 +121,22 @@ namespace gl3d {
 
     }
 
-    void ResourceManager::delete_resources() {
+    void ResourceManager::unload_all_resources() {
         for (auto &resource:resources) {
             delete resource.second;
         }
+        resources.clear();
 
     }
 
-    ResourceManager::~ResourceManager() {
-        delete_resources();
+    void ResourceManager::unload_resource(const std::string &name) {
+        if (contains(name)) {
+            Resource *to_delete = resources[name];
+            resources.erase(name);
+            delete to_delete;
+        } else {
+            throw std::runtime_error("could not delete resource: " + name);
+        }
 
     }
-
-
 }

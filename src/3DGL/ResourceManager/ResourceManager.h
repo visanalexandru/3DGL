@@ -15,40 +15,29 @@ namespace gl3d {
 
     class ResourceManager {
     private:
-        std::unordered_map<std::string, Resource *> resources;
+        static std::unordered_map<std::string, Resource *> resources;
 
-        template<class type>
-        bool contains(std::unordered_map<std::string, type> &map, const std::string &to_check);
-
-        void delete_resources();
-
+        static bool contains(const std::string &to_check);
 
     public:
-        void load_shader(const std::string &name, const std::string &v_path, const std::string &f_path);
+        static void load_shader(const std::string &name, const std::string &v_path, const std::string &f_path);
 
-        void load_cubemap(const std::string &name, const std::string &path, const std::vector<std::string> &paths);
+        static void
+        load_cubemap(const std::string &name, const std::string &path, const std::vector<std::string> &paths);
 
-        void load_texture(const std::string &name, const std::string &path);
-
-
-        const ShaderProgram &get_shader(const std::string &name);
-
-        const Texture2D &get_texture(const std::string &name);
-
-        const Cubemap &get_cubemap(const std::string &name);
-
-        ~ResourceManager();
+        static void load_texture(const std::string &name, const std::string &path);
 
 
+        static const ShaderProgram &get_shader(const std::string &name);
+
+        static const Texture2D &get_texture(const std::string &name);
+
+        static const Cubemap &get_cubemap(const std::string &name);
+
+        static void unload_all_resources();
+
+        static void unload_resource(const std::string &name);
     };
-
-
-    template<class type>
-    bool ResourceManager::contains(std::unordered_map<std::string, type> &map, const std::string &to_check) {
-
-        return map.find(to_check) != map.end();
-    }
-
 
 }
 
