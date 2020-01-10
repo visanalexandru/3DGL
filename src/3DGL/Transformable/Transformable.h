@@ -21,6 +21,8 @@ namespace gl3d {
 
         Transformable(glm::vec3 pos);
 
+        Transformable(glm::vec3 pos,glm::vec3 rot);
+
         glm::vec3 get_position() const;
 
         glm::vec3 get_rotation() const;
@@ -34,9 +36,6 @@ namespace gl3d {
         void rotate(glm::vec3 rotate);
 
         glm::vec3 get_forward_vector() const;
-
-        void move(glm::vec3 offset);
-
         virtual void set_rotation(glm::vec3 rot);
 
         virtual void set_scale(glm::vec3 sc);

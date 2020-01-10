@@ -99,7 +99,6 @@ namespace gl3d {
 
         window_width = newwidth;
         window_height = newheight;
-        Renderer::update_projection_matrix(newwidth, newheight);
     }
 
 

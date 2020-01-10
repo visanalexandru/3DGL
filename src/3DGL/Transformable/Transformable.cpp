@@ -3,15 +3,21 @@
 //
 
 #include "Transformable.h"
+
 namespace gl3d {
 
-    Transformable::Transformable() : position(0, 0, 0), rotation(0,0,0), scale(1, 1, 1) {
+    Transformable::Transformable() : position(0, 0, 0), rotation(0, 0, 0), scale(1, 1, 1) {
 
 
     }
 
 
-    Transformable::Transformable(glm::vec3 pos) : position(pos), rotation(0,0,0), scale(1, 1, 1) {
+    Transformable::Transformable(glm::vec3 pos) : position(pos), rotation(0, 0, 0), scale(1, 1, 1) {
+
+
+    }
+
+    Transformable::Transformable(glm::vec3 pos, glm::vec3 rot) : position(pos), rotation(rot), scale(1, 1, 1) {
 
 
     }
@@ -71,12 +77,6 @@ namespace gl3d {
 
         const glm::vec3 direction = -normalize(glm::vec3(get_rotation_matrix()[2]));
         return direction;
-    }
-
-    void Transformable::move(glm::vec3 offset) {
-
-        set_position(position + offset);
-
     }
 
     void Transformable::set_position(glm::vec3 pos) {

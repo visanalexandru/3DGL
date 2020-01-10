@@ -36,6 +36,11 @@ namespace gl3d {
                 return texture_index == other.texture_index && shader_program_index == other.shader_program_index;
             }
 
+            bool operator!=(const attributes &other) {
+
+                return texture_index != other.texture_index || shader_program_index != other.shader_program_index;
+            }
+
             bool operator<(const attributes &other) {
                 if (texture_index < other.texture_index) {
                     return true;

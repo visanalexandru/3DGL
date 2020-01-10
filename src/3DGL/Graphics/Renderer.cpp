@@ -5,53 +5,27 @@
 #include "Renderer.h"
 
 namespace gl3d {
-    float Renderer::field_of_view = 90.f;
-    glm::mat4 Renderer::projection = glm::mat4(1);
-    glm::mat4 Renderer::view = glm::mat4(1);
-    int Renderer::last_width = 0;
-    int Renderer::last_height = 0;
-    FrustumCull Renderer::culler;
 
-    void Renderer::update_projection_matrix(int width, int height) {
-        projection = glm::perspective(glm::radians(field_of_view), (float) width / height, 0.1f,
-                                      1000.0f);//updates projection matrix
-        last_width = width;
-        last_height = height;
-    }
-
-
-    void Renderer::set_view(const gl3d::Transformable &view_transform) {
-        glm::mat4 v = glm::inverse(view_transform.get_rotation_matrix());//we inverse the camera rotation
-        v = glm::translate(v, -view_transform.get_position());//we translate back
-        view = v;
-        culler.update(projection * view);
-    }
-
-    void Renderer::set_field_of_view(float fov) {
-        field_of_view = fov;
-        update_projection_matrix(last_width, last_height);
-    }
-
-
-    void Renderer::set_shader_uniforms(const gl3d::Drawable3D &to_draw, const gl3d::ShaderProgram &program) {
+    void Renderer::set_shader_uniforms(const gl3d::Drawable3D &to_draw, const gl3d::ShaderProgram &program,
+                                       const Camera &camera) {
         program.setMat4("model", to_draw.get_model_matrix());
-        program.setMat4("view", view);
-        program.setMat4("projection", projection);
+        program.setMat4("view", camera.get_view_matrix());
+        program.setMat4("projection", camera.get_projection_matrix());
         to_draw.set_shader_uniforms();
     }
 
 
-    void Renderer::draw(const Skybox &skybox) {
+    void Renderer::draw(const Skybox &skybox, const Camera &camera) {
 
         glDepthFunc(
                 GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
         glDisable(GL_CULL_FACE);
-        glm::mat4 view2 = glm::mat4(glm::mat3(view));
+        glm::mat4 view2 = glm::mat4(glm::mat3(camera.get_view_matrix()));
         skybox.bind_texture();
 
 
         DefaultShaders::get_skybox_program().bind_shader();
-        DefaultShaders::get_skybox_program().setMat4("pv", projection * view2);
+        DefaultShaders::get_skybox_program().setMat4("pv", camera.get_projection_matrix() * view2);
 
 
         skybox.bind_mesh();
@@ -62,13 +36,13 @@ namespace gl3d {
     }
 
 
-    void Renderer::draw(const gl3d::Drawable3D &to_draw) {
-        if (culler.drawableInFrusum(to_draw)) {
+    void Renderer::draw(const gl3d::Drawable3D &to_draw, const Camera &camera) {
+        if (camera.get_frustum_culler().drawableInFrusum(to_draw)) {
             to_draw.bind_texture();
             const ShaderProgram &program = to_draw.get_program();
 
             program.bind_shader();
-            set_shader_uniforms(to_draw, program);
+            set_shader_uniforms(to_draw, program, camera);
             to_draw.bind_mesh();
 
             glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
@@ -91,27 +65,27 @@ namespace gl3d {
     }
 
 
-    void Renderer::draw(const gl3d::RenderList &list_to_draw) {
+    void Renderer::draw(const gl3d::RenderList &list_to_draw, const Camera &camera) {
         const std::vector<Drawable3D *> &vec = list_to_draw.get_list();
 
         if (vec.empty())
             return;
 
 
-        Drawable3D::attributes last(-1, -1);
-        const ShaderProgram *last_program;
+        Drawable3D::attributes last = vec[0]->get_attributes();
+        const ShaderProgram *last_program = &vec[0]->get_program();
 
 
-        for (unsigned i = 0; i < vec.size(); i++) {
+        for (unsigned i = 1; i < vec.size(); i++) {
 
             Drawable3D &to_draw = *vec[i];
 
-            if (culler.drawableInFrusum(to_draw)) {
+            if (camera.get_frustum_culler().drawableInFrusum(to_draw)) {
 
                 Drawable3D::attributes now = to_draw.get_attributes();
 
 
-                if (!(now == last)) {
+                if (now != last) {
 
 
                     if (last.texture_index != now.texture_index) {
@@ -131,7 +105,7 @@ namespace gl3d {
 
                 }
 
-                set_shader_uniforms(to_draw, *last_program);
+                set_shader_uniforms(to_draw, *last_program, camera);
                 to_draw.bind_mesh();
 
                 glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
