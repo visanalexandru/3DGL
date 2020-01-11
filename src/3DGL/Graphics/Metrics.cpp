@@ -3,6 +3,7 @@
 //
 
 #include "Metrics.h"
+#include "Renderer.h"
 
 namespace gl3d {
     int Metrics::fps_index = 0;
@@ -29,6 +30,8 @@ namespace gl3d {
         fps_index++;
 
         ImGui::PlotLines("Frame Times", fps_log, frames_to_render);
+        ImGui::Text("Visible triangles: %.i ", Renderer::visible_triangles);
+
         ImGui::End();
     }
 }

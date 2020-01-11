@@ -19,8 +19,6 @@ namespace gl3d {
         static int window_width;
         static int window_height;
 
-        static bool draw_gui;
-
         static GLFWwindow *main_context;
 
         static const char *glsl_version;
@@ -39,10 +37,6 @@ namespace gl3d {
         static glm::vec2 get_cursor_position();
 
         static void initialize_graphics();
-
-        static void clear_screen(glm::vec3 color);
-
-        static void update_screen();//swap buffers
 
         static void initialize_window(int width, int height, const std::string &name);
 
@@ -66,8 +60,6 @@ namespace gl3d {
         static bool window_needs_to_close();
 
         static void set_window_should_close(bool close);
-
-        static void set_should_draw_gui(bool draw);
     };
 }
 

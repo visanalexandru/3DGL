@@ -9,7 +9,6 @@ namespace gl3d {
     int Core::window_height = 800;
     const char *Core::glsl_version = "#version 130";
     GLFWwindow *Core::main_context = nullptr;
-    bool Core::draw_gui = false;
 
 
     //this function initialize the graphics calling glfwInit()
@@ -102,21 +101,6 @@ namespace gl3d {
     }
 
 
-    void Core::clear_screen(glm::vec3 color) {
-        color /= 255.f;
-        glClearColor(color.x, color.y, color.z, 1.0f);
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
-
-
-    void Core::update_screen() {
-        if (draw_gui)
-            draw_imgui();
-        glfwSwapBuffers(main_context);//we swap the buffers
-        glfwPollEvents();//we poll events
-    }
-
 
     glm::vec2 Core::get_cursor_position() {
         double x, y;
@@ -147,10 +131,6 @@ namespace gl3d {
     void Core::set_key_callback(void (*function)(GLFWwindow *, int, int, int, int)) {
         glfwSetKeyCallback(main_context,function);
 
-    }
-
-    void Core::set_should_draw_gui(bool draw) {
-        draw_gui = draw;
     }
 
 }

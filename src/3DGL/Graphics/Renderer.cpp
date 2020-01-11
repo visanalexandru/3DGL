@@ -6,6 +6,8 @@
 
 namespace gl3d {
 
+    int Renderer::visible_triangles = 0;
+
     void Renderer::set_shader_uniforms(const gl3d::Drawable3D &to_draw, const gl3d::ShaderProgram &program,
                                        const Camera &camera) {
         program.setMat4("model", to_draw.get_model_matrix());
@@ -28,6 +30,7 @@ namespace gl3d {
         DefaultShaders::get_skybox_program().setMat4("pv", camera.get_projection_matrix() * view2);
 
 
+        visible_triangles += 12;
         skybox.bind_mesh();
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         glEnable(GL_CULL_FACE);
@@ -45,6 +48,8 @@ namespace gl3d {
             set_shader_uniforms(to_draw, program, camera);
             to_draw.bind_mesh();
 
+            visible_triangles += to_draw.get_triangle_count()/3;
+
             glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
         }
 
@@ -58,6 +63,7 @@ namespace gl3d {
         framebuffer.set_shader_uniforms();
         framebuffer.bind_framebuffer_mesh();
         framebuffer.bind_texture();
+        visible_triangles += 2;
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glEnable(GL_DEPTH_TEST);
 
@@ -108,9 +114,32 @@ namespace gl3d {
                 set_shader_uniforms(to_draw, *last_program, camera);
                 to_draw.bind_mesh();
 
+                visible_triangles += to_draw.get_triangle_count()/3;
                 glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
 
             }
         }
+    }
+
+    void Renderer::draw_gui() {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        Metrics::show_metrics();
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+
+    void Renderer::clear_screen(glm::vec3 color) {
+        color /= 255.f;
+        glClearColor(color.x, color.y, color.z, 1.0f);
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        visible_triangles = 0;
+    }
+
+    void Renderer::update_screen() {
+        glfwSwapBuffers(Core::get_main_context());//we swap the buffers
+        glfwPollEvents();//we poll events
     }
 }
