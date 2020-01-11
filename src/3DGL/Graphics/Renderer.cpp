@@ -7,6 +7,7 @@
 namespace gl3d {
 
     int Renderer::visible_triangles = 0;
+    int Renderer::draw_calls = 0;
 
     void Renderer::set_shader_uniforms(const gl3d::Drawable3D &to_draw, const gl3d::ShaderProgram &program,
                                        const Camera &camera) {
@@ -31,6 +32,7 @@ namespace gl3d {
 
 
         visible_triangles += 12;
+        draw_calls++;
         skybox.bind_mesh();
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         glEnable(GL_CULL_FACE);
@@ -48,7 +50,8 @@ namespace gl3d {
             set_shader_uniforms(to_draw, program, camera);
             to_draw.bind_mesh();
 
-            visible_triangles += to_draw.get_triangle_count()/3;
+            visible_triangles += to_draw.get_triangle_count() / 3;
+            draw_calls++;
 
             glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
         }
@@ -64,6 +67,7 @@ namespace gl3d {
         framebuffer.bind_framebuffer_mesh();
         framebuffer.bind_texture();
         visible_triangles += 2;
+        draw_calls++;
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glEnable(GL_DEPTH_TEST);
 
@@ -114,7 +118,8 @@ namespace gl3d {
                 set_shader_uniforms(to_draw, *last_program, camera);
                 to_draw.bind_mesh();
 
-                visible_triangles += to_draw.get_triangle_count()/3;
+                visible_triangles += to_draw.get_triangle_count() / 3;
+                draw_calls++;
                 glDrawElements(GL_TRIANGLES, to_draw.get_triangle_count(), GL_UNSIGNED_INT, 0);
 
             }
@@ -136,6 +141,7 @@ namespace gl3d {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         visible_triangles = 0;
+        draw_calls = 0;
     }
 
     void Renderer::update_screen() {

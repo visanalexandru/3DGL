@@ -23,6 +23,7 @@ namespace gl3d {
 
     public:
         static int visible_triangles;
+        static int draw_calls;
 
         static void draw_gui();
 

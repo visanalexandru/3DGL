@@ -31,6 +31,7 @@ namespace gl3d {
 
         ImGui::PlotLines("Frame Times", fps_log, frames_to_render);
         ImGui::Text("Visible triangles: %.i ", Renderer::visible_triangles);
+        ImGui::Text("Draw calls: %.i ", Renderer::draw_calls);
 
         ImGui::End();
     }
