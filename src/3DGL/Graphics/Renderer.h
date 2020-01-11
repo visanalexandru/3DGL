@@ -14,6 +14,7 @@
 #include "../imgui/imgui.h"
 #include "../imgui/imgui_impl_glfw.h"
 #include "../imgui/imgui_impl_opengl3.h"
+#include "../Gizmos/Gizmo.h"
 
 
 namespace gl3d {
@@ -38,6 +39,8 @@ namespace gl3d {
         static void draw(const Framebuffer &framebuffer);
 
         static void draw(const RenderList &list_to_draw, const Camera &camera);
+
+        static void draw(const Gizmo &gizmo, const Camera &camera);
 
 
     };

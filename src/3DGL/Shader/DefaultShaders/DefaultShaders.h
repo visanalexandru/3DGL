@@ -15,6 +15,9 @@ namespace gl3d {
         static const std::string basic_vertex_source;
         static const std::string basic_fragment_source;
 
+        static const std::string gizmos_vertex_source;
+        static const std::string gizmos_fragment_source;
+
         static const std::string skybox_vertex_source;
         static const std::string skybox_fragment_source;
 
@@ -25,6 +28,7 @@ namespace gl3d {
         static const ShaderProgram *default_program;
         static const ShaderProgram *skybox_program;
         static const ShaderProgram *framebuffer_program;
+        static const ShaderProgram *gizmos_program;
 
     public:
 
@@ -36,8 +40,9 @@ namespace gl3d {
 
         static const ShaderProgram &get_skybox_program();
 
+        static const ShaderProgram &get_gizmo_program();
 
-        static const ShaderProgram&get_framebuffer_program();
+        static const ShaderProgram &get_framebuffer_program();
 
     };
 

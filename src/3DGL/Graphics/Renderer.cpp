@@ -148,4 +148,26 @@ namespace gl3d {
         glfwSwapBuffers(Core::get_main_context());//we swap the buffers
         glfwPollEvents();//we poll events
     }
+
+
+    void Renderer::draw(const Gizmo &gizmo, const gl3d::Camera &camera) {
+
+        glDisable(GL_CULL_FACE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+        DefaultShaders::get_gizmo_program().bind_shader();
+        DefaultShaders::get_gizmo_program().setMat4("mvp", camera.get_projection_matrix() * camera.get_view_matrix() *
+                                                           gizmo.get_model_matrix());
+        DefaultShaders::get_gizmo_program().setVec3("gizmoColor", gizmo.get_color());
+        gizmo.get_mesh().bind_mesh();
+
+
+        glDrawElements(GL_TRIANGLES, gizmo.get_mesh().get_triangle_count(), GL_UNSIGNED_INT, 0);
+
+        visible_triangles += gizmo.get_mesh().get_triangle_count() / 3;
+        draw_calls++;
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glEnable(GL_CULL_FACE);
+    }
 }

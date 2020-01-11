@@ -99,9 +99,32 @@ namespace gl3d {
                                                                     "}";
 
 
+    const std::string DefaultShaders::gizmos_vertex_source = "#version 330 core\n"
+                                                             "layout (location = 0) in vec3 aPos;\n"
+                                                             "uniform mat4 mvp;\n"
+                                                             "uniform vec3 gizmoColor;\n"
+                                                             "out vec3 color;\n"
+
+                                                             "void main()\n"
+                                                             "{\n"
+                                                             "color=gizmoColor;\n"
+                                                             "gl_Position = mvp*vec4(aPos, 1.0);\n"
+                                                             "};";
+
+    const std::string DefaultShaders::gizmos_fragment_source = "#version 330 core\n"
+                                                               "out vec4 FragColor;\n"
+                                                               "  \n"
+                                                               "in vec3 color;\n"
+                                                               "void main()\n"
+                                                               "{ \n"
+                                                               "    FragColor = vec4(color,1);\n"
+                                                               "}";
+
+
     const ShaderProgram *DefaultShaders::default_program;
     const ShaderProgram *DefaultShaders::skybox_program;
     const ShaderProgram *DefaultShaders::framebuffer_program;
+    const ShaderProgram *DefaultShaders::gizmos_program;
 
     const ShaderProgram &DefaultShaders::get_default_program() {
         return *default_program;
@@ -117,6 +140,10 @@ namespace gl3d {
         return *framebuffer_program;
     }
 
+    const ShaderProgram &DefaultShaders::get_gizmo_program() {
+        return *gizmos_program;
+    }
+
     void DefaultShaders::init_shaders() {
         VertexShader basic_vertex_shader(basic_vertex_source);
         FragmentShader basic_fragment_shader(basic_fragment_source);
@@ -128,10 +155,14 @@ namespace gl3d {
         VertexShader framebuffer_vertex_shader(framebuffer_vertex_source);
         FragmentShader framebuffer_fragment_shader(framebuffer_fragment_source);
 
+        VertexShader gizmos_vertex_shader(gizmos_vertex_source);
+        FragmentShader gizmos_fragment_shader(gizmos_fragment_source);
+
 
         default_program = new ShaderProgram(basic_vertex_shader, basic_fragment_shader);
         skybox_program = new ShaderProgram(skybox_vertex_shader, skybox_fragment_shader);
         framebuffer_program = new ShaderProgram(framebuffer_vertex_shader, framebuffer_fragment_shader);
+        gizmos_program = new ShaderProgram(gizmos_vertex_shader, gizmos_fragment_shader);
     }
 
     void DefaultShaders::delete_shaders() {
