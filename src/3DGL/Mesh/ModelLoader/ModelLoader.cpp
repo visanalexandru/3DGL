@@ -231,4 +231,66 @@ namespace gl3d {
         return buffer;
 
     }
+
+    std::vector<MeshBuffer<normal_textured_vertex>> ModelLoader::load_model_assimp(const std::string &path) {
+        Assimp::Importer import;
+        std::vector<MeshBuffer<normal_textured_vertex> > to_return;
+        const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals);
+
+        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+            throw std::runtime_error(import.GetErrorString());
+        }
+        processNode(scene->mRootNode, scene, to_return);
+        return to_return;
+    }
+
+    void ModelLoader::processNode(aiNode *node, const aiScene *scene,
+                                  std::vector<MeshBuffer<normal_textured_vertex>> &data) {
+
+        // process all the node's meshes (if any)
+        MeshBuffer<normal_textured_vertex> node_data;
+
+        for (unsigned int i = 0; i < node->mNumMeshes; i++) {
+            aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+            processMesh(mesh, scene, node_data, node_data.vertices.size());
+        }
+        if (node->mNumMeshes)
+            data.push_back(node_data);
+
+        // then do the same for each of its children
+        for (unsigned int i = 0; i < node->mNumChildren; i++) {
+            processNode(node->mChildren[i], scene, data);
+        }
+    }
+
+    void ModelLoader::processMesh(aiMesh *mesh, const aiScene *scene, MeshBuffer<normal_textured_vertex> &data,
+                                  int indices_offset) {
+
+        for (int i = 0; i < mesh->mNumVertices; i++) {
+            normal_textured_vertex vertex;
+            vertex.position.x = mesh->mVertices[i].x;
+            vertex.position.y = mesh->mVertices[i].y;
+            vertex.position.z = mesh->mVertices[i].z;
+
+            if (mesh->HasNormals()) {
+                vertex.normal.x = mesh->mNormals[i].x;
+                vertex.normal.y = mesh->mNormals[i].y;
+                vertex.normal.z = mesh->mNormals[i].z;
+            }
+
+            if (mesh->mTextureCoords[0]) {
+                vertex.texture_coords.x = mesh->mTextureCoords[0][i].x;
+                vertex.texture_coords.y = mesh->mTextureCoords[0][i].y;
+            }
+
+            data.add_vertex(vertex);
+        }
+        for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+            aiFace face = mesh->mFaces[i];
+            // retrieve all indices of the face and store them in the indices vector
+            for (unsigned int j = 0; j < face.mNumIndices; j++)
+                data.add_triangle_index(indices_offset + face.mIndices[j]);
+        }
+    }
+
 }
