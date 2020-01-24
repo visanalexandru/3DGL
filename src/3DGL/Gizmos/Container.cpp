@@ -7,9 +7,15 @@
 
 namespace gl3d {
 
-    Container::Container(gl3d::AABB bounding_box, glm::vec3 color) : Gizmo(color) {
-        set_position(bounding_box.AABB_position + bounding_box.AABB_dimension / 2.f);
-        set_scale(bounding_box.AABB_dimension);
+    Container::Container(glm::vec3 position, glm::vec3 size, glm::vec3 color) : Gizmo(color) {
+        set_position(position);
+        set_scale(size);
+        create_cube_mesh();
+    }
+
+    Container::Container(gl3d::AABB aabb, glm::vec3 color) : Gizmo(color) {
+        set_position(aabb.AABB_position + aabb.AABB_dimension / 2.f);
+        set_scale(aabb.AABB_dimension);
         create_cube_mesh();
     }
 
@@ -21,4 +27,7 @@ namespace gl3d {
         gizmo_mesh.set_data(buffer);
     }
 
+    AABB Container::get_bounding_box() const {
+        return AABB(position - scale / 2.f, scale);
+    }
 }

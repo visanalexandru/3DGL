@@ -152,6 +152,10 @@ namespace gl3d {
 
     void Renderer::draw(const Gizmo &gizmo, const gl3d::Camera &camera) {
 
+        if (!camera.get_frustum_culler().boxInFrustum(gizmo.get_bounding_box()))
+            return;
+
+
         glDisable(GL_CULL_FACE);
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 

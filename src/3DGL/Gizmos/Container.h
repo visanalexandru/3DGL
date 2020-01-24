@@ -6,7 +6,6 @@
 #define INC_3DGL_CONTAINER_H
 
 #include "Gizmo.h"
-#include "../FrustumCulling/AABB.h"
 #include "../Mesh/MeshBuilder/MeshBuilder.h"
 
 namespace gl3d {
@@ -19,8 +18,11 @@ namespace gl3d {
 
     public:
 
-        Container(AABB bounding_box, glm::vec3 color);
+        Container(glm::vec3 position, glm::vec3 size, glm::vec3 color);
 
+        Container(AABB aabb, glm::vec3 color);
+
+        AABB get_bounding_box() const override;
     };
 }
 
