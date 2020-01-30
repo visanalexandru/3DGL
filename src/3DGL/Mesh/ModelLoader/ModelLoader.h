@@ -95,15 +95,16 @@ namespace gl3d {
         static void triangulate(const std::vector<vertex> &triangle_strip);
 
         static void
-        processNode(aiNode *node, const aiScene *scene, std::vector<MeshBuffer<normal_textured_vertex>> &data);
+        processNode(aiNode *node, const aiScene *scene, MeshBuffer<normal_textured_vertex> &data);
 
-        static void processMesh(aiMesh *mesh, const aiScene *scene, MeshBuffer<normal_textured_vertex> &data,int indices_offset);
+        static void
+        processMesh(aiMesh *mesh, const aiScene *scene, MeshBuffer<normal_textured_vertex> &data, int indices_offset);
 
     public:
 
         static MeshBuffer<normal_textured_vertex> load_model(const std::string &path);
 
-        static std::vector<MeshBuffer<normal_textured_vertex>> load_model_assimp(const std::string &path);
+        static MeshBuffer<normal_textured_vertex> load_model_assimp(const std::string &path);
 
     };
 }

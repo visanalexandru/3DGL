@@ -232,9 +232,9 @@ namespace gl3d {
 
     }
 
-    std::vector<MeshBuffer<normal_textured_vertex>> ModelLoader::load_model_assimp(const std::string &path) {
+    MeshBuffer<normal_textured_vertex> ModelLoader::load_model_assimp(const std::string &path) {
         Assimp::Importer import;
-        std::vector<MeshBuffer<normal_textured_vertex> > to_return;
+        MeshBuffer<normal_textured_vertex> to_return;
         const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
@@ -245,17 +245,14 @@ namespace gl3d {
     }
 
     void ModelLoader::processNode(aiNode *node, const aiScene *scene,
-                                  std::vector<MeshBuffer<normal_textured_vertex>> &data) {
+                                  MeshBuffer<normal_textured_vertex> &data) {
 
         // process all the node's meshes (if any)
-        MeshBuffer<normal_textured_vertex> node_data;
 
         for (unsigned int i = 0; i < node->mNumMeshes; i++) {
             aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-            processMesh(mesh, scene, node_data, node_data.vertices.size());
+            processMesh(mesh, scene, data, data.vertices.size());
         }
-        if (node->mNumMeshes)
-            data.push_back(node_data);
 
         // then do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++) {
