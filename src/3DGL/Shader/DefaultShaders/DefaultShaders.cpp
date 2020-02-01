@@ -120,11 +120,42 @@ namespace gl3d {
                                                                "    FragColor = vec4(color,1);\n"
                                                                "}";
 
+    const std::string DefaultShaders::skinned_mesh_vertex_source = "#version 330 core\n"
+                                                                   "layout (location = 0) in vec3 aPos;\n"
+                                                                   "layout (location = 1) in vec2 tex_coord;\n"
+                                                                   "layout (location = 2) in vec3 aNormal;\n"
+                                                                   "layout (location = 3) in ivec4 BoneIDs;\n"
+                                                                   "layout (location = 4) in vec4 Weights;\n"
+                                                                   "uniform mat4 model;\n"
+                                                                   "uniform mat4 view;\n"
+                                                                   "uniform mat4 projection;\n"
+                                                                   "out vec2 TexCoord;\n"
+                                                                   "out vec3 Normal;\n"
+                                                                   "\n"
+                                                                   "const int MAX_BONES=100;\n"
+                                                                   "uniform mat4 gBones[MAX_BONES];\n"
+                                                                   "\n"
+                                                                   "void main()\n"
+                                                                   "{\n"
+                                                                   " \tmat4 BoneTransform = gBones[BoneIDs[0]] * (Weights[0]);\n"
+                                                                   "    \tBoneTransform += gBones[BoneIDs[1]] *  (Weights[1]);\n"
+                                                                   "    \tBoneTransform += gBones[BoneIDs[2]] *  (Weights[2]);\n"
+                                                                   "    \tBoneTransform += gBones[BoneIDs[3]] *  (Weights[3]);\n"
+                                                                   "\t\n"
+                                                                   "\tvec4 PosL=BoneTransform*vec4(aPos,1.0);\n"
+                                                                   "\t\n"
+                                                                   "\tTexCoord=tex_coord;\n"
+                                                                   "\tNormal=mat3(transpose(inverse(model))) * aNormal;\n"
+                                                                   "\tmat4 mvp=projection*view*model;\n"
+                                                                   "\tgl_Position = mvp*PosL;\n"
+                                                                   "};";
+
 
     const ShaderProgram *DefaultShaders::default_program;
     const ShaderProgram *DefaultShaders::skybox_program;
     const ShaderProgram *DefaultShaders::framebuffer_program;
     const ShaderProgram *DefaultShaders::gizmos_program;
+    const ShaderProgram *DefaultShaders::skinned_program;
 
     const ShaderProgram &DefaultShaders::get_default_program() {
         return *default_program;
@@ -144,6 +175,10 @@ namespace gl3d {
         return *gizmos_program;
     }
 
+    const ShaderProgram &DefaultShaders::get_skinned_program() {
+        return *skinned_program;
+    }
+
     void DefaultShaders::init_shaders() {
         VertexShader basic_vertex_shader(basic_vertex_source);
         FragmentShader basic_fragment_shader(basic_fragment_source);
@@ -158,11 +193,13 @@ namespace gl3d {
         VertexShader gizmos_vertex_shader(gizmos_vertex_source);
         FragmentShader gizmos_fragment_shader(gizmos_fragment_source);
 
+        VertexShader skinned_vertex_shader(skinned_mesh_vertex_source);
 
         default_program = new ShaderProgram(basic_vertex_shader, basic_fragment_shader);
         skybox_program = new ShaderProgram(skybox_vertex_shader, skybox_fragment_shader);
         framebuffer_program = new ShaderProgram(framebuffer_vertex_shader, framebuffer_fragment_shader);
         gizmos_program = new ShaderProgram(gizmos_vertex_shader, gizmos_fragment_shader);
+        skinned_program = new ShaderProgram(skinned_vertex_shader, basic_fragment_shader);
     }
 
     void DefaultShaders::delete_shaders() {

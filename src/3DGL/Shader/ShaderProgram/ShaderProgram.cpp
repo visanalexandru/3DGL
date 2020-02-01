@@ -45,6 +45,12 @@ namespace gl3d {
         glUniform1i(glGetUniformLocation(resource_index, name.c_str()), value);
     }
 
+    void ShaderProgram::setMat4v(const std::string &name, const glm::mat4 *values, int size) const {
+
+        int mat_location = glGetUniformLocation(resource_index, name.c_str());
+        glUniformMatrix4fv(mat_location, size, GL_FALSE, glm::value_ptr(values[0]));
+    }
+
 
     ShaderProgram::ShaderProgram(const VertexShader &v_shader, const FragmentShader &f_shader) {
         resource_index = glCreateProgram();//we create a new program

@@ -7,6 +7,7 @@
 
 #include <glm/glm.hpp>
 #include <glad/glad.h>
+#include <stdexcept>
 
 namespace gl3d {
 
@@ -171,8 +172,77 @@ namespace gl3d {
 
         }
 
-        glm::vec3 get_position()const  {
+        glm::vec3 get_position() const {
             return glm::vec3(position.x, position.y, 0);
+        }
+
+
+    };
+
+    struct skeletal_vertex {
+
+        glm::vec3 position;
+        glm::vec2 texture_coords;
+        glm::vec3 normal;
+        int bone_ids[4];
+        float weights[4];
+        int set_bones;
+
+        void add_bone(int boneid, float weight) {
+            bone_ids[set_bones] = boneid;
+            weights[set_bones] = weight;
+            set_bones++;
+        }
+
+        skeletal_vertex(glm::vec3 pos, glm::vec2 text_coords, glm::vec3 n) {
+            set_bones = 0;
+            texture_coords = text_coords;
+            position = pos;
+            normal = n;
+            for (int i = 0; i < 4; i++) {
+                bone_ids[i] = 0;
+                weights[i] = 0.f;
+            }
+        }
+
+        skeletal_vertex() {
+            set_bones = 0;
+            texture_coords = glm::vec2(0, 0);
+            position = glm::vec3(0, 0, 0);
+            normal = glm::vec3(0, 0, 0);
+
+            for (int i = 0; i < 4; i++) {
+                bone_ids[i] = 0;
+                weights[i] = 0.f;
+            }
+
+        }
+
+        static void enable_attributes() {
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(skeletal_vertex),
+                                  (const GLvoid *) offsetof(skeletal_vertex, position));
+            glEnableVertexAttribArray(0);
+
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(skeletal_vertex),
+                                  (const GLvoid *) offsetof(skeletal_vertex, texture_coords));
+            glEnableVertexAttribArray(1);
+
+            glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(skeletal_vertex),
+                                  (const GLvoid *) offsetof(skeletal_vertex, normal));
+            glEnableVertexAttribArray(2);
+
+            glVertexAttribIPointer(3, 4, GL_INT, sizeof(skeletal_vertex),
+                                  (const GLvoid *) offsetof(skeletal_vertex, bone_ids));
+            glEnableVertexAttribArray(3);
+
+            glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(skeletal_vertex),
+                                  (const GLvoid *) offsetof(skeletal_vertex, weights));
+            glEnableVertexAttribArray(4);
+
+        }
+
+        glm::vec3 get_position() const {
+            return position;
         }
 
 

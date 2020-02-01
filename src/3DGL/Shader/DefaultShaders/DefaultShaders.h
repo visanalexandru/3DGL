@@ -25,10 +25,13 @@ namespace gl3d {
         static const std::string framebuffer_vertex_source;
         static const std::string framebuffer_fragment_source;
 
+        static const std::string skinned_mesh_vertex_source;
+
         static const ShaderProgram *default_program;
         static const ShaderProgram *skybox_program;
         static const ShaderProgram *framebuffer_program;
         static const ShaderProgram *gizmos_program;
+        static const ShaderProgram *skinned_program;
 
     public:
 
@@ -43,6 +46,8 @@ namespace gl3d {
         static const ShaderProgram &get_gizmo_program();
 
         static const ShaderProgram &get_framebuffer_program();
+
+        static const ShaderProgram &get_skinned_program();
 
     };
 
