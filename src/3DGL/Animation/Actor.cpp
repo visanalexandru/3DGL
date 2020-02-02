@@ -15,12 +15,8 @@ namespace gl3d {
     void Actor::update_bones(gl3d::Node *here, glm::mat4 transform) {
         glm::mat4 global_transform = transform * here->transformation;
 
-
-        here->transformation = global_transform;
-
         if (here->boneid != -1) {
-            here->transformation *= here->offset;
-            bones[here->boneid] = here->transformation;
+            bones[here->boneid] = global_transform * here->offset;
         }
 
         for (Node *child:here->children)
@@ -30,10 +26,31 @@ namespace gl3d {
 
     Actor::Actor(const ActorData &data) : Drawable3D() {
         set_shader_program(DefaultShaders::get_skinned_program());
-        root_bone = data.root;
-        update_bones(root_bone, glm::mat4(1));
+        node_structure = data.node_structure;
+        update_bones(node_structure.root, glm::mat4(1));
         mesh.set_data(data.mesh_data);
+        animation = data.animation;
         set_mesh(mesh);
+    }
+
+    void Actor::update_animation(float time) {
+
+        int iteration = time / animation.duration;
+
+        time -= iteration * animation.duration;
+
+        for (Animation::AnimationNode node:animation.animation_nodes) {
+
+            glm::vec3 pos = node.FindPosition(time);
+            glm::quat rot = node.FindRotation(time);
+            glm::mat4 transformation(1);
+            transformation = glm::translate(transformation, pos);
+            transformation = transformation * glm::mat4_cast(rot);
+
+            node_structure.nodes[node.name]->transformation = transformation;
+        }
+        update_bones(node_structure.root, glm::mat4(1));
+
     }
 
 

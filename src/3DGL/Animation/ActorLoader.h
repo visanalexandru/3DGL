@@ -12,6 +12,7 @@
 #include <assimp/postprocess.h>
 #include <iostream>
 #include<unordered_map>
+#include "Animation.h"
 
 namespace gl3d {
 
@@ -31,6 +32,8 @@ namespace gl3d {
 
 
         static void createHierarchy(aiNode *node, Node *root);
+
+        static Animation loadAnimation(const aiScene *scene);
 
 
     public:

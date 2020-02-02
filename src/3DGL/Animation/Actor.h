@@ -13,12 +13,15 @@ namespace gl3d {
     class Actor : public Drawable3D {
     private:
         glm::mat4 bones[100];
-        Node *root_bone;
+        NodeStructure node_structure;
         Mesh mesh;
+        Animation animation;
 
         void update_bones(Node *here, glm::mat4 transform);
 
     public:
+        void update_animation(float time);
+
         Actor(const ActorData &data);
 
         virtual void set_shader_uniforms() const override;

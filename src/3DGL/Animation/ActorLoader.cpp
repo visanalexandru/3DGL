@@ -31,6 +31,43 @@ namespace gl3d {
         return to;
     }
 
+    Animation ActorLoader::loadAnimation(const aiScene *scene) {
+        const aiAnimation *animation = scene->mAnimations[0];
+        Animation to_return;
+        to_return.ticks_per_second = animation->mTicksPerSecond;
+        to_return.duration = animation->mDuration;
+
+        for (unsigned i = 0; i < animation->mNumChannels; i++) {
+
+            aiNodeAnim *here = animation->mChannels[i];
+            Animation::AnimationNode node;
+            node.name = here->mNodeName.data;
+
+            for (unsigned k = 0; k < here->mNumPositionKeys; k++) {
+                Animation::PositionFrame posframe;
+                posframe.time = here->mPositionKeys[k].mTime;
+                aiVector3D pos = here->mPositionKeys[k].mValue;
+                posframe.position = glm::vec3(pos.x, pos.y, pos.z);
+
+                node.position_frames.push_back(posframe);
+            }
+
+            for (unsigned k = 0; k < here->mNumRotationKeys; k++) {
+
+                Animation::RotationFrame rotframe;
+                rotframe.time = here->mRotationKeys[k].mTime;
+                aiQuaternion rot = here->mRotationKeys[k].mValue;
+
+                rotframe.rotation = glm::quat(rot.w, rot.x, rot.y, rot.z);
+
+                node.rotation_frames.push_back(rotframe);
+            }
+
+            to_return.animation_nodes.push_back(node);
+        }
+        return to_return;
+    }
+
 
     ActorData ActorLoader::load_actor(const std::string &path) {
         Assimp::Importer import;
@@ -53,26 +90,9 @@ namespace gl3d {
         processNode(scene->mRootNode, scene, meshdata);
 
         to_return.mesh_data = meshdata;
-        to_return.root = root;
-        std::cout<<animation->mDuration<<" "<<animation->mTicksPerSecond<<std::endl;
-
-        for (int i = 0; i < animation->mNumChannels; i++) {
-            aiNodeAnim *here = animation->mChannels[i];
-            glm::mat4 transformation(1);
-
-            aiVector3D pos = here->mPositionKeys[120].mValue;
-            aiQuaternion rot = here->mRotationKeys[120].mValue;
-
-            glm::vec3 p(pos.x, pos.y, pos.z);
-            glm::quat q(rot.w,rot.x,rot.y,rot.z);
-
-            transformation = glm::translate(transformation, p);
-            transformation=transformation*glm::mat4_cast(q);
-
-            nodes[here->mNodeName.data]->transformation=transformation;
-
-        }
-
+        to_return.node_structure.root = root;
+        to_return.node_structure.nodes = nodes;
+        to_return.animation = loadAnimation(scene);
 
         return to_return;
 

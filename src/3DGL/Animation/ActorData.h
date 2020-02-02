@@ -6,6 +6,8 @@
 #define INC_3DGL_ACTORDATA_H
 
 #include "../Mesh/MeshBuffer.h"
+#include "Animation.h"
+#include <unordered_map>
 
 namespace gl3d {
 
@@ -20,10 +22,16 @@ namespace gl3d {
         }
     };
 
+    struct NodeStructure {
+        Node *root;
+        std::unordered_map<std::string, Node *> nodes;
+    };
+
 
     struct ActorData {
-        MeshBuffer<skeletal_vertex> mesh_data;
-        Node *root;//the root node of the bone structure
+        MeshBuffer <skeletal_vertex> mesh_data;
+        NodeStructure node_structure;
+        Animation animation;
     };
 
 
