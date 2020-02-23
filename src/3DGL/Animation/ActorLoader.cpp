@@ -80,11 +80,12 @@ namespace gl3d {
 
 
         const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals);
-        const aiAnimation *animation = scene->mAnimations[0];
+
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
             throw std::runtime_error(import.GetErrorString());
         }
+        const aiAnimation *animation = scene->mAnimations[0];
         createHierarchy(scene->mRootNode, root);
 
         processNode(scene->mRootNode, scene, meshdata);
@@ -93,6 +94,8 @@ namespace gl3d {
         to_return.node_structure.root = root;
         to_return.node_structure.nodes = nodes;
         to_return.animation = loadAnimation(scene);
+
+        std::cout<<animation->mDuration<<std::endl;
 
         return to_return;
 

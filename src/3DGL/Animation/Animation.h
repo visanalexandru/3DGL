@@ -9,6 +9,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include<glm/gtx/quaternion.hpp>
+#include <iostream>
 
 class Animation {
 public:
@@ -36,19 +37,52 @@ public:
         std::vector<RotationFrame> rotation_frames;
 
         glm::vec3 FindPosition(float time) {
-            for (int i = 0; i < position_frames.size() - 1; i++) {
-                if (time < position_frames[i + 1].time) {
-                    return position_frames[i].position;
+
+            int l = 0, r = position_frames.size() - 1, middle;
+            float middle_time;
+
+            while (l < r) {
+                middle = (l + r) / 2;
+                middle_time = position_frames[middle].time;
+                if (time <= middle_time) {
+                    r = middle;
+                } else {
+                    l = middle + 1;
                 }
             }
+
+            float before = position_frames[l - 1].time;
+            float after = position_frames[l].time;
+
+
+            float distance = after - before;
+            float coef = (time - before) / distance;
+
+            return glm::mix(position_frames[l-1].position, position_frames[l].position, coef);
         }
 
         glm::quat FindRotation(float time) {
-            for (int i = 0; i < rotation_frames.size() - 1; i++) {
-                if (time < rotation_frames[i + 1].time) {
-                    return rotation_frames[i].rotation;
+            int l = 0, r = rotation_frames.size() - 1, middle;
+            float middle_time;
+
+            while (l < r) {
+                middle = (l + r) / 2;
+                middle_time = rotation_frames[middle].time;
+                if (time <= middle_time) {
+                    r = middle;
+                } else {
+                    l = middle + 1;
                 }
             }
+
+            float before = rotation_frames[l - 1].time;
+            float after = rotation_frames[l].time;
+
+
+            float distance = after - before;
+            float coef = (time - before) / distance;
+
+            return glm::mix(rotation_frames[l-1].rotation, rotation_frames[l].rotation, coef);
         }
     };
 
