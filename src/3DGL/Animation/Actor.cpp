@@ -12,7 +12,7 @@ namespace gl3d {
         get_program().setMat4v("gBones", bones, 100);
     }
 
-    void Actor::update_bones(gl3d::Node *here, glm::mat4 transform) {
+    void Actor::update_bones(const gl3d::Node *here, glm::mat4 transform) {
         glm::mat4 global_transform = transform * here->transformation;
 
         if (here->boneid != -1) {
@@ -24,10 +24,9 @@ namespace gl3d {
 
     }
 
-    Actor::Actor(const ActorData &data) : Drawable3D() {
+    Actor::Actor(const ActorData &data) : Drawable3D(), node_structure(data.node_structure) {
         set_shader_program(DefaultShaders::get_skinned_program());
-        node_structure = data.node_structure;
-        update_bones(node_structure.root, glm::mat4(1));
+        update_bones(node_structure.get_root(), glm::mat4(1));
         mesh.set_data(data.mesh_data);
         animation = data.animation;
         set_mesh(mesh);
@@ -47,9 +46,9 @@ namespace gl3d {
             transformation = glm::translate(transformation, pos);
             transformation = transformation * glm::mat4_cast(rot);
 
-            node_structure.nodes[node.name]->transformation = transformation;
+            node_structure.update_node(node.name, transformation);
         }
-        update_bones(node_structure.root, glm::mat4(1));
+        update_bones(node_structure.get_root(), glm::mat4(1));
 
     }
 

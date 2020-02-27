@@ -91,12 +91,10 @@ namespace gl3d {
         processNode(scene->mRootNode, scene, meshdata);
 
         to_return.mesh_data = meshdata;
-        to_return.node_structure.root = root;
-        to_return.node_structure.nodes = nodes;
+        to_return.node_structure.set_structure(root);
         to_return.animation = loadAnimation(scene);
 
-        std::cout<<animation->mDuration<<std::endl;
-
+        delete root;
         return to_return;
 
     }
@@ -104,7 +102,7 @@ namespace gl3d {
     void ActorLoader::createHierarchy(aiNode *node, Node *root) {
 
         nodes[node->mName.data] = root;
-        std::cout << "new node " << node->mName.data << std::endl;
+        root->name=node->mName.data;
         root->transformation = aiMatrix4x4ToGlm(&node->mTransformation);
 
         for (unsigned int i = 0; i < node->mNumChildren; i++) {

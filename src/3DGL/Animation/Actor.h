@@ -17,7 +17,7 @@ namespace gl3d {
         Mesh mesh;
         Animation animation;
 
-        void update_bones(Node *here, glm::mat4 transform);
+        void update_bones(const Node *here, glm::mat4 transform);
 
     public:
         void update_animation(float time);
