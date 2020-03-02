@@ -73,6 +73,8 @@ namespace gl3d {
         Assimp::Importer import;
 
         ActorData to_return;
+        bone_count = 0;
+        nodes.clear();
 
         MeshBuffer<skeletal_vertex> meshdata;
 
@@ -102,7 +104,7 @@ namespace gl3d {
     void ActorLoader::createHierarchy(aiNode *node, Node *root) {
 
         nodes[node->mName.data] = root;
-        root->name=node->mName.data;
+        root->name = node->mName.data;
         root->transformation = aiMatrix4x4ToGlm(&node->mTransformation);
 
         for (unsigned int i = 0; i < node->mNumChildren; i++) {
