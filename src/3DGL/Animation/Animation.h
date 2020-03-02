@@ -36,7 +36,7 @@ public:
         std::vector<PositionFrame> position_frames;
         std::vector<RotationFrame> rotation_frames;
 
-        glm::vec3 FindPosition(float time) {
+        glm::vec3 FindPosition(float time) const {
 
             int l = 0, r = position_frames.size() - 1, middle;
             float middle_time;
@@ -61,7 +61,7 @@ public:
             return glm::mix(position_frames[l-1].position, position_frames[l].position, coef);
         }
 
-        glm::quat FindRotation(float time) {
+        glm::quat FindRotation(float time) const {
             int l = 0, r = rotation_frames.size() - 1, middle;
             float middle_time;
 

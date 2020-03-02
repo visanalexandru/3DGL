@@ -38,7 +38,7 @@ namespace gl3d {
 
         time -= iteration * animation.duration;
 
-        for (Animation::AnimationNode node:animation.animation_nodes) {
+        for (const Animation::AnimationNode &node:animation.animation_nodes) {
 
             glm::vec3 pos = node.FindPosition(time);
             glm::quat rot = node.FindRotation(time);
