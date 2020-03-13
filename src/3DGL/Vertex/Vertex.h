@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 #include <stdexcept>
+#include <iostream>
 
 namespace gl3d {
 
@@ -189,9 +190,13 @@ namespace gl3d {
         int set_bones;
 
         void add_bone(int boneid, float weight) {
-            bone_ids[set_bones] = boneid;
-            weights[set_bones] = weight;
-            set_bones++;
+            if(set_bones<4){
+                bone_ids[set_bones] = boneid;
+                weights[set_bones] = weight;
+                set_bones++;
+            }
+            else std::cout<<"MORE THAN 4 BONES PER VERTEX \n";
+
         }
 
         skeletal_vertex(glm::vec3 pos, glm::vec2 text_coords, glm::vec3 n) {
